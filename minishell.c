@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 20:16:46 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/07 20:47:15 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int arc, char **arv)
 		}
 		return (0);
 	}
-	printf("\033[31mError\n\033[0m\033[32mRun:\033[0m \033[1;34m./minishell\033[0m\n");
+	printf("\033[31mError\n\033[0m\033[32mRun:\033[0m \033[1;34m./minishell%s",
+		"\033[0m\n");
 	return (1);
 }
