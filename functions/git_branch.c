@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:40:12 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 13:05:59 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:28:47 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ static char	*ft_parent(int *pipefds, int child)
 
 	waitpid(child, NULL, 0);
 	close(pipefds[1]);
-	dup2(pipefds[0], 0);
-	close(pipefds[0]);
 	buffer = malloc(sizeof(char) * 100);
 	if (buffer == NULL)
 		return (NULL);
-	readed = read(0, buffer, 100);
+	readed = read(pipefds[0], buffer, 99);
+	close(pipefds[0]);
 	buffer[readed] = '\0';
 	if (utils_strcmp(buffer, ' ') == 0)
 	{
@@ -64,7 +63,5 @@ char	*git_branch(void)
 	}
 	if (child == 0)
 		ft_child(pipefds);
-	else
-		return (ft_parent(pipefds, child));
-	return (NULL);
+	return (ft_parent(pipefds, child));
 }

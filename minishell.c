@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 14:50:18 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:16:14 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 int	main(int arc, char **arv)
 {
-	int		command_status;
-	char	*readlineprompt;
+	char	*command_line;
+	char	*command_prompt;
 
-	command_status = 0;
 	if (arc == 1 && arv)
 	{
 		while (1)
 		{
-			readlineprompt = readline_prompt(command_status);
-			readline(readlineprompt);
-			free(readlineprompt);
+			command_prompt = readline_prompt(0);
+			command_line = readline(command_prompt);
+			printf("=> (%s)\n", command_line);
+			free(command_line);
+			free(command_prompt);
 		}
 		return (0);
 	}
