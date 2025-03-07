@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/06 17:51:23 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:55:04 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # include <readline/history.h>  // add_history
 # include <sys/ioctl.h>         // ioctl
 
-char	*git_branch(void); // return name of branch if valible or NULL
+char	*git_branch(void); // return name of branch
+char	*get_folder_name(void); // return name of currently directory
+
+char	**utils_split(const char *string, char c); // return a splited string
+
+int		utils_strcmp(const char *string, char c); // return 0 if matched
+
+char	*utils_strdup(const char *string); // return clone of string
 
 #endif

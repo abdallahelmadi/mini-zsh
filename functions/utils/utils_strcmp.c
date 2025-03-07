@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   utils_strcmp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 14:04:22 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/03/07 12:39:54 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/03/07 12:41:29 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	main(int arc, char **arv)
+int	utils_strcmp(const char *string, char c)
 {
-	char	*folder_name;
+	int	index;
 
-	if (arc == 1 && arv)
+	index = 0;
+	while (string[index] != '\0')
 	{
-		return (0);
+		if (string[index] == c)
+			return (0);
+		index++;
 	}
-	printf("\033[31mError\n\033[0m\033[32mRun:\033[0m \033[35m./minishell\n");
 	return (1);
 }
