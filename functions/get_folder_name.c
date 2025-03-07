@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:11:35 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 14:01:57 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:54:11 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_folder_name(void)
 	if (buffer == NULL)
 		return (utils_strdup("minishell"));
 	if (getcwd(buffer, 4096) == NULL)
-		return (utils_strdup("minishell"));
+		return (free(buffer), utils_strdup("minishell"));
 	index = get_length(buffer) - 1;
 	if (buffer[index] == '/' && buffer[index + 1] == '\0')
 		return (free(buffer), utils_strdup("/"));
