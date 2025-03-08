@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 19:34:06 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/08 15:27:19 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ char	**utils_split(const char *string, char c);
 char	*utils_strdup(const char *string);
 char	*utils_strjoin(const char *s1, const char *s2, const char *s3);
 int		utils_strcmp(const char *string, char c);
+
+void	signals_sigint(int sig);
 
 #endif

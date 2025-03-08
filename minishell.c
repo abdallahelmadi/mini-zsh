@@ -6,11 +6,16 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 20:47:15 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/08 15:27:34 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static void	handle_signals(void)
+{
+	signal(SIGINT, signals_sigint);
+}
 
 int	main(int arc, char **arv)
 {
@@ -21,12 +26,14 @@ int	main(int arc, char **arv)
 	if (arc == 1 && arv)
 	{
 		command_status = 0;
+		handle_signals();
 		while (1)
 		{
 			command_prompt = readline_prompt(command_status);
 			command_line = readline(command_prompt);
 			if (command_line == NULL)
-				return (free(command_prompt), 0);
+				return (free(command_prompt), rl_clear_history(), 0);
+			add_history(command_line);
 			command_status = check_command_line(command_line);
 			free(command_line);
 			free(command_prompt);
