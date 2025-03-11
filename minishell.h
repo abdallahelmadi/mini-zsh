@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 19:34:06 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:52:06 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,25 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 
+extern int	g_lastexitstatus;
+
+# define SUCCESS 0
+# define FAILURE 1
+# define NOT_FOUND 127
+# define NOT_EXECUTABLE 126
+# define NOT_CORRECT_OPTIONS 2
+# define SIGNAL_SIGINT 130
+
 char	*git_branch(void);
 char	*get_folder_name(void);
-char	*readline_prompt(int status);
-int		check_command_line(const char *command_line);
+char	*readline_prompt(void);
+void	check_command_line(const char *command_line);
 
 char	**utils_split(const char *string, char c);
 char	*utils_strdup(const char *string);
 char	*utils_strjoin(const char *s1, const char *s2, const char *s3);
 int		utils_strcmp(const char *string, char c);
+
+void	signals_sigint(int sig);
 
 #endif

@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_command_line.c                               :+:      :+:    :+:   */
+/*   signals_sigint.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/11 14:51:01 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/03/10 15:06:54 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	check_command_line(const char *command_line)
+void	signals_sigint(int sig)
 {
-	printf("> (%s)\n", command_line);
-	if (utils_strcmp(command_line, ' ') == 0)
-		g_lastexitstatus = 1;
-	else
-		g_lastexitstatus = 0;
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
