@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/12 15:10:24 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:14:21 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int arc, char **arv)
 
 	if (arc == 1 && arv)
 	{
-		handle_signals();
 		lastexitstatus = 0;
+		handle_signals();
 		while (1)
 		{
 			command_prompt = readline_prompt(lastexitstatus);
