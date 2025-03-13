@@ -6,13 +6,13 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:18:51 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/12 15:08:51 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:01:32 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*readline_prompt(int lastexitstatus)
+char	*readline_prompt(void)
 {
 	char	*laststatus;
 	char	*foldername;
@@ -20,7 +20,7 @@ char	*readline_prompt(int lastexitstatus)
 	char	*result;
 	char	*temp;
 
-	if (lastexitstatus == 0)
+	if (g_lastexitstatus == 0)
 		laststatus = "\033[32m";
 	else
 		laststatus = "\033[31m";

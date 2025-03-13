@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/10 15:06:54 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:06:18 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void	signals_sigint(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_lastexitstatus = SIGNAL_SIGINT;
 }
