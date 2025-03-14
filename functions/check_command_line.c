@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/14 14:23:19 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:05:38 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	check_command_line(const char *command_line)
 		|| !utils_strcmp(command_line, '(') || !utils_strcmp(command_line, ')')
 		|| !utils_strcmp(command_line, '*') || !utils_strcmp(command_line, ';')
 		|| utils_strstr(command_line, "<<<")
+		|| !utils_strcmp(command_line, '\\')
 		|| utils_strstr(command_line, "||"))
 	{
 		printf("minishell: something unsupported\n");
