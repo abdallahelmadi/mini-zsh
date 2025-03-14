@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/13 15:05:21 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:35:59 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ extern int	g_lastexitstatus;
 # define FAILURE 1
 # define NOT_FOUND 127
 # define NOT_EXECUTABLE 126
-# define NOT_CORRECT_OPTIONS 2
 # define SIGNAL_SIGINT 130
+# define SYNTAX_ERROR 2
 
 char	*git_branch(void);
 char	*get_folder_name(void);
@@ -49,5 +49,12 @@ char	*utils_strstr(const char *string, const char *search);
 int		utils_strcmp(const char *string, char c);
 
 void	signals_sigint(int sig);
+
+typedef struct s_cmd_line
+{
+	char				*type;
+	char				*value;
+	struct s_cmd_line	*next;
+}	t_cmd_line;
 
 #endif

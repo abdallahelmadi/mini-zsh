@@ -6,13 +6,13 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/13 15:32:37 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:07:11 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	g_lastexitstatus = 0;
+int	g_lastexitstatus = SUCCESS;
 
 static void	handle_signals(void)
 {
