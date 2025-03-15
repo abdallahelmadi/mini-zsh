@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/14 14:35:59 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:40:56 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <termios.h>
 # include <term.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/ioctl.h>
@@ -43,17 +44,18 @@ char	*readline_prompt(void);
 void	check_command_line(const char *command_line);
 
 char	**utils_split(const char *string, char c);
+char	**utils_split_pro(const char *string, char *c);
 char	*utils_strdup(const char *string);
 char	*utils_strjoin(const char *s1, const char *s2, const char *s3);
 char	*utils_strstr(const char *string, const char *search);
+char	*utils_strstr_pro(const char *string, const char *search);
 int		utils_strcmp(const char *string, char c);
 
 void	signals_sigint(int sig);
 
 typedef struct s_cmd_line
 {
-	char				*type;
-	char				*value;
+	char				*data;
 	struct s_cmd_line	*next;
 }	t_cmd_line;
 

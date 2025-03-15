@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:11:35 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/14 17:15:29 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/15 12:19:28 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_folder_name(void)
 	index = get_length(buffer) - 1;
 	if (buffer[index] == '/' && buffer[index + 1] == '\0')
 		return (free(buffer), utils_strdup("/"));
-	while (index >= 0)
+	while (index > 0 || index == 0)
 	{
 		if (buffer[index] == '/')
 		{
