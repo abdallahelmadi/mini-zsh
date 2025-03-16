@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/14 13:07:11 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:58:41 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int	main(int arc, char **arv)
 			if (command_line[0] != '\0')
 				add_history(command_line);
 			check_command_line(command_line);
+			// fun_echo(command_line);
+			// fun_env(command_line);
+			// fun_exit(command_line);
+			// fun_pwd(command_line);
+			// fun_cd(command_line);
 			free(command_line);
 			free(command_prompt);
 		}

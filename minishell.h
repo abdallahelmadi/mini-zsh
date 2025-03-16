@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/14 14:35:59 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:37:05 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ char	*utils_strstr(const char *string, const char *search);
 int		utils_strcmp(const char *string, char c);
 
 void	signals_sigint(int sig);
+void	fun_echo(char *str);
+void	fun_env(char *str);
+void	fun_exit(char *str);
+void	fun_pwd(char *str);
+void	fun_cd(char *str);
 
 typedef struct s_cmd_line
 {
