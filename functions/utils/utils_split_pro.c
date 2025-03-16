@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 15:38:52 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/15 17:52:48 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/16 02:38:17 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 
 static size_t	count_words(const char *string, char *c)
 {
-	int		index;
+	size_t	index;
 	size_t	count;
 
 	index = 0;
 	count = 0;
-	if (string[index] != '\0')
-		count++;
 	while (string[index] != '\0')
 	{
-		if (utils_strstr_pro(&(string[index]), c))
+		if (utils_strstr_pro(&(string[index]), c) && index != 0)
+		{
 			count++;
-		index++;
+			index += utils_strlen(c);
+		}
+		else
+			index++;
 	}
+	if (string[utils_strlen(string) - 1] != c[utils_strlen(c) - 1])
+		count++;
 	return (count);
 }
 
@@ -52,42 +56,45 @@ static int	fill_pointers_while_part(const char *string, char **output,
 
 	tindex = 0;
 	length = 0;
-	while (utils_strstr_pro(&(string[*sindex + length]), c)
+	if (utils_strstr_pro(&(string[0]), c))
+		*sindex += utils_strlen(c);
+	while (!utils_strstr_pro(&(string[*sindex + length]), c)
 		&& string[*sindex + length] != '\0')
 		length++;
 	(*output) = (char *)malloc(sizeof(char) * (length + 1));
 	if ((*output) == NULL)
 		return (1);
-	while (string[*sindex] != '\0' && utils_strstr_pro(&(string[*sindex]), c))
+	while (string[*sindex] != '\0' && !utils_strstr_pro(&(string[*sindex]), c))
 	{
 		(*output)[tindex] = string[*sindex];
 		(*sindex)++;
 		tindex++;
 	}
 	(*output)[tindex] = '\0';
+	*sindex += utils_strlen(c) - 1;
 	return (0);
 }
 
-static void	fill_pointers(const char *string, char **output, char *c)
+static void	fill_pointers(const char *string, char **output, char *c, int size)
 {
 	int	sindex;
 	int	zindex;
+	int	iindex;
 
 	sindex = 0;
 	zindex = 0;
-	while (string[sindex] != '\0')
+	iindex = 0;
+	while (string[sindex] != '\0' && size > iindex)
 	{
-		if (string[sindex] != '\0')
+		if (fill_pointers_while_part(string, &(output[zindex]), &sindex, c))
 		{
-			if (fill_pointers_while_part(string, &(output[zindex]), &sindex, c))
-			{
-				free_pointers(output);
-				return ;
-			}
-			zindex++;
+			free_pointers(output);
+			return ;
 		}
+		zindex++;
 		if (string[sindex] != '\0')
 			sindex++;
+		iindex++;
 	}
 	output[zindex] = NULL;
 }
@@ -98,25 +105,24 @@ char	**utils_split_pro(const char *string, char *c)
 
 	if (count_words(string, c) == 0)
 		return (NULL);
+	if (utils_strstr_pro(string, c)
+		&& (utils_strstr_pro(string, c) + utils_strlen(c))[0] == '\0')
+		return (NULL);
 	output = (char **)malloc(sizeof(char *) * (count_words(string, c) + 1));
 	if (output == NULL)
 		return (NULL);
-	fill_pointers(string, output, c);
+	fill_pointers(string, output, c, count_words(string, c));
 	return (output);
 }
 
 int main(void)
 {
-	// char	**res;
-
-	// res = utils_split_pro("helllo << ls << hello << fuck ", "<<");
-
-	// int i = 0;
-	// while (res[i] != NULL)
-	// {
-	// 	printf("%s\n", res[i]);
-	// 	i++;
-	// }
-	printf("%d\n", count_words("<<", "<<"));
+	char	**res = utils_split_pro("<<a<<1234567", "<<");
+	int		index = 0;
+	while (res != NULL && res[index] != NULL)
+	{
+		printf("(%s)\n", res[index]);
+		index++;
+	}
 	return (0);
 }

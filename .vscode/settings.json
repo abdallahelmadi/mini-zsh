@@ -1,6 +1,13 @@
 {
   "files.associations": {
     "chrono": "c",
-    "variant": "c"
+    "variant": "c",
+    "minishell.h": "c",
+    "array": "c",
+    "string_view": "c",
+    "format": "c",
+    "initializer_list": "c",
+    "span": "c",
+    "string": "c"
   }
 }
