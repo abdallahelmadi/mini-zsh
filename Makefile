@@ -7,7 +7,7 @@ OBJECTS = minishell.o \
 		  functions/git_branch.o functions/get_folder_name.o functions/readline_prompt.o functions/check_command_line.o \
 		  functions/utils/utils_split.o functions/utils/utils_strcmp.o functions/utils/utils_strdup.o functions/utils/utils_strjoin.o \
 		  functions/signals/signals_sigint.o functions/utils/utils_strstr.o functions/builtin/builtin_echo.o functions/builtin/builtin_env.o \
-		  functions/builtin/builtin_exit.o functions/builtin/builtin_pwd.o functions/builtin/builtin_cd.o
+		  functions/builtin/builtin_exit.o functions/builtin/builtin_pwd.o functions/builtin/builtin_cd.o functions/builtin/builtin_export.o
 
 all : $(NAME)
 

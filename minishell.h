@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/16 17:37:05 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/03/17 17:22:37 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	fun_env(char *str);
 void	fun_exit(char *str);
 void	fun_pwd(char *str);
 void	fun_cd(char *str);
+void	fun_export(char *str);
 
 typedef struct s_cmd_line
 {
