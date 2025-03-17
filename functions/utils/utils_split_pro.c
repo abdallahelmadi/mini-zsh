@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 15:38:52 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/16 02:38:17 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/16 12:11:26 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	fill_pointers_while_part(const char *string, char **output,
 
 	tindex = 0;
 	length = 0;
-	if (utils_strstr_pro(&(string[0]), c))
+	if (utils_strstr_pro(&(string[*sindex]), c))
 		*sindex += utils_strlen(c);
 	while (!utils_strstr_pro(&(string[*sindex + length]), c)
 		&& string[*sindex + length] != '\0')
@@ -71,7 +71,7 @@ static int	fill_pointers_while_part(const char *string, char **output,
 		tindex++;
 	}
 	(*output)[tindex] = '\0';
-	*sindex += utils_strlen(c) - 1;
+	*sindex -= 1;
 	return (0);
 }
 
@@ -113,16 +113,4 @@ char	**utils_split_pro(const char *string, char *c)
 		return (NULL);
 	fill_pointers(string, output, c, count_words(string, c));
 	return (output);
-}
-
-int main(void)
-{
-	char	**res = utils_split_pro("<<a<<1234567", "<<");
-	int		index = 0;
-	while (res != NULL && res[index] != NULL)
-	{
-		printf("(%s)\n", res[index]);
-		index++;
-	}
-	return (0);
 }

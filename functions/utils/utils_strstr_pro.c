@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 14:29:34 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/15 17:46:12 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/16 12:13:31 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*utils_strstr_pro(const char *string, const char *search)
 			if (search[zndex] == '\0')
 				return ((char *)(&(string[index])));
 		}
-        else
-            return (NULL);
+		else
+			return (NULL);
 		index++;
 	}
 	return (NULL);

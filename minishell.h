@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/15 22:25:05 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:07:31 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_cmd_line
 {
 	char				*data;
 	struct s_cmd_line	*next;
+	struct s_cmd_line	*prev;
 }	t_cmd_line;
 
 #endif
