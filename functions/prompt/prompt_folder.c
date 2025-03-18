@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_folder_name.c                                  :+:      :+:    :+:   */
+/*   prompt_folder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:11:35 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/15 12:19:28 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:15:08 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static size_t	get_length(char *string)
 	return (index);
 }
 
-char	*get_folder_name(void)
+char	*prompt_folder(void)
 {
 	char	*buffer;
 	char	*clone;

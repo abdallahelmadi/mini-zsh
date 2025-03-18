@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   git_branch.c                                       :+:      :+:    :+:   */
+/*   prompt_branch.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:40:12 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/07 17:28:47 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:14:53 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*ft_parent(int *pipefds, int child)
 	return (buffer);
 }
 
-char	*git_branch(void)
+char	*prompt_branch(void)
 {
 	pid_t	child;
 	int		pipefds[2];

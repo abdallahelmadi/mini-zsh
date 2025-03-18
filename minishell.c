@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/16 17:22:56 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:22:50 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int arc, char **arv)
 		handle_signals();
 		while (1)
 		{
-			command_prompt = readline_prompt();
+			command_prompt = prompt_zsh();
 			command_line = readline(command_prompt);
 			if (command_line == NULL)
 				return (printf("exit\n"), free(command_prompt),
@@ -38,7 +38,7 @@ int	main(int arc, char **arv)
 			if (command_line[0] != '\0')
 				add_history(command_line);
 			free(command_prompt);
-			check_command_line(command_line);
+			parsin_check(command_line);
 		}
 	}
 	return (FAILURE);
