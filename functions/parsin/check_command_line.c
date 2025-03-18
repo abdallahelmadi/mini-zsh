@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/17 14:31:11 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:01:44 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,35 @@ static t_cmd_line	*last_node(t_cmd_line *header)
 	return (rurn);
 }
 
-static t_cmd_line	*delete_node(t_cmd_line *node)
+// static t_cmd_line	*delete_node(t_cmd_line **node)
+// {
+// 	t_cmd_line	*before;
+// 	t_cmd_line	*after;
+
+// 	before = (*node)->prev;
+// 	after = (*node)->next;
+// 	after->prev = before;
+// 	if (before != NULL)
+// 		before->next = after;
+// 	*node = after;
+// 	return (after);
+// }
+
+static t_cmd_line	*replace_node(t_cmd_line **node, t_cmd_line **new_list)
 {
-	t_cmd_line	*tempv0;
-	t_cmd_line	*tempv1;
+	t_cmd_line	*temp;
 
-	tempv0 = node->prev;
-	tempv1 = node->next;
-	free(node);
-	tempv1->prev = tempv0;
-	tempv0->next = tempv1;
-	return (tempv0);
-}
+	temp = (*node)->prev;
 
-static t_cmd_line	*replace_node(t_cmd_line *node, t_cmd_line *new_list)
-{
-	t_cmd_line	*tempv0;
-	t_cmd_line	*tempv1;
+	if (temp != NULL)
+		temp->next = (*new_list);
+	(*new_list)->prev = temp;
 
-	tempv0 = delete_node(node);
-	tempv1 = tempv0->next;
-	tempv0->next = new_list;
-	last_node(new_list)->next = tempv1;
-	while (tempv1->prev != NULL)
-		tempv1 = tempv1->prev;
-	return (tempv1);
+	last_node(*new_list)->next = (*node)->next;
+	if ((*node)->next != NULL)
+		((*node)->next)->prev = last_node(*new_list);
+
+	return (NULL);
 }
 
 
@@ -108,17 +112,15 @@ static t_cmd_line	*replace_node(t_cmd_line *node, t_cmd_line *new_list)
 static t_cmd_line	*split_command_as_list(const char *command_line)
 {
 	t_cmd_line	*globalnode;
-	t_cmd_line	*tempnode;
 	t_cmd_line	*tempnodevx;
 	t_cmd_line	*tempnodepr;
 	t_cmd_line	*tempnodenw;
+	t_cmd_line	*tempnode;
 	char		**tempv0;
-	char		**tempv1;
 	char		*zmax;
 	int			index;
 
 	globalnode = NULL;
-	tempnode = NULL;
 	index = 0;
 	tempv0 = NULL;
 	zmax = utils_strjoin(" ", command_line, " ");
@@ -169,40 +171,37 @@ static t_cmd_line	*split_command_as_list(const char *command_line)
 		tempnodevx = globalnode;
 		while (tempnodevx != NULL)
 		{
+			index = 0;
 			if (utils_strstr(tempnodevx->data, "<<"))
 			{
-				tempv1 = utils_split_pro(utils_strjoin(" ", tempnodevx->data, " "), "<<");
-				if (tempv1 == NULL)
-				return (NULL);
-				tempnode = new_node(tempv1[index]);
+				tempv0 = utils_split_pro(utils_strjoin(" ", tempnodevx->data, " "), "<<");
+				if (tempv0 == NULL)
+					return (NULL);
+				tempnode = new_node(tempv0[0]);
 				index++;
-				while (tempv1[index] != NULL)
+				while (tempv0[index] != NULL)
 				{
 					tempnodepr = last_node(tempnode);
 					tempnodenw = new_node("<<");
 					tempnodepr->next = tempnodenw;
 					tempnodenw->prev = tempnodepr;
 					tempnodepr = last_node(tempnode);
-					tempnodenw = new_node(tempv1[index]);
+					tempnodenw = new_node(tempv0[index]);
 					tempnodepr->next = tempnodenw;
 					tempnodenw->prev = tempnodepr;
 					index++;
 				}
-				// --------------------------
-				replace_node(tempnodevx, tempnode);
-				printf("Helllo niga\n");
-				// --------------------------
+				replace_node(&tempnodevx, &tempnode);
 			}
 			tempnodevx = tempnodevx->next;
 		}
 	}
-
-
-
-
 	
 	return (globalnode);
 }
+
+
+
 
 
 
