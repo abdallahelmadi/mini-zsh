@@ -6,13 +6,13 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/18 18:01:44 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:04:25 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static t_cmd_line	*new_node(char *data)
+static t_cmd_line	*new_node(const char *data)
 {
 	t_cmd_line	*cmd;
 
@@ -53,21 +53,20 @@ static t_cmd_line	*last_node(t_cmd_line *header)
 // 	return (after);
 // }
 
-static t_cmd_line	*replace_node(t_cmd_line **node, t_cmd_line **new_list)
+static t_cmd_line	*replace_node(t_cmd_line **org, t_cmd_line **node, t_cmd_line **new_list)
 {
 	t_cmd_line	*temp;
 
 	temp = (*node)->prev;
-
 	if (temp != NULL)
 		temp->next = (*new_list);
 	(*new_list)->prev = temp;
-
 	last_node(*new_list)->next = (*node)->next;
 	if ((*node)->next != NULL)
 		((*node)->next)->prev = last_node(*new_list);
-
-	return (NULL);
+	if (temp == NULL)
+		return (*new_list);
+	return (*org);
 }
 
 
@@ -191,7 +190,7 @@ static t_cmd_line	*split_command_as_list(const char *command_line)
 					tempnodenw->prev = tempnodepr;
 					index++;
 				}
-				replace_node(&tempnodevx, &tempnode);
+				globalnode = replace_node(&globalnode, &tempnodevx, &tempnode);
 			}
 			tempnodevx = tempnodevx->next;
 		}
