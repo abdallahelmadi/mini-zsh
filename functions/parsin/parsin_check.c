@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/18 21:26:18 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:30:47 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static t_cmd_line	*split_command_as_list(const char *command_line)
 					index++;
 				}
 				globalnode = utils_replace_node(&globalnode, &tempnodevx, &tempnode);
+				// utils_delete_node
 			}
 			tempnodevx = tempnodevx->next;
 		}
