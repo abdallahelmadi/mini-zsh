@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/18 22:25:48 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:52:43 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 typedef struct s_cmd_line
 {
 	char				*data;
+	int					type;
 	struct s_cmd_line	*next;
 	struct s_cmd_line	*prev;
 }	t_cmd_line;
@@ -53,7 +54,6 @@ char		*prompt_zsh(void);
 
 t_cmd_line	*utils_new_node(const char *data);
 t_cmd_line	*utils_last_node(t_cmd_line *header);
-t_cmd_line	*utils_delete_node(t_cmd_line **node);
 t_cmd_line	*utils_replace_node(t_cmd_line **org, t_cmd_line **node,
 				t_cmd_line **new_list);
 char		**utils_split(const char *string, char c);
@@ -64,6 +64,7 @@ char		*utils_strstr(const char *string, const char *search);
 char		*utils_strstr_pro(const char *string, const char *search);
 int			utils_strcmp(const char *string, char c);
 size_t		utils_strlen(const char *string);
+void		utils_free(char **string);
 
 void		signals_sigint(int sig);
 

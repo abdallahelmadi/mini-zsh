@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:40 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/18 22:26:09 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:52:02 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_cmd_line	*utils_new_node(const char *data)
 	if (cmd == NULL)
 		return (NULL);
 	cmd->data = utils_strdup(data);
+	cmd->type = 0;
 	cmd->next = NULL;
 	cmd->prev = NULL;
 	return (cmd);
@@ -37,20 +38,6 @@ t_cmd_line	*utils_last_node(t_cmd_line *header)
 		temp = temp->next;
 	}
 	return (rurn);
-}
-
-t_cmd_line	*utils_delete_node(t_cmd_line **node)
-{
-	t_cmd_line	*before;
-	t_cmd_line	*after;
-
-	before = (*node)->prev;
-	after = (*node)->next;
-	after->prev = before;
-	if (before != NULL)
-		before->next = after;
-	*node = after;
-	return (after);
 }
 
 t_cmd_line	*utils_replace_node(t_cmd_line **org, t_cmd_line **node,

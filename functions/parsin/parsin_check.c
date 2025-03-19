@@ -6,101 +6,102 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/18 22:30:47 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:14:11 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+static t_cmd_line	*fill_list(char **string, char *spliter)
+{
+	int			index;
+	t_cmd_line	*node;
+	t_cmd_line	*tempnodev0;
+	t_cmd_line	*tempnodev1;
+
+	node = utils_new_node(string[0]);
+	index = 1;
+	while (string[index] != NULL)
+	{
+		tempnodev0 = utils_last_node(node);
+		tempnodev1 = utils_new_node(spliter);
+		tempnodev0->next = tempnodev1;
+		tempnodev1->prev = tempnodev0;
+		tempnodev0 = utils_last_node(node);
+		tempnodev1 = utils_new_node(string[index]);
+		tempnodev0->next = tempnodev1;
+		tempnodev1->prev = tempnodev0;
+		index++;
+	}
+	return (node);
+}
+
+static void	split_and_relink_command(const char *command_line,
+				t_cmd_line **globalnode, char *spliter)
+{
+	char		*new_command_line;
+	char		**tempofsplitv0;
+	t_cmd_line	*tempnode;
+	t_cmd_line	*tempnodeofnewlist;
+	t_cmd_line	*tempnodeofdelete;
+
+	if (utils_strstr(command_line, spliter))
+	{
+		new_command_line = utils_strjoin(" ", command_line, " ");
+		if (*globalnode == NULL)
+		{
+			tempofsplitv0 = utils_split_pro(new_command_line, spliter);
+			if (tempofsplitv0 == NULL)
+				return ;
+			*globalnode = fill_list(tempofsplitv0, spliter);
+			free(new_command_line);
+			utils_free(tempofsplitv0);
+		}
+		else if (*globalnode != NULL)
+		{
+			tempnode = *globalnode;
+			while (tempnode != NULL)
+			{
+				if (utils_strstr(tempnode->data, spliter))
+				{
+					new_command_line = utils_strjoin(" ", tempnode->data, " ");
+					tempofsplitv0 = utils_split_pro(new_command_line, spliter);
+					free(new_command_line);
+					if (tempofsplitv0 == NULL)
+						return ;
+					tempnodeofnewlist = fill_list(tempofsplitv0, spliter);
+					free(tempofsplitv0);
+					*globalnode = utils_replace_node(globalnode, &tempnode, &tempnodeofnewlist);
+				}
+				tempnodeofdelete = tempnode;
+				tempnode = tempnode->next;
+				(void)tempnodeofdelete;
+			}
+		}
+	}
+}
+
 static t_cmd_line	*split_command_as_list(const char *command_line)
 {
 	t_cmd_line	*globalnode;
-	t_cmd_line	*tempnodevx;
-	t_cmd_line	*tempnodepr;
-	t_cmd_line	*tempnodenw;
-	t_cmd_line	*tempnode;
-	char		**tempv0;
-	char		*zmax;
-	int			index;
+	char		*new_command_line;
+	char		**tempofsplitv0;
 
 	globalnode = NULL;
-	index = 0;
-	tempv0 = NULL;
-	zmax = utils_strjoin(" ", command_line, " ");
-	if (utils_strstr(zmax, "|"))
+	new_command_line = utils_strjoin(" ", command_line, " ");
+	if (utils_strstr(new_command_line, "|"))
 	{
-		tempv0 = utils_split(zmax, '|');
-		if (tempv0 == NULL)
+		tempofsplitv0 = utils_split(new_command_line, '|');
+		if (tempofsplitv0 == NULL)
 			return (NULL);
-		globalnode = utils_new_node(tempv0[0]);
-		index++;
-		while (tempv0[index] != NULL)
-		{
-			tempnodepr = utils_last_node(globalnode);
-			tempnodenw = utils_new_node("|");
-			tempnodepr->next = tempnodenw;
-			tempnodenw->prev = tempnodepr;
-			tempnodepr = utils_last_node(globalnode);
-			tempnodenw = utils_new_node(tempv0[index]);
-			tempnodepr->next = tempnodenw;
-			tempnodenw->prev = tempnodepr;
-			index++;
-		}
+		globalnode = fill_list(tempofsplitv0, "|");
+		free(new_command_line);
+		utils_free(tempofsplitv0);
 	}
-
-	index = 0;
-	if (tempv0 == NULL && utils_strstr(zmax, "<<"))
-	{
-		tempv0 = utils_split_pro(zmax, "<<");
-		if (tempv0 == NULL)
-			return (NULL);
-		globalnode = utils_new_node(tempv0[0]);
-		index++;
-		while (tempv0[index] != NULL)
-		{
-			tempnodepr = utils_last_node(globalnode);
-			tempnodenw = utils_new_node("<<");
-			tempnodepr->next = tempnodenw;
-			tempnodenw->prev = tempnodepr;
-			tempnodepr = utils_last_node(globalnode);
-			tempnodenw = utils_new_node(tempv0[index]);
-			tempnodepr->next = tempnodenw;
-			tempnodenw->prev = tempnodepr;
-			index++;
-		}
-	}
-	else if (tempv0 != NULL && utils_strstr(zmax, "<<"))
-	{
-		tempnodevx = globalnode;
-		while (tempnodevx != NULL)
-		{
-			index = 0;
-			if (utils_strstr(tempnodevx->data, "<<"))
-			{
-				tempv0 = utils_split_pro(utils_strjoin(" ", tempnodevx->data, " "), "<<");
-				if (tempv0 == NULL)
-					return (NULL);
-				tempnode = utils_new_node(tempv0[0]);
-				index++;
-				while (tempv0[index] != NULL)
-				{
-					tempnodepr = utils_last_node(tempnode);
-					tempnodenw = utils_new_node("<<");
-					tempnodepr->next = tempnodenw;
-					tempnodenw->prev = tempnodepr;
-					tempnodepr = utils_last_node(tempnode);
-					tempnodenw = utils_new_node(tempv0[index]);
-					tempnodepr->next = tempnodenw;
-					tempnodenw->prev = tempnodepr;
-					index++;
-				}
-				globalnode = utils_replace_node(&globalnode, &tempnodevx, &tempnode);
-				// utils_delete_node
-			}
-			tempnodevx = tempnodevx->next;
-		}
-	}
-	
+	split_and_relink_command(command_line, &globalnode, ">>");
+	split_and_relink_command(command_line, &globalnode, "<<");
+	// split_and_relink_command(command_line, &globalnode, ">");
+	// split_and_relink_command(command_line, &globalnode, "<");
 	return (globalnode);
 }
 
@@ -109,7 +110,10 @@ void	parsin_check(const char *command_line)
 	t_cmd_line	*cmd_list;
 
 	if (command_line[0] == '\0')
+	{
 		free ((char *)command_line);
+		g_lastexitstatus = SUCCESS;
+	}
 	else if (!utils_strcmp(command_line, '&') || utils_strstr(command_line, ">>>")
 		|| !utils_strcmp(command_line, '(') || !utils_strcmp(command_line, ')')
 		|| !utils_strcmp(command_line, '*') || !utils_strcmp(command_line, ';')

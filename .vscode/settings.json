@@ -9,5 +9,6 @@
     "initializer_list": "c",
     "span": "c",
     "string": "c"
-  }
+  },
+  "files.autoSave": "onFocusChange"
 }
