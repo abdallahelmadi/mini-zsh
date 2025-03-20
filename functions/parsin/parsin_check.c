@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/19 16:14:11 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:03:21 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ static void	split_and_relink_command(const char *command_line,
 	char		**tempofsplitv0;
 	t_cmd_line	*tempnode;
 	t_cmd_line	*tempnodeofnewlist;
-	t_cmd_line	*tempnodeofdelete;
 
-	if (utils_strstr(command_line, spliter))
+	if (utils_strlen(spliter) > 1 && utils_strstr(command_line, spliter))
 	{
 		new_command_line = utils_strjoin(" ", command_line, " ");
 		if (*globalnode == NULL)
@@ -73,10 +72,40 @@ static void	split_and_relink_command(const char *command_line,
 					free(tempofsplitv0);
 					*globalnode = utils_replace_node(globalnode, &tempnode, &tempnodeofnewlist);
 				}
-				tempnodeofdelete = tempnode;
 				tempnode = tempnode->next;
-				(void)tempnodeofdelete;
 			}
+		}
+	}
+	else if (utils_strlen(spliter) == 1)
+	{
+		if (*globalnode != NULL)
+		{
+			tempnode = *globalnode;
+			while (tempnode != NULL)
+			{
+				if (utils_strstr(tempnode->data, spliter) && utils_strstr(tempnode->data, spliter)[1] != spliter[0])
+				{
+					new_command_line = utils_strjoin(" ", tempnode->data, " ");
+					tempofsplitv0 = utils_split_pro(new_command_line, spliter);
+					free(new_command_line);
+					if (tempofsplitv0 == NULL)
+						return ;
+					tempnodeofnewlist = fill_list(tempofsplitv0, spliter);
+					free(tempofsplitv0);
+					*globalnode = utils_replace_node(globalnode, &tempnode, &tempnodeofnewlist);
+				}
+				tempnode = tempnode->next;
+			}
+		}
+		else
+		{
+			new_command_line = utils_strjoin(" ", command_line, " ");
+			tempofsplitv0 = utils_split(new_command_line, spliter[0]);
+			if (tempofsplitv0 == NULL)
+				return ;
+			*globalnode = fill_list(tempofsplitv0, spliter);
+			free(new_command_line);
+			utils_free(tempofsplitv0);
 		}
 	}
 }
@@ -100,8 +129,8 @@ static t_cmd_line	*split_command_as_list(const char *command_line)
 	}
 	split_and_relink_command(command_line, &globalnode, ">>");
 	split_and_relink_command(command_line, &globalnode, "<<");
-	// split_and_relink_command(command_line, &globalnode, ">");
-	// split_and_relink_command(command_line, &globalnode, "<");
+	split_and_relink_command(command_line, &globalnode, ">");
+	split_and_relink_command(command_line, &globalnode, "<");
 	return (globalnode);
 }
 
