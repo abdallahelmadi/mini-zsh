@@ -42,8 +42,8 @@ int	main(int arc, char **arv)
 			// fun_env(command_line);
 			// fun_exit(command_line);
 			// fun_pwd(command_line);
-			// fun_cd(command_line);
-			fun_export(command_line);
+			fun_cd(command_line);
+			// fun_export(command_line);
 			free(command_line);
 			free(command_prompt);
 		}
