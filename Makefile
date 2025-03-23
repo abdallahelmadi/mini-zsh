@@ -7,7 +7,7 @@ OBJECTS = minishell.o \
 		  functions/prompt/prompt_branch.o functions/prompt/prompt_folder.o functions/prompt/prompt_zsh.o functions/parsin/parsin_check.o \
 		  functions/utils/utils_split.o functions/utils/utils_strcmp.o functions/utils/utils_strdup.o functions/utils/utils_strjoin.o \
 		  functions/signals/signals_sigint.o functions/utils/utils_strstr.o functions/utils/utils_split_pro.o functions/utils/utils_strstr_pro.o \
-		  functions/utils/utils_strlen.o functions/utils/utils_nodes.o functions/utils/utils_free.o
+		  functions/utils/utils_strlen.o functions/utils/utils_nodes.o functions/utils/utils_free.o functions/utils/utils_docente.o
 
 all : $(NAME)
 

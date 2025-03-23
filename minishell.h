@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/19 14:52:43 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:57:37 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char		*utils_strstr_pro(const char *string, const char *search);
 int			utils_strcmp(const char *string, char c);
 size_t		utils_strlen(const char *string);
 void		utils_free(char **string);
+int			utils_docente(const char *origin, int index, char c);
 
 void		signals_sigint(int sig);
 
