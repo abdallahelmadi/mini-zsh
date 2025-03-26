@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/23 13:57:37 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:06:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,16 @@ extern int	g_lastexitstatus;
 # define SIGNAL_SIGINT 130
 # define SYNTAX_ERROR 2
 
-void		parsin_check(const char *command_line);
+# define TP_CMD 0
+# define TP_PIPE 1
+# define TP_STRING 2
+# define TP_REDIR1 3
+# define TP_REDIR2 4
+# define TP_REDIR11 5
+# define TP_REDIR22 6
+
+void		parsin_global(const char *command_line);
+int			parsin_analyse_quotes(const char *command_line);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);

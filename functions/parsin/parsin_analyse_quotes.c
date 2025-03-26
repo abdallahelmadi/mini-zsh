@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_docente.c                                    :+:      :+:    :+:   */
+/*   parsin_analyse_quotes.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/22 14:30:20 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/26 16:50:30 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/03/26 13:05:36 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/03/26 17:05:52 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	utils_docente(const char *origin, int index, char c)
+int	parsin_analyse_quotes(const char *command_line)
 {
-	int	inside;
-	int	indexo;
-
-	inside = 0;
-	indexo = 0;
-	while (index > indexo)
-	{
-		if (origin[indexo] == c)
-			inside++;
-		indexo++;
-	}
-	if (inside > 1 && (inside == 0 || inside % 2 == 0))
+	if (utils_strstr(command_line, "\"") == NULL)
 		return (SUCCESS);
-	return (FAILURE);
+	if (utils_docente(command_line, utils_strlen(command_line), '"'))
+	{
+		printf("minishell: syntax error\n");
+		g_lastexitstatus = SYNTAX_ERROR;
+		free((char *)command_line);
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }
