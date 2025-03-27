@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/26 16:28:42 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:43:54 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,28 @@ void	parsin_global(const char *command_line)
 
 
 
-
-
-
-
+// {
+// 	quote = (utils_docente(command_line, index, '"')
+// 			|| utils_docente(command_line, index, '\'') || 0);
+// 	if (command_line[index] == '|' && quote)
+// 		command_line[index] = 1;
+// 	else if (utils_strstr_pro(&(command_line[index]), ">>") && quote)
+// 	{
+// 		command_line[index] = 2;
+// 		command_line[index + 1] = 2;
+// 	}
+// 	else if (utils_strstr_pro(&(command_line[index]), "<<") && quote)
+// 	{
+// 		command_line[index] = 3;
+// 		command_line[index + 1] = 3;
+// 	}
+// 	else if (command_line[index] == '<' && quote)
+// 		command_line[index] = 4;
+// 	else if (command_line[index] == '>' && quote)
+// 		command_line[index] = 5;
+// 	else if (command_line[index] == ' ' && quote)
+// 		command_line[index] = 6;
+// }
 
 
 
@@ -200,38 +218,6 @@ void	parsin_global(const char *command_line)
 // 	split_and_relink_command(command_line, &globalnode, ">");
 // 	split_and_relink_command(command_line, &globalnode, "<");
 // 	return (globalnode);
-// }
-
-// static void	analyse_quotes(char *command_line)
-// {
-// 	int	index;
-// 	int	quote;
-
-// 	index = -1;
-// 	while (command_line[++index] != '\0')
-// 	{
-// 		quote = (utils_docente(command_line, index, '"')
-// 				|| utils_docente(command_line, index, '\''));
-
-// 		if (command_line[index] == '|' && (utils_docente(command_line, index, '"') || utils_docente(command_line, index, '\'')))
-// 			command_line[index] = 'Z';
-// 		else if (utils_strstr_pro(command_line, ">>") && (utils_docente(command_line, index, '"') || utils_docente(command_line, index, '\'')))
-// 		{
-// 			command_line[index] = 'X';
-// 			command_line[index + 1] = 'X';
-// 		}
-// 		else if (utils_strstr_pro(command_line, "<<") && (utils_docente(command_line, index, '"') || utils_docente(command_line, index, '\'')))
-// 		{
-// 			command_line[index] = 'Y';
-// 			command_line[index + 1] = 'Y';
-// 		}
-// 		else if (command_line[index] == '>' && (utils_docente(command_line, index, '"') || utils_docente(command_line, index, '\'')))
-// 			command_line[index] = 'M';
-// 		else if (command_line[index] == '<' && (utils_docente(command_line, index, '"') || utils_docente(command_line, index, '\'')))
-// 			command_line[index] = 'O';
-// 		else if (command_line[index] == ' ' && (utils_docente(command_line, index, '"') || utils_docente(command_line, index, '\'')))
-// 			command_line[index] = 'T';
-// 	}
 // }
 
 // void	parsin_global(const char *command_line)

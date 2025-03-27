@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 14:30:20 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/26 16:50:30 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:05:45 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	utils_docente(const char *origin, int index, char c)
 			inside++;
 		indexo++;
 	}
-	if (inside > 1 && (inside == 0 || inside % 2 == 0))
+	if (inside == 0 || (inside > 1 && inside % 2 == 0))
 		return (SUCCESS);
 	return (FAILURE);
 }
