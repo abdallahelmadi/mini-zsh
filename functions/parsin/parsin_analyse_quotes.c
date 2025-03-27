@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:05:36 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/27 15:42:47 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:37:13 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,33 @@ static void	handle_spliters_inside_quotes(char *command_line)
 	}
 }
 
+static void	print_error_message(char c)
+{
+	printf("minishell: syntax error, looking for matching `%c`\n", c);
+	g_lastexitstatus = SYNTAX_ERROR;
+}
+
 int	parsin_analyse_quotes(const char *command_line)
 {
-	int (counter), (index);
+	int (squotes), (dquotes), (index);
 	if (utils_strstr(command_line, "\"") == NULL
 		&& utils_strstr(command_line, "'") == NULL)
 		return (SUCCESS);
-	if (utils_docente(command_line, utils_strlen(command_line), '"'))
-	{
-		printf("minishell: syntax error, looking for matching '\"'\n");
-		g_lastexitstatus = SYNTAX_ERROR;
-		return (free((char *)command_line), FAILURE);
-	}
+	squotes = 0;
+	dquotes = 0;
 	index = -1;
-	counter = 0;
 	while (command_line[++index] != '\0')
 	{
 		if (command_line[index] == '\''
-			&& utils_docente(command_line, index, '"') == 0)
-			counter++;
+			&& (dquotes > 1 || dquotes == 0) && dquotes % 2 == 0)
+			squotes++;
+		else if (command_line[index] == '\"'
+			&& (squotes > 1 || squotes == 0) && squotes % 2 == 0)
+			dquotes++;
 	}
-	if (counter == 1 || (counter > 1 && counter % 2 != 0))
-	{
-		printf("minishell: syntax error, looking for matching '\''\n");
-		g_lastexitstatus = SYNTAX_ERROR;
-		return (free((char *)command_line), FAILURE);
-	}
+	if (dquotes == 1 || dquotes % 2 != 0)
+		return (print_error_message('\"'), free((char *)command_line), FAILURE);
+	if (squotes == 1 || squotes % 2 != 0)
+		return (print_error_message('\''), free((char *)command_line), FAILURE);
 	return (handle_spliters_inside_quotes((char *)command_line), SUCCESS);
 }

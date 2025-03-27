@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/26 13:06:38 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:14:47 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ extern int	g_lastexitstatus;
 
 void		parsin_global(const char *command_line);
 int			parsin_analyse_quotes(const char *command_line);
+int			parsin_forbidden_keywords(const char *command_line);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);

@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/27 15:43:54 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:27:39 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,77 +16,21 @@ void	parsin_global(const char *command_line)
 {
 	t_cmd_line	*cmd_list;
 
-	if (parsin_analyse_quotes(command_line))
+	if (parsin_forbidden_keywords(command_line)
+		|| parsin_analyse_quotes(command_line))
 		return ;
 	(void)cmd_list;
 	free((char *)command_line);
 }
 
-
-
-// {
-// 	quote = (utils_docente(command_line, index, '"')
-// 			|| utils_docente(command_line, index, '\'') || 0);
-// 	if (command_line[index] == '|' && quote)
-// 		command_line[index] = 1;
-// 	else if (utils_strstr_pro(&(command_line[index]), ">>") && quote)
-// 	{
-// 		command_line[index] = 2;
-// 		command_line[index + 1] = 2;
-// 	}
-// 	else if (utils_strstr_pro(&(command_line[index]), "<<") && quote)
-// 	{
-// 		command_line[index] = 3;
-// 		command_line[index + 1] = 3;
-// 	}
-// 	else if (command_line[index] == '<' && quote)
-// 		command_line[index] = 4;
-// 	else if (command_line[index] == '>' && quote)
-// 		command_line[index] = 5;
-// 	else if (command_line[index] == ' ' && quote)
-// 		command_line[index] = 6;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// value of some characeters inside quotes after use parsin_analyse_quotes
+// |   : 1
+// >>  : 2
+// <<  : 3
+// <   : 4
+// >   : 5
+// ' ' : 6
+// value of nodes type after tokenization
 // # define TP_CMD 0
 // # define TP_PIPE 1
 // # define TP_STRING 2
@@ -94,17 +38,16 @@ void	parsin_global(const char *command_line)
 // # define TP_REDIR2 4
 // # define TP_REDIR11 5
 // # define TP_REDIR22 6
-
-
-
-
+// ---------------------------------------------------------------
+// ---------------------------------------------------------------
+// ---------------------------------------------------------------
+// ---------------------------------------------------------------
 // static t_cmd_line	*fill_list(char **string, char *spliter)
 // {
 // 	int			index;
 // 	t_cmd_line	*node;
 // 	t_cmd_line	*tempnodev0;
 // 	t_cmd_line	*tempnodev1;
-
 // 	node = utils_new_node(string[0]);
 // 	index = 1;
 // 	while (string[index] != NULL)
@@ -121,7 +64,6 @@ void	parsin_global(const char *command_line)
 // 	}
 // 	return (node);
 // }
-
 // static void	split_and_relink_command(const char *command_line,
 // 				t_cmd_line **globalnode, char *spliter)
 // {
@@ -129,7 +71,6 @@ void	parsin_global(const char *command_line)
 // 	char		**tempofsplitv0;
 // 	t_cmd_line	*tempnode;
 // 	t_cmd_line	*tempnodeofnewlist;
-
 // 	if (utils_strlen(spliter) > 1 && utils_strstr(command_line, spliter))
 // 	{
 // 		new_command_line = utils_strjoin(" ", command_line, " ");
@@ -156,7 +97,8 @@ void	parsin_global(const char *command_line)
 // 						return ;
 // 					tempnodeofnewlist = fill_list(tempofsplitv0, spliter);
 // 					free(tempofsplitv0);
-// 					*globalnode = utils_replace_node(globalnode, &tempnode, &tempnodeofnewlist);
+// 					*globalnode = utils_replace_node(globalnode, &tempnode, 
+//						&tempnodeofnewlist);
 // 				}
 // 				tempnode = tempnode->next;
 // 			}
@@ -169,7 +111,8 @@ void	parsin_global(const char *command_line)
 // 			tempnode = *globalnode;
 // 			while (tempnode != NULL)
 // 			{
-// 				if (utils_strstr(tempnode->data, spliter) && utils_strstr(tempnode->data, spliter)[1] != spliter[0])
+// 				if (utils_strstr(tempnode->data, spliter) 
+//					&& utils_strstr(tempnode->data, spliter)[1] != spliter[0])
 // 				{
 // 					new_command_line = utils_strjoin(" ", tempnode->data, " ");
 // 					tempofsplitv0 = utils_split_pro(new_command_line, spliter);
@@ -178,7 +121,8 @@ void	parsin_global(const char *command_line)
 // 						return ;
 // 					tempnodeofnewlist = fill_list(tempofsplitv0, spliter);
 // 					free(tempofsplitv0);
-// 					*globalnode = utils_replace_node(globalnode, &tempnode, &tempnodeofnewlist);
+// 					*globalnode = utils_replace_node(globalnode,
+//							&tempnode, &tempnodeofnewlist);
 // 				}
 // 				tempnode = tempnode->next;
 // 			}
@@ -195,7 +139,6 @@ void	parsin_global(const char *command_line)
 // 		}
 // 	}
 // }
-
 // static t_cmd_line	*split_command_as_list(const char *command_line)
 // {
 // 	t_cmd_line	*globalnode;
@@ -219,32 +162,13 @@ void	parsin_global(const char *command_line)
 // 	split_and_relink_command(command_line, &globalnode, "<");
 // 	return (globalnode);
 // }
-
 // void	parsin_global(const char *command_line)
 // {
 // 	t_cmd_line	*cmd_list;
-
 // 	if (command_line[0] == '\0')
 // 	{
 // 		free ((char *)command_line);
 // 		g_lastexitstatus = SUCCESS;
-// 	}
-// 	else if (utils_strstr(command_line, ">>>"))
-// 	{
-// 		free ((char *)command_line);
-// 		printf("minishell: something unsupported\n");
-// 		g_lastexitstatus = FAILURE;
-// 	}
-// 	else if (!utils_strcmp(command_line, '&') || utils_strstr(command_line, ">>>>")
-// 		|| !utils_strcmp(command_line, '(') || !utils_strcmp(command_line, ')')
-// 		|| !utils_strcmp(command_line, '*') || !utils_strcmp(command_line, ';')
-// 		|| utils_strstr(command_line, "<<<") || !utils_strcmp(command_line, '#')
-// 		|| !utils_strcmp(command_line, '\\')
-// 		|| utils_strstr(command_line, "||"))
-// 	{
-// 		free ((char *)command_line);
-// 		printf("minishell: something unsupported\n");
-// 		g_lastexitstatus = FAILURE;
 // 	}
 // 	else
 // 	{
