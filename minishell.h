@@ -55,6 +55,8 @@ void	fun_exit(char *str);
 void	fun_pwd(char *str);
 void	fun_cd(char *str);
 void	fun_export(char *str);
+void	fun_unset(char *str);
+
 
 typedef struct s_cmd_line
 {
