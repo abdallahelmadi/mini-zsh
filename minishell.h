@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/27 16:14:47 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:11:37 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ extern int	g_lastexitstatus;
 void		parsin_global(const char *command_line);
 int			parsin_analyse_quotes(const char *command_line);
 int			parsin_forbidden_keywords(const char *command_line);
+void		parsin_make_list(const char *command_line, t_cmd_line **cmd_list);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);
@@ -64,8 +65,7 @@ char		*prompt_zsh(void);
 
 t_cmd_line	*utils_new_node(const char *data);
 t_cmd_line	*utils_last_node(t_cmd_line *header);
-t_cmd_line	*utils_replace_node(t_cmd_line **org, t_cmd_line **node,
-				t_cmd_line **new_list);
+t_cmd_line	*utils_replace_node(t_cmd_line **node, t_cmd_line **new_list);
 char		**utils_split(const char *string, char c);
 char		**utils_split_pro(const char *string, char *c);
 char		*utils_strdup(const char *string);

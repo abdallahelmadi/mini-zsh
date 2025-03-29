@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:40 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/19 14:52:02 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/29 15:51:28 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,29 @@ t_cmd_line	*utils_last_node(t_cmd_line *header)
 	return (rurn);
 }
 
-t_cmd_line	*utils_replace_node(t_cmd_line **org, t_cmd_line **node,
-		t_cmd_line **new_list)
+t_cmd_line	*utils_replace_node(t_cmd_line **node, t_cmd_line **new_list)
 {
 	t_cmd_line	*temp;
+	t_cmd_line	*rm;
 
-	temp = (*node)->prev;
-	if (temp != NULL)
-		temp->next = (*new_list);
-	(*new_list)->prev = temp;
-	utils_last_node(*new_list)->next = (*node)->next;
-	if ((*node)->next != NULL)
+	rm = *node;
+	if ((*node)->next == NULL)
+	{
+		((*node)->prev)->next = (*new_list);
+		(*new_list)->prev = (*node)->prev;
+	}
+	else if ((*node)->prev == NULL)
+	{
 		((*node)->next)->prev = utils_last_node(*new_list);
-	if (temp == NULL)
-		return (*new_list);
-	return (*org);
+		utils_last_node(*new_list)->next = (*node)->next;
+		*node = *new_list;
+	}
+	else
+	{
+		((*node)->prev)->next = (*new_list);
+		(*new_list)->prev = (*node)->prev;
+		((*node)->next)->prev = utils_last_node(*new_list);
+		utils_last_node(*new_list)->next = (*node)->next;
+	}
+	return (free(rm->data), free(rm), utils_last_node(*new_list));
 }
