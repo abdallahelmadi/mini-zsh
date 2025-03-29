@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:40 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/29 15:51:28 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/29 23:35:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_cmd_line	*utils_last_node(t_cmd_line *header)
 
 t_cmd_line	*utils_replace_node(t_cmd_line **node, t_cmd_line **new_list)
 {
-	t_cmd_line	*temp;
 	t_cmd_line	*rm;
 
 	rm = *node;
