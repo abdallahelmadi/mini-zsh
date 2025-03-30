@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:46:16 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/19 12:47:09 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/30 18:03:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,17 @@ void	utils_free(char **string)
 		index++;
 	}
 	free(string);
+}
+
+void	utils_free_list(t_cmd_line **list)
+{
+	t_cmd_line	*temp;
+
+	while (*list != NULL)
+	{
+		temp = *list;
+		*list = (*list)->next;
+		free(temp->data);
+		free(temp);
+	}
 }
