@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:50:13 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/29 23:38:46 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/30 14:28:39 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ static t_cmd_line	*fill_list(char **string, const char *spliter)
 	return (list);
 }
 
-static void	split_command_p1(const char *command_line, t_cmd_line **cmd_list,
-	const char *spliter)
+static void	split_command_p1(t_cmd_line **cmd_list, const char *spliter)
 {
 	t_cmd_line	*tempnode;
+	t_cmd_line	*tempnextnode;
 	t_cmd_line	*tempnewlist;
 	char		*tempchar;
 	char		**tempdoublechar;
@@ -48,16 +48,18 @@ static void	split_command_p1(const char *command_line, t_cmd_line **cmd_list,
 	tempnode = *cmd_list;
 	while (tempnode != NULL)
 	{
-		if ((utils_strlen(spliter) == 1 && utils_strstr(command_line, spliter)
-				&& utils_strstr(command_line, spliter)[1] != spliter[0]) || (
+		if ((utils_strlen(spliter) == 1 && utils_strstr(tempnode->data, spliter)
+				&& utils_strstr(tempnode->data, spliter)[1] != spliter[0]) || (
 				utils_strlen(spliter) > 1
-				&& utils_strstr(command_line, spliter)))
+				&& utils_strstr(tempnode->data, spliter)))
 		{
 			tempchar = utils_strjoin(" ", tempnode->data, " ");
 			tempdoublechar = utils_split_pro(tempchar, (char *)spliter);
 			free(tempchar);
 			tempnewlist = fill_list(tempdoublechar, spliter);
-			tempnode = utils_replace_node(&tempnode, &tempnewlist);
+			tempnextnode = tempnode->next;
+			utils_replace_node(&tempnode, &tempnewlist);
+			tempnode = tempnextnode;
 		}
 		else
 			tempnode = tempnode->next;
@@ -76,7 +78,6 @@ static void	split_command_p0(const char *command_line, t_cmd_line **cmd_list,
 		tempdoublechar = utils_split_pro(tempchar, (char *)spliter);
 		free(tempchar);
 		*cmd_list = fill_list(tempdoublechar, spliter);
-		split_command_p1(command_line, cmd_list, spliter);
 	}
 }
 
@@ -86,7 +87,7 @@ static void	split_command(const char *command_line, t_cmd_line **cmd_list,
 	if ((*cmd_list) == NULL)
 		split_command_p0(command_line, cmd_list, spliter);
 	else
-		split_command_p1(command_line, cmd_list, spliter);
+		split_command_p1(cmd_list, spliter);
 }
 
 void	parsin_make_list(const char *command_line, t_cmd_line **cmd_list)
@@ -96,4 +97,15 @@ void	parsin_make_list(const char *command_line, t_cmd_line **cmd_list)
 	split_command(command_line, cmd_list, "<<");
 	split_command(command_line, cmd_list, ">");
 	split_command(command_line, cmd_list, "<");
+
+
+	
+	t_cmd_line	*tempnode;
+	tempnode = *cmd_list;
+	while (tempnode != NULL)
+	{
+		printf("[%s] -> ", tempnode->data);
+		tempnode = tempnode->next;
+	}
+	printf("\n");
 }

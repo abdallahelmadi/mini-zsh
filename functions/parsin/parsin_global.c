@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/29 12:32:45 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/30 12:23:04 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	parsin_global(const char *command_line)
 {
 	t_cmd_line	*cmd_list;
 
+	cmd_list = NULL;
 	g_lastexitstatus = SUCCESS;
 	if (command_line[0] == '\0')
 		return (free((char *)command_line));
