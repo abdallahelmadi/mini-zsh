@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:40 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/30 14:27:28 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/30 17:46:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_cmd_line	*utils_last_node(t_cmd_line *header)
 	return (rurn);
 }
 
-t_cmd_line	*utils_replace_node(t_cmd_line **node, t_cmd_line **new_list)
+t_cmd_line	*utils_replace_node(t_cmd_line **header, t_cmd_line **node,
+	t_cmd_line **new_list)
 {
 	if ((*node)->next == NULL)
 	{
@@ -51,7 +52,7 @@ t_cmd_line	*utils_replace_node(t_cmd_line **node, t_cmd_line **new_list)
 	{
 		((*node)->next)->prev = utils_last_node(*new_list);
 		utils_last_node(*new_list)->next = (*node)->next;
-		*node = *new_list;
+		*header = *new_list;
 	}
 	else
 	{

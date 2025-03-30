@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:50:13 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/30 14:28:39 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/30 17:44:28 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	split_command_p1(t_cmd_line **cmd_list, const char *spliter)
 			free(tempchar);
 			tempnewlist = fill_list(tempdoublechar, spliter);
 			tempnextnode = tempnode->next;
-			utils_replace_node(&tempnode, &tempnewlist);
+			utils_replace_node(cmd_list, &tempnode, &tempnewlist);
 			tempnode = tempnextnode;
 		}
 		else
@@ -97,15 +97,4 @@ void	parsin_make_list(const char *command_line, t_cmd_line **cmd_list)
 	split_command(command_line, cmd_list, "<<");
 	split_command(command_line, cmd_list, ">");
 	split_command(command_line, cmd_list, "<");
-
-
-	
-	t_cmd_line	*tempnode;
-	tempnode = *cmd_list;
-	while (tempnode != NULL)
-	{
-		printf("[%s] -> ", tempnode->data);
-		tempnode = tempnode->next;
-	}
-	printf("\n");
 }
