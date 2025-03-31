@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/30 18:03:49 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:21:46 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void		parsin_global(const char *command_line);
 int			parsin_analyse_quotes(const char *command_line);
 int			parsin_forbidden_keywords(const char *command_line);
 void		parsin_make_list(const char *command_line, t_cmd_line **cmd_list);
+void		pasrin_clean_list(t_cmd_line **list);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);
@@ -78,6 +79,7 @@ size_t		utils_strlen(const char *string);
 void		utils_free(char **string);
 int			utils_docente(const char *origin, int index, char c);
 void		utils_free_list(t_cmd_line **list);
+void		utils_delete_node(t_cmd_line **node);
 
 void		signals_sigint(int sig);
 

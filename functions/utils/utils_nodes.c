@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:40 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/30 17:46:38 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:15:30 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,28 @@ t_cmd_line	*utils_replace_node(t_cmd_line **header, t_cmd_line **node,
 		utils_last_node(*new_list)->next = (*node)->next;
 	}
 	return (free((*node)->data), free(*node), utils_last_node(*new_list));
+}
+
+void	utils_delete_node(t_cmd_line **node)
+{
+	t_cmd_line	*temp;
+
+	temp = *node;
+	if ((*node)->prev == NULL)
+	{
+		*node = (*node)->next;
+		(*node)->prev = NULL;
+	}
+	else if ((*node)->next == NULL)
+	{
+		*node = (*node)->prev;
+		(*node)->next = NULL;
+	}
+	else
+	{
+		((*node)->prev)->next = (*node)->next;
+		((*node)->next)->prev = (*node)->prev;
+	}
+	free(temp->data);
+	free(temp);
 }
