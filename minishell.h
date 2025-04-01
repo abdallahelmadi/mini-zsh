@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/01 09:24:12 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:00:33 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ extern int	g_lastexitstatus;
 # define TP_CMD 0
 # define TP_PIPE 1
 # define TP_STRING 2
-# define TP_FLAG 3
+# define TP_PATH 3
 # define TP_REDIR1 4
 # define TP_REDIR2 5
 # define TP_REDIR11 6
