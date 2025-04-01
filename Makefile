@@ -9,7 +9,7 @@ OBJECTS = minishell.o \
 		  functions/signals/signals_sigint.o functions/utils/utils_strstr.o functions/utils/utils_split_pro.o functions/utils/utils_strstr_pro.o \
 		  functions/utils/utils_strlen.o functions/utils/utils_nodes.o functions/utils/utils_free.o functions/utils/utils_docente.o \
 		  functions/parsin/parsin_analyse_quotes.o functions/parsin/parsin_forbidden_keywords.o functions/parsin/parsin_make_list.o \
-		  functions/parsin/pasrin_clean_list.o
+		  functions/parsin/pasrin_clean_list.o functions/parsin/parsin_tokenization.o
 
 all : $(NAME)
 
