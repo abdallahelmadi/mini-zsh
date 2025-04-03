@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/17 17:22:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/03 15:44:43 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*utils_strdup(const char *string);
 char	*utils_strjoin(const char *s1, const char *s2, const char *s3);
 char	*utils_strstr(const char *string, const char *search);
 int		utils_strcmp(const char *string, char c);
+int		utils_strncmp(char *str1, char *str2, size_t n);
+int		utils_strcmp2(char *s1, char *s2);
 
 void	signals_sigint(int sig);
 void	fun_echo(char *str);

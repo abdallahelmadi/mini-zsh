@@ -51,3 +51,4 @@ void	fun_echo(char *str)
 		printf("\n");
 	free_array(res);
 }
+

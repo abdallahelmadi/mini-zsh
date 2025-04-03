@@ -44,3 +44,4 @@ void	fun_cd(char *str)
 		printf("cd : no such file or directory %s\n", path);
 	}
 }
+

@@ -26,7 +26,7 @@ static int check_in(char **env, char *str)
 	}
 	return (0);
 }
-// zid variable jdid ila makanch f env 
+// zid variable jdid ila makanch f env
 static char **add_to_environ(char **environ, char *new_var)
 {
 	int i = 0;
@@ -59,8 +59,8 @@ void fun_export(char *str)
 	res = utils_split(str, ' ');
 	if (!res || !res[0])
 		return ;
-    
-	if (strcmp(res[0], "export") == 0) 
+
+	if (utils_strcmp2(res[0], "export") == 0)
 	{
 		if (!res[1])
 		{
@@ -76,9 +76,9 @@ void fun_export(char *str)
 				env++;
 			}
 		}
-		else 
+		else
 		{
-			if (!utils_strstr(res[1], "=")) 
+			if (!utils_strstr(res[1], "="))
 			{
 				printf("export: `%s`: not a valid identifier\n", res[1]);
 				free_array(res);
@@ -100,7 +100,7 @@ void fun_export(char *str)
 				free_array(res);
 				return ;
 			}
-			if (!check_in(environ, env[0])) 
+			if (!check_in(environ, env[0]))
 			{
 				environ = add_to_environ(environ, joined);
 				if (!environ)
