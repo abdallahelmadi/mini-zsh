@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 09:52:32 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:41:46 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,9 @@ void	parsin_tokenization(t_cmd_line **cmd_list)
 	int			index;
 
 	tempnode = *cmd_list;
-	index = -1;
 	while (tempnode != NULL)
 	{
+		index = -1;
 		reset_origin_data_quotes(&tempnode);
 		add_token(&tempnode);
 		remove_qoutes(&tempnode, &index);
