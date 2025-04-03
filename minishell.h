@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/01 16:00:33 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 09:56:50 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void		utils_free(char **string);
 int			utils_docente(const char *origin, int index, char c);
 void		utils_free_list(t_cmd_line **list);
 t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node);
+void		utils_setexit(int status);
+int			utils_getexit(void);
 
 void		signals_sigint(int sig);
 

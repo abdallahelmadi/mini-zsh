@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/02 19:59:05 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 10:00:53 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parsin_global(const char *command_line)
 	t_cmd_line	*cmd_list;
 
 	cmd_list = NULL;
-	g_lastexitstatus = SUCCESS;
+	utils_setexit(SUCCESS);
 	if (command_line[0] == '\0')
 		return (free((char *)command_line));
 	if (is_empty_string(command_line)
@@ -40,5 +40,5 @@ void	parsin_global(const char *command_line)
 		return ;
 	parsin_make_list(command_line, &cmd_list);
 	parsin_tokenization(&cmd_list);
-	utils_free_list(&cmd_list);
+	utils_free_list(&cmd_list); //      (`$?` === `22` at ascii table)
 }

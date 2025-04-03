@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/02 10:53:56 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 09:52:32 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,45 +97,47 @@ static char	*special_strdup(char *string)
 	return (newstring);
 }
 
-static void	remove_qoutes(t_cmd_line **node)
+static void	remove_qoutes(t_cmd_line **node, int *index)
 {
-	int		index;
-	int		inside_double;
-	int		inside_single;
-	char	*newstring;
-
-	index = -1;
+	int (inside_double), (inside_single);
 	inside_double = 0;
 	inside_single = 0;
-	while (((*node)->data)[++index] != '\0')
+	while (((*node)->data)[++(*index)] != '\0')
 	{
-		if (((*node)->data)[index] == '\"' && inside_single != 1
+		if (((*node)->data)[(*index)] == '\"' && inside_single != 1
 			&& inside_single % 2 == 0)
 		{
-			((*node)->data)[index] = 1;
+			((*node)->data)[(*index)] = 1;
 			inside_double++;
 		}
-		else if (((*node)->data)[index] == '\'' && inside_double != 1
+		else if (((*node)->data)[(*index)] == '\'' && inside_double != 1
 			&& inside_double % 2 == 0)
 		{
-			((*node)->data)[index] = 1;
+			((*node)->data)[(*index)] = 1;
 			inside_single++;
 		}
+		if (((*node)->data)[*index] == '$' && ((*node)->data)[*index + 1] == '?'
+			&& (inside_double == 1 || inside_double % 2 == 1))
+		{
+			((*node)->data)[(*index)] = 2;
+			((*node)->data)[(*index) + 1] = 2;
+		}
 	}
-	newstring = special_strdup((*node)->data);
-	(*node)->data = newstring;
+	(*node)->data = special_strdup((*node)->data);
 }
 
 void	parsin_tokenization(t_cmd_line **cmd_list)
 {
 	t_cmd_line	*tempnode;
+	int			index;
 
 	tempnode = *cmd_list;
+	index = -1;
 	while (tempnode != NULL)
 	{
 		reset_origin_data_quotes(&tempnode);
 		add_token(&tempnode);
-		remove_qoutes(&tempnode);
+		remove_qoutes(&tempnode, &index);
 		tempnode = tempnode->next;
 	}
 }

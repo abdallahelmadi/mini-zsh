@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:05:36 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/27 17:37:13 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 10:02:02 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	handle_spliters_inside_quotes(char *command_line)
 static void	print_error_message(char c)
 {
 	printf("minishell: syntax error, looking for matching `%c`\n", c);
-	g_lastexitstatus = SYNTAX_ERROR;
+	utils_setexit(SYNTAX_ERROR);
 }
 
 int	parsin_analyse_quotes(const char *command_line)

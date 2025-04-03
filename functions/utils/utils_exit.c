@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_sigint.c                                   :+:      :+:    :+:   */
+/*   utils_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 10:00:01 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/04/03 09:54:20 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/03 09:56:14 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	signals_sigint(int sig)
+void	utils_setexit(int status)
 {
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	utils_setexit(SIGNAL_SIGINT);
+	g_lastexitstatus = status;
+}
+
+int	utils_getexit(void)
+{
+	return (g_lastexitstatus);
 }
