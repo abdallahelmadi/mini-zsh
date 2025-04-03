@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_sigint.c                                   :+:      :+:    :+:   */
+/*   utils_docente.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 10:00:01 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/03/22 14:30:20 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/03/27 14:05:45 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	signals_sigint(int sig)
+int	utils_docente(const char *origin, int index, char c)
 {
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	utils_setexit(SIGNAL_SIGINT);
+	int	inside;
+	int	indexo;
+
+	inside = 0;
+	indexo = 0;
+	while (index > indexo)
+	{
+		if (origin[indexo] == c)
+			inside++;
+		indexo++;
+	}
+	if (inside == 0 || (inside > 1 && inside % 2 == 0))
+		return (SUCCESS);
+	return (FAILURE);
 }

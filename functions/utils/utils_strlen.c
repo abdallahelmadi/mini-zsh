@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_sigint.c                                   :+:      :+:    :+:   */
+/*   utils_strlen.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 10:00:01 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/03/15 22:23:40 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/03/15 22:24:45 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	signals_sigint(int sig)
+size_t	utils_strlen(const char *string)
 {
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	utils_setexit(SIGNAL_SIGINT);
+	size_t	count;
+
+	count = 0;
+	while (string[count] != '\0')
+		count++;
+	return (count);
 }
