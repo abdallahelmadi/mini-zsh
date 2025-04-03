@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_strcmp.c                                     :+:      :+:    :+:   */
+/*   utils_charcmp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/03 17:53:02 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 18:07:40 by abdael-m         ###   ########.fr       */
+/*   Created: 2025/03/07 12:39:54 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/03 17:52:45 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	utils_strcmp(const char *s1, const char *s2)
+int	utils_charcmp(const char *string, char c)
 {
 	int	index;
 
 	index = 0;
-	while (s1[index] != '\0' && s2[index] != '\0' && s1[index] == s2[index])
+	while (string[index] != '\0')
+	{
+		if (string[index] == c)
+			return (SUCCESS);
 		index++;
-	return (s1[index] - s2[index]);
+	}
+	return (FAILURE);
 }
