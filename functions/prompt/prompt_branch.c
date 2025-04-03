@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 17:40:12 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/03/18 21:14:53 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:16:55 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*ft_parent(int *pipefds, int child)
 	readed = read(pipefds[0], buffer, 99);
 	close(pipefds[0]);
 	buffer[readed] = '\0';
-	if (utils_strcmp(buffer, ' ') == 0)
+	if (utils_charcmp(buffer, ' ') == 0)
 	{
 		free(buffer);
 		buffer = NULL;

@@ -123,4 +123,3 @@ void fun_export(char *str)
 
 	free_array(res);
 }
-
