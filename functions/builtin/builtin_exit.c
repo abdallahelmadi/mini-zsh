@@ -1,12 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/04 13:20:44 by abdael-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-void	fun_exit(char *str)
+void	builtin_exit(t_cmd_line *node)
 {
-	char **res;
-	res = utils_split(str, ' ');
-	if (utils_strstr(res[0], "exit"))
-	{
-		printf("exit\n");
-		exit(SUCCESS);
-	}
+	(void)node;
 }

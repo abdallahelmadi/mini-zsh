@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 09:42:17 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 10:32:33 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:18:08 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	execution_syntax(t_cmd_line **cmd_list)
 				return (utils_setexit(SYNTAX_ERROR), utils_free_list(cmd_list),
 					printf("minishell: %s token `newline`\n",
 						"syntax error, near unexpected"), FAILURE);
-			if (check_next_type(tempnode))
+			if (check_next_type(tempnode) || (tempnode->next)->type == TP_PIPE)
 				return (printf("minishell: syntax error, %s`%s`\n",
 						"near unexpected token ", (tempnode->next)->data),
 					utils_setexit(SYNTAX_ERROR), utils_free_list(cmd_list),

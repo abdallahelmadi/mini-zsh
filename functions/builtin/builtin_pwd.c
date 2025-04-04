@@ -1,17 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/04 13:20:49 by abdael-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-void	fun_pwd(char *str)
+void	builtin_pwd(t_cmd_line *node)
 {
-	char **res;
-	char *pwd;
-	pwd = malloc(sizeof(char) * 1000);
-	if (!pwd)
-		return;
-	res = utils_split(str, ' ');
-	if (utils_strstr(res[0], "pwd"))
-	{
-		getcwd(pwd, 1000);
-		printf("%s\n", pwd);
-	}
-	free(pwd);
+	(void)node;
 }
