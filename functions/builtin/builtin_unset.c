@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 17:51:12 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 19:55:53 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,25 @@ void	builtin_unset(t_cmd_line *node)
 {
 	char **env;
 	int index;
+	t_cmd_line *tmp;
 
-	env = utils_split(node->next->data, '=');
-	if (!env || !env[0])
+	tmp = node->next;
+	while (tmp)
 	{
-		return ;
-	}
-	index = find_var_env(env[0]);
-	if (index != -1)
-	{
-		remove_env_var(index);
-	}
-	else
-	{
-		printf("Variable %s not found in environment\n", env[0]);
+		env = utils_split(tmp->data, '=');
+		if (!env || !env[0])
+		{
+			return ;
+		}
+		index = find_var_env(env[0]);
+		if (index != -1)
+		{
+			remove_env_var(index);
+		}
+		else
+		{
+			printf("Variable %s not found in environment\n", env[0]);
+		}
+	tmp = tmp->next;
 	}
 }

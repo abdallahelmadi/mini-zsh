@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 17:03:40 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 19:51:22 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void builtin_export(t_cmd_line *node)
 {
 	char **env;
 	char *joined;
+	t_cmd_line *tmp;
 
 	if (!node->next)
 	{
@@ -98,37 +99,41 @@ void builtin_export(t_cmd_line *node)
 	}
 	else
 	{
-		if (!utils_strstr(node->next->data, "="))
+		tmp = node->next;
+		while (tmp)
 		{
-			if (!check_in(environ, node->next->data))
+			if (!utils_strstr(tmp->data, "="))
 			{
-				joined = utils_strjoin(node->next->data, "=", "");
-				environ = add_to_environ(environ, joined);
-			}
-			return ;
-		}
-		else
-		{
-			env = utils_split(node->next->data, '=');
-			joined = utils_strjoin(env[0], "=", env[1]);
-			if (!joined)
-			{
-				free_array(env);
-				return ;
-			}
-			if (!check_in(environ, env[0]))
-			{
-				environ = add_to_environ(environ, joined);
-				if (!environ)
+				if (!check_in(environ, tmp->data))
 				{
-					free(joined);
-					free_array(env);
-					return ;
+					joined = utils_strjoin(tmp->data, "=", "");
+					environ = add_to_environ(environ, joined);
 				}
 			}
 			else
-				update_var(environ, env[0], joined);
-			free_array(env);
+			{
+				env = utils_split(tmp->data, '=');
+				joined = utils_strjoin(env[0], "=", env[1]);
+				if (!joined)
+				{
+					free_array(env);
+					return ;
+				}
+				if (!check_in(environ, env[0]))
+				{
+					environ = add_to_environ(environ, joined);
+					if (!environ)
+					{
+						free(joined);
+						free_array(env);
+						return ;
+					}
+				}
+				else
+					update_var(environ, env[0], joined);
+				free_array(env);
+			}
+		tmp = tmp->next;
 		}
 	}
 	utils_setexit(SUCCESS);
