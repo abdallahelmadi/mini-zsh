@@ -30,9 +30,7 @@ void	fun_cd(char *str)
 		if (S_ISDIR(path_stat.st_mode))
 		{
 			if (chdir(path) != 0)
-			{
 				perror("cd");
-			}
 		}
 		else
 		{
@@ -41,7 +39,7 @@ void	fun_cd(char *str)
 	}
 	else
 	{
-		printf("cd : no such file or directory %s\n", path);
+		perror("cd");
 	}
 }
 

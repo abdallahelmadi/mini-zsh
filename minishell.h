@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 18:19:46 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:01:42 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ void		utils_free_list(t_cmd_line **list);
 t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node);
 void		utils_setexit(int status);
 int			utils_getexit(void);
+void	fun_cd(char *str);
+void	fun_pwd(char *str);
 
 #endif

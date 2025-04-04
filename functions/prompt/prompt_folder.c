@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:11:35 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 17:51:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/03 19:55:32 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ char	*prompt_folder(void)
 	index = get_length(buffer) - 1;
 	if (buffer[index] == '/' && buffer[index + 1] == '\0')
 		return (free(buffer), utils_strdup("/"));
-<<<<<<< HEAD:functions/get_folder_name.c
-	while (index > 0)
-=======
 	while (index >= 0)
->>>>>>> abdael-m:functions/prompt/prompt_folder.c
 	{
 		if (buffer[index] == '/')
 		{

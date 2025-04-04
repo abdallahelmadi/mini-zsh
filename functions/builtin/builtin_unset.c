@@ -62,7 +62,7 @@ void	fun_unset(char *str)
 	res = utils_split(str, ' ');
 	if (!res || !res[0])
 		return ;
-	if (utils_strcmp2(res[0], "unset") == 0)
+	if (utils_strcmp(res[0], "unset") == 0)
 	{
 		if (!res[1])
 		{

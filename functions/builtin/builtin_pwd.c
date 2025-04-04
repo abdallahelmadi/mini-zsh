@@ -1,17 +1,17 @@
 #include <minishell.h>
 
-void	fun_pwd(char *str)
+void	fun_pwd(t_cmd_line *node)
 {
-	char **res;
 	char *pwd;
+	if (node->next && node->next->type == 2)
+	{
+		printf("minishell: pwd: too many arguments\n");
+		return ;
+	}
 	pwd = malloc(sizeof(char) * 1000);
 	if (!pwd)
 		return;
-	res = utils_split(str, ' ');
-	if (utils_strstr(res[0], "pwd"))
-	{
-		getcwd(pwd, 1000);
-		printf("%s\n", pwd);
-	}
+	getcwd(pwd, 1000);
+	printf("%s\n", pwd);
 	free(pwd);
 }

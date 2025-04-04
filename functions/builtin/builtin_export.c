@@ -60,7 +60,7 @@ void fun_export(char *str)
 	if (!res || !res[0])
 		return ;
 
-	if (utils_strcmp2(res[0], "export") == 0)
+	if (utils_strcmp(res[0], "export") == 0)
 	{
 		if (!res[1])
 		{
