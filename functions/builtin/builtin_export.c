@@ -6,13 +6,15 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:55:26 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:03:40 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	builtin_export(t_cmd_line *node)
+extern char **environ;
+
+void	free_array(char **str)
 {
 	int i = 0;
 	if (!str)
@@ -28,9 +30,10 @@ void	builtin_export(t_cmd_line *node)
 static int check_in(char **env, char *str)
 {
 	int i = 0;
+	int len = utils_strlen(str);
 	while (env[i])
 	{
-		if (utils_strstr(env[i], str))
+		if (!utils_strncmp(env[i], str, len) && env[i][len] == '=')
 			return (1);
 		i++;
 	}
@@ -59,55 +62,58 @@ static char **add_to_environ(char **environ, char *new_var)
 	free(environ);
 	return (new_environ);
 }
-
-void fun_export(char *str)
+static void update_var(char **env, char *key, char *new_value)
+{
+	int len = utils_strlen(key);
+	int i = 0;
+	while (env[i])
+	{
+		if (!utils_strncmp(env[i], key, len) && env[i][len] == '=')
+		{
+			free(env[i]);
+			env[i] = new_value;
+			return ;
+		}
+		i++;
+	}
+}
+void builtin_export(t_cmd_line *node)
 {
 	char **env;
-	char **res;
 	char *joined;
 
-	res = utils_split(str, ' ');
-	if (!res || !res[0])
-		return ;
-
-	if (utils_strcmp(res[0], "export") == 0)
+	if (!node->next)
 	{
-		if (!res[1])
+		env = environ;
+		while (*env)
 		{
-			env = environ;
-			while (*env)
+			joined = utils_strjoin("declare -x", " ", *env);
+			if (joined)
 			{
-				joined = utils_strjoin("declare -x", " ", *env);
-				if (joined)
-				{
-					printf("%s\n", joined);
-					free(joined);
-				}
-				env++;
+				printf("%s\n", joined);
+				free(joined);
 			}
+			env++;
+		}
+	}
+	else
+	{
+		if (!utils_strstr(node->next->data, "="))
+		{
+			if (!check_in(environ, node->next->data))
+			{
+				joined = utils_strjoin(node->next->data, "=", "");
+				environ = add_to_environ(environ, joined);
+			}
+			return ;
 		}
 		else
 		{
-			if (!utils_strstr(res[1], "="))
-			{
-				printf("export: `%s`: not a valid identifier\n", res[1]);
-				free_array(res);
-				return ;
-			}
-
-			env = utils_split(res[1], '=');
-			// if (!env || !env[0] || !env[1])
-			// {
-			// 	printf("export: `%s`: invalid format\n", res[1]);
-			// 	free_array(res);
-			// 	free_array(env);
-			// 	return ;
-			// }
+			env = utils_split(node->next->data, '=');
 			joined = utils_strjoin(env[0], "=", env[1]);
 			if (!joined)
 			{
 				free_array(env);
-				free_array(res);
 				return ;
 			}
 			if (!check_in(environ, env[0]))
@@ -117,19 +123,13 @@ void fun_export(char *str)
 				{
 					free(joined);
 					free_array(env);
-					free_array(res);
 					return ;
 				}
-				printf("export: %s\n", joined);
 			}
 			else
-				free(joined);
-
+				update_var(environ, env[0], joined);
 			free_array(env);
 		}
 	}
-	else
-		printf("export: `%s`: not a valid identifier\n", res[0]);
-
-	free_array(res);
+	utils_setexit(SUCCESS);
 }

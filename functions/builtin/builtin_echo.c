@@ -1,53 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 17:51:06 by bnafiai           #+#    #+#             */
+/*   Updated: 2025/04/04 17:51:07 by bnafiai          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-// int echo_implement(char *str, char *option)
-// {
-// 	if (utils_strstr(option, "-n") != NULL)
-// 		printf("%s", str);
-// 	else
-// 		printf("%s\n", str);
-// 	return 0;
-// }
-
-// split readline()
-// check echo and -n
-// loop into the string and print them
-void	free_array(char **str)
+void	builtin_echo(t_cmd_line *node)
 {
-	int i = 0;
-	if (!str)
-		return ;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
-void	fun_echo(char *str)
-{
-	char **res;
-	int i;
-	res = utils_split(str, ' ');
-	if (utils_strstr(res[1], "$?") != NULL)
+	t_cmd_line *tmp;
+	int i = 1;
+	if (node->next && utils_strcmp(node->next->data, "$?") == 0)
 	{
 		printf("%d\n", SUCCESS);
 		return ;
 	}
-	if (res[1] && utils_strstr(res[1], "-n") != NULL)
-		i = 2;
-	else
-		i = 1;
-
-	while (res[i])
+	tmp = node->next;
+	if (tmp && utils_strcmp(tmp->data, "-n") == 0)
 	{
-		printf("%s", res[i]);
-		if (res[i + 1])
-			printf(" ");
-		i++;
+		i = 0;
+		tmp = tmp->next;
 	}
-	if (res[1] && utils_strstr(res[1], "-n") != NULL)
+	while (tmp)
+	{
+		printf("%s", tmp->data);
+		if (tmp->next)
+			printf(" ");
+		tmp = tmp->next;
+	}
+	if (i)
 		printf("\n");
-	free_array(res);
+	utils_setexit(SUCCESS);
 }

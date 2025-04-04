@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:55:23 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:48:43 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	builtin_exit(t_cmd_line *node)
 {
-	char **res;
-	res = utils_split(str, ' ');
-	if (utils_strstr(res[0], "exit"))
+	while (node->next && node->next->type == 2)
 	{
-		printf("exit\n");
-		exit(SUCCESS);
+		node = node->next;
 	}
+	if (node->next && node->next->type == 1)
+		return ;
+	printf("exit\n");
+	exit(SUCCESS);
 }

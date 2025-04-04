@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:55:50 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 18:09:43 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void		utils_free_list(t_cmd_line **list);
 t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node);
 void		utils_setexit(int status);
 int			utils_getexit(void);
-void	fun_cd(char *str);
-void	builtin_pwd(t_cmd_line *node);
 
 
 #endif

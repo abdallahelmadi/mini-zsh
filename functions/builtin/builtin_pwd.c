@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:55:30 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:02:33 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,12 @@
 void	builtin_pwd(t_cmd_line *node)
 {
 	char *pwd;
-	if (node->next && node->next->type == 2)
-	{
-		printf("minishell: pwd: too many arguments\n");
-		return ;
-	}
-	pwd = malloc(sizeof(char) * 1000);
+	(void)node;
+	pwd = malloc(sizeof(char) * 4096);
 	if (!pwd)
 		return;
-	getcwd(pwd, 1000);
+	getcwd(pwd, 4096);
 	printf("%s\n", pwd);
 	free(pwd);
+	utils_setexit(SUCCESS);
 }

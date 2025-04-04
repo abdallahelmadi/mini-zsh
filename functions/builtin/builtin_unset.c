@@ -6,16 +6,12 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:55:34 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 17:51:12 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	builtin_unset(t_cmd_line *node)
-{
-	(void)node;
-}
+extern char **environ;
 // check wach variable kayn f env
 static int find_var_env(char *var_name)
 {
@@ -55,39 +51,23 @@ void remove_env_var(int index)
 	environ = new_environ;
 }
 
-void	fun_unset(char *str)
+void	builtin_unset(t_cmd_line *node)
 {
 	char **env;
-	char **res;
 	int index;
 
-	res = utils_split(str, ' ');
-	if (!res || !res[0])
-		return ;
-	if (utils_strcmp(res[0], "unset") == 0)
+	env = utils_split(node->next->data, '=');
+	if (!env || !env[0])
 	{
-		if (!res[1])
-		{
-			free_array(res);
-			return ;
-		}
-		env = utils_split(res[1], '=');
-		if (!env || !env[0])
-		{
-			free_array(res);
-			free_array(env);
-			return ;
-		}
-		index = find_var_env(env[0]);
-		if (index != -1)
-		{
-			remove_env_var(index);
-			printf("Variable %s removed from environment\n", env[0]);
-		}
-		else
-		{
-			printf("Variable %s not found in environment\n", env[0]);
-		}
-		free_array(res);
+		return ;
+	}
+	index = find_var_env(env[0]);
+	if (index != -1)
+	{
+		remove_env_var(index);
+	}
+	else
+	{
+		printf("Variable %s not found in environment\n", env[0]);
 	}
 }
