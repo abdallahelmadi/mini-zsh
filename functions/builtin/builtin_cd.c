@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/04 14:54:51 by bnafiai          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
-#include <sys/stat.h>
-void	fun_cd(char *str)
+
+void	builtin_cd(t_cmd_line *node)
 {
 	char **res;
 	char *path;

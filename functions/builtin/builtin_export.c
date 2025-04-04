@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/04 14:55:26 by bnafiai          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
-#include <string.h>
-extern char **environ;
-// str get the readline string .
-static void	free_array(char **str)
+
+void	builtin_export(t_cmd_line *node)
 {
 	int i = 0;
 	if (!str)

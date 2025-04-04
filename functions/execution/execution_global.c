@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   execution_global.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:55:30 by bnafiai          ###   ########.fr       */
+/*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/04 10:35:14 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	builtin_pwd(t_cmd_line *node)
+void	execution_global(t_cmd_line **cmd_list)
 {
-	char *pwd;
-	if (node->next && node->next->type == 2)
-	{
-		printf("minishell: pwd: too many arguments\n");
+	if (execution_syntax(cmd_list))
 		return ;
-	}
-	pwd = malloc(sizeof(char) * 1000);
-	if (!pwd)
-		return;
-	getcwd(pwd, 1000);
-	printf("%s\n", pwd);
-	free(pwd);
+	printf("Execution global clean, just start work\n");
+	utils_free_list(cmd_list);
 }

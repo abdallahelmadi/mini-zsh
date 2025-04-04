@@ -1,18 +1,20 @@
-#include <minishell.h>
-#include <string.h>
-extern char **environ;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
+/*   Updated: 2025/04/04 14:55:34 by bnafiai          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	free_array(char **str)
+#include <minishell.h>
+
+void	builtin_unset(t_cmd_line *node)
 {
-	int i = 0;
-	if (!str)
-		return ;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
+	(void)node;
 }
 // check wach variable kayn f env
 static int find_var_env(char *var_name)
