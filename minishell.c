@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 14:34:58 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/04 14:52:50 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	main(int arc, char **arv)
 			// fun_cd(command_line);
 			// fun_pwd(command_line);
 			parsin_global(command_line);
-			fun_cd(command_line);
 		}
 	}
 	return (FAILURE);

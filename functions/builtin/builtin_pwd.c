@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-void	fun_pwd(t_cmd_line *node)
+void	builtin_pwd(t_cmd_line *node)
 {
 	char *pwd;
 	if (node->next && node->next->type == 2)
