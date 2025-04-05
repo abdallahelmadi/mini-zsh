@@ -6,18 +6,17 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 16:06:34 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/05 17:45:46 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int	find_env_variable(char *env_name)
+static int	find_env_variable(char *env_name, char **env)
 {
 	int	index;
-	char **env;
+
 	index = 0;
-	env = g_global.g_environments;
 	while (env[index])
 	{
 		if (utils_strncmp(env[index], env_name, strlen(env_name)) == 0
@@ -28,15 +27,13 @@ static int	find_env_variable(char *env_name)
 	return (-1);
 }
 
-static void	remove_env_var(int token)
+static void	remove_env_var(int token, char **env)
 {
 	int		index;
 	int		jndex;
 	char	**new_environ;
-	char **env;
 
 	index = 0;
-	env = g_global.g_environments;
 	while (env[index])
 		index++;
 	new_environ = malloc(sizeof(char *) * index);
@@ -54,9 +51,7 @@ static void	remove_env_var(int token)
 		index++;
 	}
 	new_environ[jndex] = NULL;
-	utils_free(env);
 	g_global.g_environments = new_environ;
-	utils_free(new_environ);
 }
 
 void	builtin_unset(t_cmd_line *node)
@@ -69,13 +64,14 @@ void	builtin_unset(t_cmd_line *node)
 	temp = node->next;
 	while (temp)
 	{
-		// env = g_global.g_environments;
-		// data = utils_split(temp->data, '=');
-		// if (data == NULL || data[0] == NULL)
-		// 	return (utils_setexit(FAILURE));
-		index = find_env_variable(temp->data);
+		env = g_global.g_environments;
+		data = utils_split(temp->data, '=');
+		if (data == NULL || data[0] == NULL)
+			return (utils_setexit(FAILURE));
+		index = find_env_variable(data[0], env);
 		if (index != -1)
-			remove_env_var(index);
+			remove_env_var(index, env);
+		utils_free(data);
 		temp = temp->next;
 	}
 	utils_setexit(SUCCESS);
