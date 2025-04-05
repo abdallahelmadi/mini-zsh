@@ -1,1 +1,2 @@
-Hi!
+Hi!\n
+what's up!
