@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 16:41:46 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 10:33:19 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,25 @@ static char	*special_strdup(char *string)
 
 static void	remove_qoutes(t_cmd_line **node, int *index)
 {
-	int (inside_double), (inside_single);
-	inside_double = 0;
-	inside_single = 0;
+	int (dbl), (sig);
+	dbl = 0;
+	sig = 0;
 	while (((*node)->data)[++(*index)] != '\0')
 	{
-		if (((*node)->data)[(*index)] == '\"' && inside_single != 1
-			&& inside_single % 2 == 0)
+		if (((*node)->data)[(*index)] == '\"' && sig != 1 && sig % 2 == 0)
 		{
 			((*node)->data)[(*index)] = 1;
-			inside_double++;
+			dbl++;
 		}
-		else if (((*node)->data)[(*index)] == '\'' && inside_double != 1
-			&& inside_double % 2 == 0)
+		else if (((*node)->data)[(*index)] == '\'' && dbl != 1
+			&& dbl % 2 == 0)
 		{
 			((*node)->data)[(*index)] = 1;
-			inside_single++;
+			sig++;
 		}
-		if (((*node)->data)[*index] == '$' && ((*node)->data)[*index + 1] == '?'
-			&& (inside_double == 1 || inside_double % 2 == 1))
+		if (utils_strstr_pro(&(((*node)->data)[*index]), "$?")
+			&& (dbl == 1 || dbl % 2 == 1
+				|| (sig % 2 == 0 && dbl % 2 == 0)))
 		{
 			((*node)->data)[(*index)] = 2;
 			((*node)->data)[(*index) + 1] = 2;

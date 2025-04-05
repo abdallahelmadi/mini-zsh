@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 16:57:58 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 11:30:44 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@
 # include <readline/history.h>
 # include <sys/ioctl.h>
 
+# define SUCCESS 0
+# define FAILURE 1
+# define NOT_FOUND 127
+# define PERMISSION_DENIED 126
+# define SIGNAL_SIGINT 130
+# define SYNTAX_ERROR 2
+
+# define TP_CMD 0
+# define TP_PIPE 1
+# define TP_STRING 2
+# define TP_PATH 3
+# define TP_REDIR1 4
+# define TP_REDIR2 5
+# define TP_REDIR11 6
+# define TP_REDIR22 7
+
 typedef struct s_cmd_line
 {
 	char				*data;
@@ -44,22 +60,6 @@ typedef struct s_global
 }	t_global;
 
 extern t_global	g_global;
-
-# define SUCCESS 0
-# define FAILURE 1
-# define NOT_FOUND 127
-# define NOT_EXECUTABLE 126
-# define SIGNAL_SIGINT 130
-# define SYNTAX_ERROR 2
-
-# define TP_CMD 0
-# define TP_PIPE 1
-# define TP_STRING 2
-# define TP_PATH 3
-# define TP_REDIR1 4
-# define TP_REDIR2 5
-# define TP_REDIR11 6
-# define TP_REDIR22 7
 
 void		signals_sigint(int sig);
 
@@ -98,7 +98,7 @@ char		*utils_strstr_pro(const char *string, const char *search);
 int			utils_charcmp(const char *string, char c);
 int			utils_strcmp(const char *s1, const char *s2);
 int			utils_strncmp(const char *s1, const char *s2, int size);
-size_t		utils_strlen(const char *string);
+int			utils_strlen(const char *string);
 void		utils_free(char **string);
 int			utils_docente(const char *origin, int index, char c);
 void		utils_free_list(t_cmd_line **list);

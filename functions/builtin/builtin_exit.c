@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 13:20:44 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 11:38:15 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,10 @@
 
 void	builtin_exit(t_cmd_line *node)
 {
-	(void)node;
+	while (node->next && node->next->type == TP_STRING)
+		node = node->next;
+	if (node->next && node->next->type == TP_PIPE)
+		return ;
+	printf("exit\n");
+	exit(SUCCESS);
 }

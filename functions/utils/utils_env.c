@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:25:23 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 17:56:43 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 09:22:35 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**utils_gsetenv(const char **env)
 		index = 0;
 		while (env[index] != NULL)
 		{
-			new_env[index] = ft_strdup(env[index]);
+			new_env[index] = utils_strdup(env[index]);
 			index++;
 		}
 		new_env[index] = NULL;
