@@ -6,13 +6,13 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 09:57:49 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:02:25 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	g_lastexitstatus = SUCCESS;
+t_global	g_global = {SUCCESS, NULL};
 
 static void	handle_signals(void)
 {
@@ -20,11 +20,12 @@ static void	handle_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-int	main(int arc, char **arv)
+int	main(int arc, char **arv, char **env)
 {
 	char	*command_line;
 	char	*command_prompt;
 
+	utils_gsetenv((const char **)env);
 	if (arc == 1 && arv)
 	{
 		handle_signals();
@@ -34,7 +35,8 @@ int	main(int arc, char **arv)
 			command_line = readline(command_prompt);
 			free(command_prompt);
 			if (command_line == NULL)
-				return (printf("exit\n"), rl_clear_history(), SUCCESS);
+				return (printf("exit\n"), rl_clear_history(),
+					utils_free(utils_gsetenv(NULL)), SUCCESS);
 			if (command_line[0] != '\0')
 				add_history(command_line);
 			parsin_global(command_line);

@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 09:43:01 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:57:58 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ typedef struct s_cmd_line
 	struct s_cmd_line	*prev;
 }	t_cmd_line;
 
-extern int	g_lastexitstatus;
+typedef struct s_global
+{
+	int		g_lastexitstatus;
+	char	**g_environments;
+}	t_global;
+
+extern t_global	g_global;
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -99,5 +105,6 @@ void		utils_free_list(t_cmd_line **list);
 t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node);
 void		utils_setexit(int status);
 int			utils_getexit(void);
+char		**utils_gsetenv(const char **env);
 
 #endif
