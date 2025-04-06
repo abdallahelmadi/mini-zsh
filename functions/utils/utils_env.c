@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:25:23 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 09:22:35 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:47:07 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**utils_gsetenv(const char **env)
 			index++;
 		}
 		new_env[index] = NULL;
-		g_global.g_environments = new_env;
-		return (NULL);
+		return (new_env);
 	}
 }

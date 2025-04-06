@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 14:13:46 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:45:46 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ static void	remove_env_var(int token, char **env)
 		index++;
 	}
 	new_environ[jndex] = NULL;
-	utils_free(env);
-	utils_gsetenv((const char **)new_environ);
-	utils_free(new_environ);
+	g_global.g_environments = new_environ;
 }
 
 void	builtin_unset(t_cmd_line *node)
@@ -66,13 +64,14 @@ void	builtin_unset(t_cmd_line *node)
 	temp = node->next;
 	while (temp)
 	{
-		env = utils_gsetenv(NULL);
+		env = g_global.g_environments;
 		data = utils_split(temp->data, '=');
-		if (data == NULL || env[0] == NULL)
+		if (data == NULL || data[0] == NULL)
 			return (utils_setexit(FAILURE));
 		index = find_env_variable(data[0], env);
 		if (index != -1)
 			remove_env_var(index, env);
+		utils_free(data);
 		temp = temp->next;
 	}
 	utils_setexit(SUCCESS);

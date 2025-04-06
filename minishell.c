@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 08:46:59 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:47:29 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int arc, char **arv, char **env)
 	char	*command_line;
 	char	*command_prompt;
 
-	utils_gsetenv((const char **)env);
+	g_global.g_environments = utils_gsetenv((const char **)env);
 	if (arc == 1 && arv)
 	{
 		handle_signals();
