@@ -3,138 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/05 15:43:24 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/06 12:02:12 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// extern char **environ;
+static int	check_in(char **env, char *str)
+{
+	int	index;
+	int	length;
 
-void	free_array(char **str)
-{
-	int i = 0;
-	if (!str)
-		return ;
-	while (str[i])
+	index = 0;
+	length = utils_strlen(str);
+	while (env[index] != NULL)
 	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-//check wach kayn variable f env
-static int check_in(char **env, char *str)
-{
-	int i = 0;
-	int len = utils_strlen(str);
-	while (env[i])
-	{
-		if (!utils_strncmp(env[i], str, len) && env[i][len] == '=')
+		if (!utils_strncmp(env[index], str, length)
+			&& env[index][length] == '=')
 			return (1);
-		i++;
+		index++;
 	}
 	return (0);
 }
-// zid variable jdid ila makanch f env
-static char **add_to_environ(char **environ, char *new_var)
-{
-	int i = 0;
-	int j;
-	char **new_environ;
 
-	while (environ[i])
-		i++;
-	new_environ = malloc(sizeof(char *) * (i + 2));
+static char	**add_to_environ(char **environ, char *new_var)
+{
+	int		index;
+	int		jndex;
+	char	**new_environ;
+
+	index = 0;
+	while (environ[index])
+		index++;
+	new_environ = malloc(sizeof(char *) * (index + 2));
 	if (!new_environ)
 		return (NULL);
-	j = 0;
-	while (j < i)
+	jndex = 0;
+	while (jndex < index)
 	{
-		new_environ[j] = utils_strdup(environ[j]);
-		j++;
+		new_environ[jndex] = utils_strdup(environ[jndex]);
+		jndex++;
 	}
-	new_environ[i] = utils_strdup(new_var);
-	new_environ[i + 1] = NULL;
-	free(environ);
+	new_environ[index] = new_var;
+	new_environ[index + 1] = NULL;
+	utils_free(environ);
 	return (new_environ);
 }
-static void update_var(char **env, char *key, char *new_value)
+
+static void	update_var(char **env, char *key, char *new_value)
 {
-	int len = utils_strlen(key);
-	int i = 0;
-	while (env[i])
+	int	length;
+	int	index;
+
+	length = utils_strlen(key);
+	index = 0;
+	while (env[index])
 	{
-		if (!utils_strncmp(env[i], key, len) && env[i][len] == '=')
+		if (!utils_strncmp(env[index], key, length)
+			&& env[index][length] == '=')
 		{
-			free(env[i]);
-			env[i] = new_value;
+			free(env[index]);
+			env[index] = new_value;
 			return ;
 		}
-		i++;
+		index++;
 	}
 }
-void builtin_export(t_cmd_line *node)
-{
-	char **env;
-	char *joined;
-	t_cmd_line *tmp;
 
-	if (!node->next)
+static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
+{
+	if (!utils_strstr(temp->data, "="))
+	{
+		if (!check_in(g_global.g_environments, temp->data))
+			g_global.g_environments = add_to_environ(g_global.g_environments,
+					utils_strjoin(temp->data, "=", ""));
+	}
+	else
+	{
+		*env = utils_split(temp->data, '=');
+		*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
+		if (!check_in(g_global.g_environments, (*env)[0]))
+		{
+			g_global.g_environments = add_to_environ(g_global.g_environments,
+					*strtemp);
+			if (!g_global.g_environments)
+			{
+				free(*strtemp);
+				utils_free(*env);
+				return ;
+			}
+		}
+		else
+			update_var(g_global.g_environments, (*env)[0], *strtemp);
+		utils_free((*env));
+	}
+}
+
+void	builtin_export(t_cmd_line *node)
+{
+	char		**env;
+	char		*strtemp;
+	t_cmd_line	*temp;
+
+	strtemp = NULL;
+	if (node->next == NULL || node->next->type != TP_STRING)
 	{
 		env = g_global.g_environments;
 		while (*env)
 		{
-			joined = utils_strjoin("declare -x", " ", *env);
-			if (joined)
-			{
-				printf("%s\n", joined);
-				free(joined);
-			}
+			strtemp = utils_strjoin("declare -x", " ", *env);
+			printf("%s\n", strtemp);
+			free(strtemp);
 			env++;
 		}
+		return ;
 	}
-	else
+	temp = node->next;
+	while (temp && temp->type == TP_STRING)
 	{
-		tmp = node->next;
-		while (tmp)
-		{
-			if (!utils_strstr(tmp->data, "="))
-			{
-				if (!check_in(g_global.g_environments, tmp->data))
-				{
-					joined = utils_strjoin(tmp->data, "=", "");
-					g_global.g_environments = add_to_environ(g_global.g_environments, joined);
-				}
-			}
-			else
-			{
-				env = utils_split(tmp->data, '=');
-				joined = utils_strjoin(env[0], "=", env[1]);
-				if (!joined)
-				{
-					free_array(env);
-					return ;
-				}
-				if (!check_in(g_global.g_environments, env[0]))
-				{
-					g_global.g_environments = add_to_environ(g_global.g_environments, joined);
-					if (!g_global.g_environments)
-					{
-						free(joined);
-						free_array(env);
-						return ;
-					}
-				}
-				else
-					update_var(g_global.g_environments, env[0], joined);
-				free_array(env);
-			}
-		tmp = tmp->next;
-		}
+		checkin_the_loop(temp, &strtemp, &env);
+		temp = temp->next;
 	}
 	utils_setexit(SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 17:45:46 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/06 10:31:20 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	remove_env_var(int token, char **env)
 		index++;
 	}
 	new_environ[jndex] = NULL;
+	utils_free(g_global.g_environments);
 	g_global.g_environments = new_environ;
 }
 
@@ -62,7 +63,7 @@ void	builtin_unset(t_cmd_line *node)
 	t_cmd_line	*temp;
 
 	temp = node->next;
-	while (temp)
+	while (temp && temp->type == TP_STRING)
 	{
 		env = g_global.g_environments;
 		data = utils_split(temp->data, '=');
