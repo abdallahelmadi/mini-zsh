@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 15:33:59 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/08 09:55:20 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void		parsin_global(const char *command_line);
 void		parsin_make_list(const char *command_line, t_cmd_line **cmd_list);
 void		pasrin_clean_list(t_cmd_line **list);
 void		parsin_tokenization(t_cmd_line **cmd_list);
+void		parsin_global_variables(t_cmd_line **cmd_list);
 
 void		builtin_cd(t_cmd_line *node);
 void		builtin_echo(t_cmd_line *node);
@@ -106,5 +107,6 @@ t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node);
 void		utils_setexit(int status);
 int			utils_getexit(void);
 char		**utils_gsetenv(const char **env);
+char		*utils_getenv(const char *name);
 
 #endif
