@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 09:35:44 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/09 16:23:21 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	builtin_cd(t_cmd_line *node)
 
 	if (node->next == NULL || (node->next && node->next->type != TP_STRING))
 	{
-		path = getenv("HOME");
+		path = utils_getenv("HOME");
 		if (path == NULL)
 			return (printf("minishell: cd: HOME not set\n"),
 				utils_setexit(FAILURE));

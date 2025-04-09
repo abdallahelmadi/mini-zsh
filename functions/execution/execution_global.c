@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/08 19:26:40 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/09 18:25:56 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,43 @@ static void	execution_v(t_cmd_line *node)
 		if (access(full_path, X_OK) == 0)
 		{
 			execve(full_path, args, g_global.g_environments);
+			free(full_path);
+			free(path);
+			utils_free(args);
 		}
 		i++;
 	}
-	// utils_free(dirs);
+	utils_free(dirs);
 }
+
+static void	execution_with_builtin(t_cmd_line *node)
+{
+	if (utils_strstr_pro(node->data, "export"))
+		builtin_export(node);
+	else if (utils_strstr_pro(node->data, "unset"))
+		builtin_unset(node);
+	else if (utils_strstr_pro(node->data, "env"))
+		builtin_env(node);
+	else if (utils_strstr_pro(node->data, "pwd"))
+		builtin_pwd(node);
+	else if (utils_strstr_pro(node->data, "exit"))
+		builtin_exit(node);
+	else if (utils_strstr_pro(node->data, "echo"))
+		builtin_echo(node);
+	else if (utils_strstr_pro(node->data, "cd"))
+		builtin_cd(node);
+	else
+		execution_v(node);
+}
+
 void	execution_part(t_cmd_line **node)
 {
 	int	fd[2];
 	int	prev_read = 0;
 	pid_t	pid;
-	// int	status;
+	int	status;
 	t_cmd_line *temp = *node;
-	t_cmd_line *testtt;
+	t_cmd_line *temp_check;
 	while (temp)
 	{
 		pipe(fd);
@@ -85,18 +109,18 @@ void	execution_part(t_cmd_line **node)
 				dup2(prev_read, 0);
 				close(prev_read);
 			}
-			testtt = temp;
-			while (testtt->next && testtt->next->type == TP_STRING)
-				testtt = testtt->next;
-			if (testtt->next && testtt->next->type == TP_PIPE)
-				dup2(fd[1], STDOUT_FILENO);
+			temp_check = temp;
+			while (temp_check->next && temp_check->next->type == TP_STRING)
+				temp_check = temp_check->next;
+			if (temp_check->next && temp_check->next->type == TP_PIPE)
+				dup2(fd[1], 1);
 			close(fd[0]);
 			close(fd[1]);
-			execution_v(temp);
+			execution_with_builtin(temp);
 		}
 		else
 		{
-			waitpid(pid ,NULL, 0);
+			waitpid(pid , &status, 0);
 			close(fd[1]);
 			if (prev_read != 0)
 				close(prev_read);
@@ -108,45 +132,11 @@ void	execution_part(t_cmd_line **node)
 			temp = temp->next;
 	}
 }
-// static void	is_builtin(t_cmd_line *node)
-// {
-// 	t_cmd_line *x = node;
-// 	if (x->type == 0 && utils_strstr_pro(x->data, "export"))
-// 		builtin_export(x);
-// 	else if (x->type == 0 && utils_strstr_pro(x->data, "unset"))
-// 		builtin_unset(x);
-// 	else if (x->type == 0 && utils_strstr_pro(x->data, "env"))
-// 		builtin_env(x);
-// 	else if (x->type == 0 && utils_strstr_pro(x->data, "pwd"))
-// 		builtin_pwd(x);
-// 	else if (x->type == 0 && utils_strstr_pro(x->data, "exit"))
-// 		builtin_exit(x);
-// 	else if (x->type == 0 && utils_strstr_pro(x->data, "echo"))
-// 		builtin_echo(x);
-// 	else if (x->type == 0 && utils_strstr_pro(x->data, "cd"))
-// 		builtin_cd(x);
-// }
+
 void	execution_global(t_cmd_line **cmd_list)
 {
 	if (execution_syntax(cmd_list))
 		return ;
-	// t_cmd_line *x = *cmd_list;
-	// if (x->type == 0 && utils_strstr_pro(x->data, "export"))
-	// 	builtin_export(x);
-	// else if (x->type == 0 && utils_strstr_pro(x->data, "unset"))
-	// 	builtin_unset(x);
-	// else if (x->type == 0 && utils_strstr_pro(x->data, "env"))
-	// 	builtin_env(x);
-	// else if (x->type == 0 && utils_strstr_pro(x->data, "pwd"))
-	// 	builtin_pwd(x);
-	// else if (x->type == 0 && utils_strstr_pro(x->data, "exit"))
-	// 	builtin_exit(x);
-	// else if (x->type == 0 && utils_strstr_pro(x->data, "echo"))
-	// 	builtin_echo(x);
-	// else if (x->type == 0 && utils_strstr_pro(x->data, "cd"))
-	// 	builtin_cd(x);
-	// else
 	execution_part(cmd_list);
-	// is_builtin(*cmd_list);
 	utils_free_list(cmd_list);
 }
