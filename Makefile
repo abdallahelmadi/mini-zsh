@@ -13,7 +13,7 @@ OBJECTS = minishell.o \
 		  functions/builtin/builtin_cd.o functions/builtin/builtin_echo.o functions/builtin/builtin_env.o functions/builtin/builtin_exit.o \
 		  functions/builtin/builtin_export.o functions/builtin/builtin_pwd.o functions/builtin/builtin_unset.o functions/utils/utils_strcmp.o \
 		  functions/utils/utils_strncmp.o functions/execution/execution_global.o functions/execution/execution_syntax.o \
-		  functions/utils/utils_env.o functions/utils/utils_getenv.o functions/parsin/parsin_global_variables.o
+		  functions/utils/utils_env.o functions/utils/utils_getenv.o functions/parsin/parsin_global_variables.o functions/execution/execution_redirection.o
 
 all : $(NAME)
 

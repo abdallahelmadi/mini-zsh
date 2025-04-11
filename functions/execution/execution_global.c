@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/09 18:25:56 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/11 18:53:29 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ static void	execution_v(t_cmd_line *node)
 		count++;
 		tmp = tmp->next;
 	}
-	args = malloc(sizeof(char *) * (count + 1));
-	tmp = node;
+	args = malloc(sizeof(char *) * (count + 2));
+	args[0] = node->data;
+	tmp = node->next;
 	int j = 0;
 	while (tmp && tmp->type != TP_PIPE)
 	{
-		args[j] = tmp->data;
-		j++;
+		args[++j] = tmp->data;
 		tmp = tmp->next;
 	}
-	args[j] = NULL;
+	args[++j] = NULL;
 	path = utils_getenv("PATH");
 	dirs = utils_split(path, ':');
 	while (dirs[i])
@@ -61,12 +61,12 @@ static void	execution_v(t_cmd_line *node)
 		if (access(full_path, X_OK) == 0)
 		{
 			execve(full_path, args, g_global.g_environments);
-			free(full_path);
-			free(path);
-			utils_free(args);
 		}
+		free(full_path);
 		i++;
 	}
+	free(path);
+	utils_free(args);
 	utils_free(dirs);
 }
 
@@ -89,7 +89,24 @@ static void	execution_with_builtin(t_cmd_line *node)
 	else
 		execution_v(node);
 }
-
+int	is_builtin_for_parent(t_cmd_line *node)
+{
+	if (utils_strstr_pro(node->data, "cd") || utils_strstr_pro(node->data, "export")
+		|| utils_strstr_pro(node->data, "unset") || utils_strstr_pro(node->data, "exit"))
+		return (1);
+	return (0);
+}
+int	has_pipe(t_cmd_line *node)
+{
+	t_cmd_line *temp = node;
+	while (temp)
+	{
+		if (temp->type == TP_PIPE)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
 void	execution_part(t_cmd_line **node)
 {
 	int	fd[2];
@@ -98,33 +115,42 @@ void	execution_part(t_cmd_line **node)
 	int	status;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
+	// t_cmd_line *redir;
 	while (temp)
 	{
-		pipe(fd);
-		pid = fork();
-		if (pid == 0)
+		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
-			if (prev_read != 0)
-			{
-				dup2(prev_read, 0);
-				close(prev_read);
-			}
-			temp_check = temp;
-			while (temp_check->next && temp_check->next->type == TP_STRING)
-				temp_check = temp_check->next;
-			if (temp_check->next && temp_check->next->type == TP_PIPE)
-				dup2(fd[1], 1);
-			close(fd[0]);
-			close(fd[1]);
 			execution_with_builtin(temp);
 		}
 		else
 		{
-			waitpid(pid , &status, 0);
-			close(fd[1]);
-			if (prev_read != 0)
-				close(prev_read);
-			prev_read = fd[0];
+			pipe(fd);
+			pid = fork();
+			if (pid == 0)
+			{
+				if (prev_read != 0)
+				{
+					dup2(prev_read, 0);
+					close(prev_read);
+				}
+				temp_check = temp;
+				while (temp_check->next && temp_check->next->type == TP_STRING)
+					temp_check = temp_check->next;
+				if (temp_check->next && temp_check->next->type == TP_PIPE)
+					dup2(fd[1], 1);
+				close(fd[0]);
+				close(fd[1]);
+				execution_with_builtin(temp);
+				exit(SUCCESS);
+			}
+			else
+			{
+				waitpid(pid , &status, 0);
+				close(fd[1]);
+				if (prev_read != 0)
+					close(prev_read);
+				prev_read = fd[0];
+			}
 		}
 		while (temp && temp->type != TP_PIPE)
 			temp = temp->next;

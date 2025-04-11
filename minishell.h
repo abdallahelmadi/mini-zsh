@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/08 09:55:20 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:53:06 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ void		builtin_exit(t_cmd_line *node);
 void		builtin_export(t_cmd_line *node);
 void		builtin_pwd(t_cmd_line *node);
 void		builtin_unset(t_cmd_line *node);
+
+void		write_to(t_cmd_line *node);
+void		write_into(t_cmd_line *node);
+void		read_from(t_cmd_line *node);
 
 void		execution_global(t_cmd_line **cmd_list);
 int			execution_syntax(t_cmd_line **cmd_list);
