@@ -10,5 +10,6 @@
     "span": "c",
     "string": "c"
   },
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "C_Cpp.errorSquiggles": "disabled"
 }

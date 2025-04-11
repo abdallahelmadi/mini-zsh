@@ -49,7 +49,10 @@ static void	execution_v(t_cmd_line *node)
 	int j = 0;
 	while (tmp && tmp->type != TP_PIPE)
 	{
-		args[++j] = tmp->data;
+		if (tmp->type == TP_STRING)
+			args[++j] = tmp->data;
+		else if (tmp->type == TP_REDIR1 || tmp->type == TP_REDIR11 || tmp->type == TP_REDIR2)
+			tmp = tmp->next;
 		tmp = tmp->next;
 	}
 	args[++j] = NULL;
@@ -107,6 +110,35 @@ int	has_pipe(t_cmd_line *node)
 	}
 	return (0);
 }
+void	handle_redirections(t_cmd_line *node)
+{
+	t_cmd_line *temp = node;
+	while (temp)
+	{
+		if (temp->type == TP_REDIR1)
+		{
+			write_to(temp);
+			temp = temp->next->next;
+		}
+		else if (temp->type == TP_REDIR11)
+		{
+			write_into(temp);
+			temp = temp->next->next;
+		}
+		else if (temp->type == TP_REDIR2)
+		{
+			read_from(temp);
+			temp = temp->next->next;
+		}
+		// else if (temp->type == TP_REDIR22)
+		// {
+		// 	read_to_delimeter(temp);
+		// 	tmp = temp->next->next;
+		// }
+		else
+			temp = temp->next;
+	}
+}
 void	execution_part(t_cmd_line **node)
 {
 	int	fd[2];
@@ -115,11 +147,11 @@ void	execution_part(t_cmd_line **node)
 	int	status;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
-	// t_cmd_line *redir;
 	while (temp)
 	{
 		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
+			handle_redirections(temp);
 			execution_with_builtin(temp);
 		}
 		else
@@ -140,6 +172,7 @@ void	execution_part(t_cmd_line **node)
 					dup2(fd[1], 1);
 				close(fd[0]);
 				close(fd[1]);
+				handle_redirections(temp);
 				execution_with_builtin(temp);
 				exit(SUCCESS);
 			}
