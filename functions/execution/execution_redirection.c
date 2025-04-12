@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/12 18:25:19 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/12 18:37:56 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,23 @@ void	read_to_delimeter(t_cmd_line *node)
 	// getnextline()
 	t_cmd_line *tmp = node;
 	int		fd;
+	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "");
 	char	*delimeter = tmp->next->data;
 	char	*line ;
 	char	*filename = delimeter;
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	while ((line = utils_get_next_line(0)))
 	{
-		if (utils_strcmp(line, utils_strjoin(delimeter, "\n", "")) == 0)
+		if (utils_strcmp(line, utils_strjoin(utils_split(
+			delimeter,
+			'/'
+		)[1], "\n", "")) == 0)
 			break;
 		write(fd, line, utils_strlen(line));
 		free(line);
 	}
 	fd = open(filename, O_RDONLY);
 	dup2(fd, 0);
-	if (fork() == 0)
-	{
-		char *st[4] = {"rm", "-rf", delimeter, NULL};
-		execve("/usr/bin/rm", st, NULL);
-	}
 }
 // outfile << ms
 
