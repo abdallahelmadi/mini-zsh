@@ -10,5 +10,5 @@
     "span": "c",
     "string": "c"
   },
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "onFocusChange"
 }
