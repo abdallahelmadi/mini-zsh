@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/11 18:53:29 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/12 16:56:42 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,11 +130,11 @@ void	handle_redirections(t_cmd_line *node)
 			read_from(temp);
 			temp = temp->next->next;
 		}
-		// else if (temp->type == TP_REDIR22)
-		// {
-		// 	read_to_delimeter(temp);
-		// 	tmp = temp->next->next;
-		// }
+		else if (temp->type == TP_REDIR22)
+		{
+			read_to_delimeter(temp);
+			temp = temp->next->next;
+		}
 		else
 			temp = temp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/11 19:04:51 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/12 18:25:19 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,29 @@ void	read_from(t_cmd_line *node)
 	close(fd);
 }
 // ls < outfile
-// void	read_to_delimeter(t_cmd_line *node)
-// {
-// 	// getnextline()
-// 	t_cmd_line *tmp = node;
-// 	int		fd;
-// 	char	*line = get_next_line(0);
-// 	char	*file = ".mini-zsh";
-// 	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0664);
-// 	while (line && utils_strcmp(line, node->next->data))
-// 	{
-// 		write(fd, line, utils_strlen(line));
-// 		free(line);
-// 		line = get_next_line(0);
-// 	}
-// 	close(fd);
-// 	int fd2 = open(file, O_RDONLY, 0664);
-// 	dup2(fd2, 0);
-// 	close(fd2);
-// }
+void	read_to_delimeter(t_cmd_line *node)
+{
+	// getnextline()
+	t_cmd_line *tmp = node;
+	int		fd;
+	char	*delimeter = tmp->next->data;
+	char	*line ;
+	char	*filename = delimeter;
+	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	while ((line = utils_get_next_line(0)))
+	{
+		if (utils_strcmp(line, utils_strjoin(delimeter, "\n", "")) == 0)
+			break;
+		write(fd, line, utils_strlen(line));
+		free(line);
+	}
+	fd = open(filename, O_RDONLY);
+	dup2(fd, 0);
+	if (fork() == 0)
+	{
+		char *st[4] = {"rm", "-rf", delimeter, NULL};
+		execve("/usr/bin/rm", st, NULL);
+	}
+}
 // outfile << ms
 

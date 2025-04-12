@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/10 16:53:06 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:45:43 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@
 # define TP_REDIR2 5
 # define TP_REDIR11 6
 # define TP_REDIR22 7
+
+# define BUFFER_SIZE 1
 
 typedef struct s_cmd_line
 {
@@ -86,6 +88,7 @@ void		builtin_unset(t_cmd_line *node);
 void		write_to(t_cmd_line *node);
 void		write_into(t_cmd_line *node);
 void		read_from(t_cmd_line *node);
+void		read_to_delimeter(t_cmd_line *node);
 
 void		execution_global(t_cmd_line **cmd_list);
 int			execution_syntax(t_cmd_line **cmd_list);
@@ -112,5 +115,7 @@ void		utils_setexit(int status);
 int			utils_getexit(void);
 char		**utils_gsetenv(const char **env);
 char		*utils_getenv(const char *name);
+char			*utils_strchar(char *str, char c);
+char		*utils_get_next_line(int fd);
 
 #endif
