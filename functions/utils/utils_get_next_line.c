@@ -1,51 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_get_next_line.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/13 19:19:04 by bnafiai           #+#    #+#             */
+/*   Updated: 2025/04/13 19:56:41 by bnafiai          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
-static char	*my_strchar(char *str, int c)
-{
-	int	i;
 
-	i = 0;
-	if (!str)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (str + i);
-		i++;
-	}
-	if (c == '\0')
-		return (str + i);
-	return (NULL);
-}
-
-static size_t	my_strlen(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-static char	*my_strdup(char *s)
-{
-	size_t	i;
-	char	*dup;
-	size_t	len;
-
-	i = 0;
-	len = my_strlen(s) + 1;
-	dup = malloc(len * sizeof(char));
-	if (!dup)
-		return (NULL);
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
 static char	*my_strjoin(char *s1, char *s2)
 {
 	size_t	total_len;
@@ -55,10 +21,10 @@ static char	*my_strjoin(char *s1, char *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)
-		return (my_strdup(s2));
+		return (utils_strdup(s2));
 	if (!s2)
-		return (my_strdup(s1));
-	total_len = my_strlen(s1) + my_strlen(s2) + 1;
+		return (utils_strdup(s1));
+	total_len = utils_strlen(s1) + utils_strlen(s2) + 1;
 	str = malloc(total_len);
 	if (!str)
 		return (NULL);
@@ -70,6 +36,7 @@ static char	*my_strjoin(char *s1, char *s2)
 	str[i] = '\0';
 	return (str);
 }
+
 static char	*read_fd(int fd, char *stored)
 {
 	char	*str;
@@ -101,9 +68,9 @@ static char	*get_line(char *stored)
 
 	if (!stored || !*stored)
 		return (NULL);
-	newline_ptr = my_strchar(stored, '\n');
+	newline_ptr = utils_strchar(stored, '\n');
 	if (!newline_ptr)
-		index = my_strlen(stored);
+		index = utils_strlen(stored);
 	else
 		index = newline_ptr - stored + 1;
 	line = malloc(index + 1);
@@ -129,7 +96,7 @@ static char	*update_stored(char *stored)
 	i = 0;
 	while (stored[i] != '\0' && stored[i] != '\n')
 		i++;
-	len = my_strlen(stored) - i + 1;
+	len = utils_strlen(stored) - i + 1;
 	new_line = malloc(len + 1);
 	if (!new_line)
 		return (NULL);
@@ -155,7 +122,7 @@ char	*utils_get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (!my_strchar(stored, '\n'))
+	while (!utils_strchar(stored, '\n'))
 	{
 		new_stored = read_fd(fd, stored);
 		if (!new_stored)

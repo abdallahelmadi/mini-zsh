@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/12 16:56:42 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/13 19:48:51 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	execution_part(t_cmd_line **node)
 	int	fd[2];
 	int	prev_read = 0;
 	pid_t	pid;
-	int	status;
+	int	*status = NULL;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
 	while (temp)
@@ -178,7 +178,8 @@ void	execution_part(t_cmd_line **node)
 			}
 			else
 			{
-				waitpid(pid , &status, 0);
+				waitpid(pid , status, 0);
+				// utils_setexit(status);
 				close(fd[1]);
 				if (prev_read != 0)
 					close(prev_read);

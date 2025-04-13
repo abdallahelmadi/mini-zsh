@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/12 17:45:43 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/13 19:15:25 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char		*utils_strstr_pro(const char *string, const char *search);
 int			utils_charcmp(const char *string, char c);
 int			utils_strcmp(const char *s1, const char *s2);
 int			utils_strncmp(const char *s1, const char *s2, int size);
-int			utils_strlen(const char *string);
+size_t		utils_strlen(const char *string);
 void		utils_free(char **string);
 int			utils_docente(const char *origin, int index, char c);
 void		utils_free_list(t_cmd_line **list);
