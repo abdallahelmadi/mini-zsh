@@ -11,6 +11,11 @@
     "string": "c",
     "*.tcc": "c"
   },
+<<<<<<< HEAD
   "files.autoSave": "afterDelay",
   "C_Cpp.errorSquiggles": "disabled"
 }
+=======
+  "files.autoSave": "onFocusChange"
+}
+>>>>>>> abdael-m
