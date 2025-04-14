@@ -6,29 +6,12 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/13 19:48:51 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:32:50 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// ---------------------------------------------------------------------
-// t_cmd_line *x = *cmd_list;
-// if (x->type == 0 && utils_strstr_pro(x->data, "export"))
-// 	builtin_export(x);
-// else if (x->type == 0 && utils_strstr_pro(x->data, "unset"))
-// 	builtin_unset(x);
-// else if (x->type == 0 && utils_strstr_pro(x->data, "env"))
-// 	builtin_env(x);
-// else if (x->type == 0 && utils_strstr_pro(x->data, "pwd"))
-// 	builtin_pwd(x);
-// else if (x->type == 0 && utils_strstr_pro(x->data, "exit"))
-// 	builtin_exit(x);
-// else if (x->type == 0 && utils_strstr_pro(x->data, "echo"))
-// 	builtin_echo(x);
-// else if (x->type == 0 && utils_strstr_pro(x->data, "cd"))
-// 	builtin_cd(x);
-// ---------------------------------------------------------------------
 static void	execution_v(t_cmd_line *node)
 {
 	char	*path;
@@ -144,7 +127,7 @@ void	execution_part(t_cmd_line **node)
 	int	fd[2];
 	int	prev_read = 0;
 	pid_t	pid;
-	int	*status = NULL;
+	int	status;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
 	while (temp)
@@ -166,8 +149,16 @@ void	execution_part(t_cmd_line **node)
 					close(prev_read);
 				}
 				temp_check = temp;
-				while (temp_check->next && temp_check->next->type == TP_STRING)
-					temp_check = temp_check->next;
+				while (temp_check->next)
+				{
+					if (temp_check->next->type == TP_STRING)
+						temp_check = temp_check->next;
+					else if (temp_check->next->type == TP_REDIR1 || temp_check->next->type == TP_REDIR11
+							|| temp_check->next->type == TP_REDIR2 || temp_check->next->type == TP_REDIR22)
+							temp_check = temp_check->next->next;
+					else
+						break;
+				}
 				if (temp_check->next && temp_check->next->type == TP_PIPE)
 					dup2(fd[1], 1);
 				close(fd[0]);
@@ -178,8 +169,9 @@ void	execution_part(t_cmd_line **node)
 			}
 			else
 			{
-				waitpid(pid , status, 0);
-				// utils_setexit(status);
+				waitpid(pid, &status, 0);
+				if (WIFEXITED(status))
+					utils_setexit(WEXITSTATUS(status));
 				close(fd[1]);
 				if (prev_read != 0)
 					close(prev_read);
