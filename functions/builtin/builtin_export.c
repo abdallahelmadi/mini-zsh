@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/09 15:42:34 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:37:40 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ static int	check_in(char **env, char *str)
 
 	index = 0;
 	length = utils_strlen(str);
+	// while (str[length] && str[length] != '=' && str[lenght] != '+')
+	// 	length++;
 	while (env[index] != NULL)
 	{
 		if (!utils_strncmp(env[index], str, length)
 			&& env[index][length] == '=')
 			return (1);
+		// if (!utils_strncmp(env[index], str, lenght) && str[lenght] == '+' && str[lenght] == '=' && env[index][lenght] == '=')
+		// 	return (2);
 		index++;
 	}
 	return (0);
@@ -72,7 +76,26 @@ static void	update_var(char **env, char *key, char *new_value)
 		index++;
 	}
 }
+// static void	append_var(char **env, char *key, char *new_value)
+// {
+// 	int	lenght;
+// 	int	index;
 
+// 	lenght = 0;
+// 	index = 0;
+// 	while (key[lenght] && key[lenght] == '+')
+// 		lenght++;
+// 	while (env[index])
+// 	{
+// 		if (!utils_strncmp(env[index], str, lenght) && str[lenght] == '+' && str[lenght] == '=' && env[index][lenght] == '=')
+// 		{
+// 			free(env[index]);
+// 			env[index] = utils_strjoin(env[index], new_value);
+// 			return ;
+// 		}
+// 		index++;
+// 	}
+// }
 static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	if (!utils_strstr(temp->data, "="))
@@ -96,6 +119,10 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 				return ;
 			}
 		}
+		// else if (check_in(g_global.g_environments, (*env)[0]) == 2)
+		// {
+		// 	append_var(g_global.g_environments, (*env)[0], *strtemp);
+		// }
 		else
 			update_var(g_global.g_environments, (*env)[0], *strtemp);
 		utils_free((*env));

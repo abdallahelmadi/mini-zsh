@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/14 17:30:33 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/14 20:30:48 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	read_to_delimeter(t_cmd_line *node)
 			'/'
 		)[1], "\n", "")) == 0)
 			break;
+		printf("Heredoc>");
 		write(fd, line, utils_strlen(line));
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/14 19:23:53 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/16 18:53:05 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ static void	execution_v(t_cmd_line *node)
 		free(full_path);
 		i++;
 	}
+	if (dirs[i] == NULL)
+	{
+		printf("minishell: command not found %s\n", node->data);
+		utils_setexit(FAILURE);
+	}
 	free(path);
 	utils_free(args);
 	utils_free(dirs);
@@ -88,6 +93,17 @@ int	has_pipe(t_cmd_line *node)
 	while (temp)
 	{
 		if (temp->type == TP_PIPE)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+int	has_red(t_cmd_line *node)
+{
+	t_cmd_line *temp = node;
+	while (temp)
+	{
+		if (temp->type == TP_REDIR1 || temp->type == TP_REDIR11)
 			return (1);
 		temp = temp->next;
 	}
@@ -148,6 +164,7 @@ void	execution_part(t_cmd_line **node)
 					dup2(prev_read, 0);
 					close(prev_read);
 				}
+				handle_redirections(temp);
 				temp_check = temp;
 				while (temp_check->next)
 				{
@@ -163,7 +180,6 @@ void	execution_part(t_cmd_line **node)
 					dup2(fd[1], 1);
 				close(fd[0]);
 				close(fd[1]);
-				handle_redirections(temp);
 				execution_with_builtin(temp);
 				exit(SUCCESS);
 			}
