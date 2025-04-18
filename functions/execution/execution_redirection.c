@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/14 20:30:48 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:58:07 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void	read_from(t_cmd_line *node)
 // ls < outfile
 void	read_to_delimeter(t_cmd_line *node)
 {
-	// getnextline()
-	t_cmd_line *tmp = node;
-	int		fd;
-	char	*delimeter;
-	char	*line ;
-	char	*filename;
+	t_cmd_line	*tmp;
+	int			fd;
+	char		*delimeter;
+	char		*line ;
+	char		*filename;
 
+	tmp = node;
 	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "");
 	delimeter = tmp->next->data;
 	filename = delimeter;

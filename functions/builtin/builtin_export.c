@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/17 20:46:01 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/18 16:00:28 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,11 @@ static void	append_var(char **env, char *key, char *new_value)
 	int	length;
 	int	index;
 
-	length = 0;
+	length = strlen(key);
 	index = 0;
-	while (key[length] && key[length] != '+')
-		length++;
 	while (env[index])
 	{
-		if (!utils_strncmp(env[index], key, length) && key[length] == '+' && key[length + 1] == '=' && env[index][length] == '=')
+		if (!utils_strncmp(env[index], key, length) && env[index][length] == '=')
 		{
 			char *temp = utils_strdup(env[index]);
 			free(env[index]);
@@ -96,7 +94,7 @@ static void	append_var(char **env, char *key, char *new_value)
 }
 static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
-	// char	*plus_sign;
+	char	*plus_sign;
 	if (!utils_strstr(temp->data, "="))
 	{
 		if (!check_in(g_global.g_environments, temp->data))
@@ -105,22 +103,34 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 	}
 	else
 	{
-		*env = utils_split(temp->data, '=');
-		*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
-		if (!check_in(g_global.g_environments, (*env)[0]))
+		plus_sign = utils_strstr(temp->data, "+=");
+		if (plus_sign)
 		{
-			g_global.g_environments = add_to_environ(g_global.g_environments,
-					*strtemp);
-			if (!g_global.g_environments)
-			{
-				free(*strtemp);
-				utils_free(*env);
-				return ;
-			}
+			*env = utils_split_pro(temp->data, "+=");
+			*strtemp = (*env)[1];
+			if (check_in(g_global.g_environments, (*env)[0]))
+				append_var(g_global.g_environments, (*env)[0], *strtemp);
+			utils_free((*env));
 		}
 		else
-			update_var(g_global.g_environments, (*env)[0], *strtemp);
-		utils_free((*env));
+		{
+			*env = utils_split(temp->data, '=');
+			*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
+			if (!check_in(g_global.g_environments, (*env)[0]))
+			{
+				g_global.g_environments = add_to_environ(g_global.g_environments,
+						*strtemp);
+				if (!g_global.g_environments)
+				{
+					free(*strtemp);
+					utils_free(*env);
+					return ;
+				}
+			}
+			else
+				update_var(g_global.g_environments, (*env)[0], *strtemp);
+			utils_free((*env));
+		}
 	}
 }
 
