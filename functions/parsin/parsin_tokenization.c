@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/12 14:55:25 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:33:14 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ static void	add_token(t_cmd_line **node)
 			(*node)->type = TP_PATH;
 		else if (((*node)->prev)->type == TP_CMD
 			|| ((*node)->prev)->type == TP_STRING
-			|| ((*node)->prev)->type == TP_REDIR22
-			|| (*node)->prev->type == TP_PATH)
+			|| ((*node)->prev)->type == TP_REDIR22)
 			(*node)->type = TP_STRING;
 		else
 			(*node)->type = TP_CMD;

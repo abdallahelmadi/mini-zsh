@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 17:51:06 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/18 12:00:26 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:34:47 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	builtin_echo(t_cmd_line *node)
 	}
 	while (temp != NULL && temp->type == TP_STRING)
 	{
-		printf(temp->data);
+		printf("%s", temp->data);
 		if (temp->next)
 			write(1, " ", 1);
 		temp = temp->next;
