@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/19 18:15:12 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:56:29 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,39 @@ static void	append_var(char **env, char *key, char *new_value)
 // 	return (str);
 // }
 // change();
+int	name_checker(char *str)
+{
+	int i = 0;
+	if (!str || str[0] == '\0')
+	{
+		printf("minishell : %s : not a valid identifier\n", str);
+		return (1);
+	}
+	if (!((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')
+			|| (str[i] == '_')))
+	{
+		printf("minishell : %s : not a valid identifier\n", str);
+		return (1);
+	}
+	i++;
+	while (str[i])
+	{
+		if (!((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z')
+		|| (str[i] == '_') || (str[i] >= '0' && str[i] <= '9')))
+		{
+			printf("minishell : %s : not a valid identifier\n", str);
+			return (1);
+		}
+		i++;
+	}
+	return 0;
+}
 static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	char	*plus_sign;
 	if (!utils_strstr(temp->data, "="))
 	{
-		if (!check_in(g_global.g_environments, temp->data))
+		if (!check_in(g_global.g_environments, temp->data) && !name_checker(temp->data))
 			g_global.g_environments = add_to_environ(g_global.g_environments,
 					utils_strjoin(temp->data, "=", ""));
 	}
@@ -126,14 +153,17 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
 			else
 			{
-				*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
-				g_global.g_environments = add_to_environ(g_global.g_environments,
-					*strtemp);
-				if (!g_global.g_environments)
+				if (!name_checker((*env)[0]))
 				{
-					free(*strtemp);
-					utils_free(*env);
-					return ;
+					*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
+					g_global.g_environments = add_to_environ(g_global.g_environments,
+						*strtemp);
+					if (!g_global.g_environments)
+					{
+						free(*strtemp);
+						utils_free(*env);
+						return ;
+					}
 				}
 			}
 			utils_free((*env));
@@ -142,7 +172,7 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 		{
 			*env = utils_split(temp->data, '=');
 			*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
-			if (!check_in(g_global.g_environments, (*env)[0]))
+			if (!check_in(g_global.g_environments, (*env)[0]) && !name_checker((*env)[0]))
 			{
 				g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
