@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/18 15:58:07 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/18 21:22:20 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	read_to_delimeter(t_cmd_line *node)
 	dup2(fd, 0);
 }
 // outfile << ms
+// cat << l
 

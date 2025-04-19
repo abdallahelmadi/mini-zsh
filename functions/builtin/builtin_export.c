@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/18 16:00:28 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:15:12 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,20 @@ static void	append_var(char **env, char *key, char *new_value)
 		index++;
 	}
 }
+// void char	*change(char *str)
+// {
+// 	int i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '+' || str[i] == '=')
+// 		{
+// 			str[i] = '1';
+// 		}
+// 		i++;
+// 	}
+// 	return (str);
+// }
+// change();
 static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	char	*plus_sign;
@@ -110,6 +124,18 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 			*strtemp = (*env)[1];
 			if (check_in(g_global.g_environments, (*env)[0]))
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
+			else
+			{
+				*strtemp = utils_strjoin((*env)[0], "=", (*env)[1]);
+				g_global.g_environments = add_to_environ(g_global.g_environments,
+					*strtemp);
+				if (!g_global.g_environments)
+				{
+					free(*strtemp);
+					utils_free(*env);
+					return ;
+				}
+			}
 			utils_free((*env));
 		}
 		else

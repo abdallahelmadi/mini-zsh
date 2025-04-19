@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/16 18:53:05 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:20:58 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	execution_v(t_cmd_line *node)
 	}
 	if (dirs[i] == NULL)
 	{
-		printf("minishell: command not found %s\n", node->data);
+		printf("minishell: %s command not found \n", node->data);
 		utils_setexit(FAILURE);
 	}
 	free(path);
@@ -98,17 +98,6 @@ int	has_pipe(t_cmd_line *node)
 	}
 	return (0);
 }
-int	has_red(t_cmd_line *node)
-{
-	t_cmd_line *temp = node;
-	while (temp)
-	{
-		if (temp->type == TP_REDIR1 || temp->type == TP_REDIR11)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
-}
 void	handle_redirections(t_cmd_line *node)
 {
 	t_cmd_line *temp = node;
@@ -138,6 +127,7 @@ void	handle_redirections(t_cmd_line *node)
 			temp = temp->next;
 	}
 }
+
 void	execution_part(t_cmd_line **node)
 {
 	int	fd[2];
