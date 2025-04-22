@@ -6,9 +6,10 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/13 19:15:25 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:29:38 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -76,6 +77,8 @@ void		parsin_make_list(const char *command_line, t_cmd_line **cmd_list);
 void		pasrin_clean_list(t_cmd_line **list);
 void		parsin_tokenization(t_cmd_line **cmd_list);
 void		parsin_global_variables(t_cmd_line **cmd_list);
+void		parsin_switcher(t_cmd_line **cmd_list);
+void		parsin_syntax(t_cmd_line **cmd_list);
 
 void		builtin_cd(t_cmd_line *node);
 void		builtin_echo(t_cmd_line *node);
@@ -91,7 +94,6 @@ void		read_from(t_cmd_line *node);
 void		read_to_delimeter(t_cmd_line *node);
 
 void		execution_global(t_cmd_line **cmd_list);
-int			execution_syntax(t_cmd_line **cmd_list);
 
 t_cmd_line	*utils_new_node(const char *data);
 t_cmd_line	*utils_last_node(t_cmd_line *header);
@@ -115,7 +117,8 @@ void		utils_setexit(int status);
 int			utils_getexit(void);
 char		**utils_gsetenv(const char **env);
 char		*utils_getenv(const char *name);
-char			*utils_strchar(char *str, char c);
+char		*utils_strchar(char *str, char c);
 char		*utils_get_next_line(int fd);
+char		*utils_itoa(int nbr);
 
 #endif

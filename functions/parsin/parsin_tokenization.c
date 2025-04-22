@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/12 14:55:25 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:48:39 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ static void	add_token(t_cmd_line **node)
 			(*node)->type = TP_PATH;
 		else if (((*node)->prev)->type == TP_CMD
 			|| ((*node)->prev)->type == TP_STRING
-			|| ((*node)->prev)->type == TP_REDIR22
-			|| (*node)->prev->type == TP_PATH)
+			|| ((*node)->prev)->type == TP_REDIR22)
 			(*node)->type = TP_STRING;
 		else
 			(*node)->type = TP_CMD;
@@ -84,7 +83,7 @@ static char	*special_strdup(char *string)
 	indexofnewsreing = 0;
 	while (string[index] != '\0')
 	{
-		if (string[index] == 1)
+		if (string[index] == 4)
 			index++;
 		else
 		{
@@ -107,21 +106,14 @@ static void	remove_qoutes(t_cmd_line **node, int *index)
 	{
 		if (((*node)->data)[(*index)] == '\"' && sig != 1 && sig % 2 == 0)
 		{
-			((*node)->data)[(*index)] = 1;
+			((*node)->data)[(*index)] = 4;
 			dbl++;
 		}
 		else if (((*node)->data)[(*index)] == '\'' && dbl != 1
 			&& dbl % 2 == 0)
 		{
-			((*node)->data)[(*index)] = 1;
+			((*node)->data)[(*index)] = 4;
 			sig++;
-		}
-		if (utils_strstr_pro(&(((*node)->data)[*index]), "$?")
-			&& (dbl == 1 || dbl % 2 == 1
-				|| (sig % 2 == 0 && dbl % 2 == 0)))
-		{
-			((*node)->data)[(*index)] = 2;
-			((*node)->data)[(*index) + 1] = 2;
 		}
 	}
 	(*node)->data = special_strdup((*node)->data);

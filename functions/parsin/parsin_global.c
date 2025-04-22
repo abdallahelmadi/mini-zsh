@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/12 10:37:57 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/20 12:07:20 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ void	parsin_global(const char *command_line)
 	parsin_make_list(command_line, &cmd_list);
 	parsin_global_variables(&cmd_list);
 	parsin_tokenization(&cmd_list);
+	parsin_syntax(&cmd_list);
+	if (cmd_list == NULL)
+		return ;
+	parsin_switcher(&cmd_list);
 	execution_global(&cmd_list);
 }

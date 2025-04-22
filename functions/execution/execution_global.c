@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/18 18:20:58 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:19:19 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,6 @@ void	execution_part(t_cmd_line **node)
 
 void	execution_global(t_cmd_line **cmd_list)
 {
-	if (execution_syntax(cmd_list))
-		return ;
 	execution_part(cmd_list);
 	utils_free_list(cmd_list);
 }
