@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 12:30:43 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:50:52 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ void		utils_setexit(int status);
 int			utils_getexit(void);
 char		**utils_gsetenv(const char **env);
 char		*utils_getenv(const char *name);
+char		*utils_itoa(int nbr);
 
 #endif

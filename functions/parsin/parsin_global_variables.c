@@ -6,24 +6,12 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/18 16:33:45 by abdael-m         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/22 12:27:50 by abdael-m         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/04/22 13:49:19 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-<<<<<<< HEAD
-void	parsin_global_variables(t_cmd_line **cmd_list)
-{
-	t_cmd_line	*tempnode;
-	char		*position;
-	int			index;
-	int			counter;
-=======
 static void	while_loop_do(t_cmd_line **node)
 {
 	int (dbl), (sig), (index), (zindex);
@@ -53,11 +41,11 @@ static void	while_loop_do(t_cmd_line **node)
 			p1 = utils_strdup((*node)->data);
 			location[0] = '$';
 
-			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '='
+			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '=' || location[zindex] == '?'
 				|| location[zindex] == '"' || location[zindex] == '$' || location[zindex] == 6 || location[zindex] == '&' || location[zindex] == '^' || location[zindex] == '%' || location[zindex] == '#' || location[zindex] == '@')
 				continue ;
 
-			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '='
+			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '=' && location[zindex] != '?'
 				&& location[zindex] != '$' && location[zindex] != '"' && location[zindex] != 6 && location[zindex] != '&' && location[zindex] != '^' && location[zindex] != '%' && location[zindex] != '#' && location[zindex] != '@')
 				zindex++;
 
@@ -68,7 +56,10 @@ static void	while_loop_do(t_cmd_line **node)
 
 			p3 = utils_strdup(&(location[zindex]));
 
-			p2 = utils_getenv(vraiblename);
+			if (vraiblename[0] != '?')
+				p2 = utils_getenv(vraiblename);
+			else
+				p2 = utils_itoa(utils_getexit());
 
 			if (p2)
 			{
@@ -83,31 +74,11 @@ static void	while_loop_do(t_cmd_line **node)
 void	parsin_global_variables(t_cmd_line **cmd_list)
 {
 	t_cmd_line	*tempnode;
->>>>>>> main
 
 	tempnode = *cmd_list;
 	while (tempnode)
 	{
-<<<<<<< HEAD
-		position = utils_strstr(tempnode->data, "$");
-		index = 0;
-		counter = 0;
-		if (position)
-		{
-			while ((tempnode->data)[index] != *position)
-			{
-				if ((tempnode->data)[index] == '\'')
-					counter++;
-				index++;
-			}
-			if (counter == 1 || counter % 2 == 1)
-				break ;
-		}
-		else
-			tempnode = tempnode->next;
-=======
 		while_loop_do(&tempnode);
 		tempnode = tempnode->next;
->>>>>>> main
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:57:05 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/21 12:13:04 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:16:36 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	parsin_syntax(t_cmd_line **cmd_list)
 	t_cmd_line	*tempnode;
 
 	tempnode = *cmd_list;
+	if (tempnode->type == TP_PIPE || utils_last_node(tempnode)->type == TP_PIPE)
+	{
+		printf("minishell: syntax error near unexpected token `|`\n");
+		utils_setexit(SYNTAX_ERROR);
+		utils_free_list(cmd_list);
+		*cmd_list = NULL;
+		return ;
+	}
 	while (tempnode)
 	{
 		if ((tempnode->type == TP_REDIR1 || tempnode->type == TP_REDIR11
