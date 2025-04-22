@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 09:54:20 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 17:05:45 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:32:44 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	utils_setexit(int status)
 {
+	g_global.g_oldlastexitstatus = g_global.g_lastexitstatus;
 	g_global.g_lastexitstatus = status;
 }
 
 int	utils_getexit(void)
 {
-	return (g_global.g_lastexitstatus);
+	return (g_global.g_oldlastexitstatus);
 }

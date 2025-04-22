@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 15:29:38 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:29:32 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_cmd_line
 typedef struct s_global
 {
 	int		g_lastexitstatus;
+	int		g_oldlastexitstatus;
 	char	**g_environments;
 }	t_global;
 

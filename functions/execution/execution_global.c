@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 15:19:19 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:09:48 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,16 @@ void	execution_part(t_cmd_line **node)
 
 void	execution_global(t_cmd_line **cmd_list)
 {
+	// --------------------
+	// t_cmd_line *x = *cmd_list;
+	// while (x)
+	// {
+	// 	printf("[%s] (%d)\n", x->data, x->type);
+	// 	x = x->next;
+	// }
+	// --------------------
+
+
 	execution_part(cmd_list);
-	utils_free_list(cmd_list);
+	// utils_free_list(cmd_list);
 }

@@ -6,13 +6,13 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 15:47:29 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:29:51 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_global	g_global = {SUCCESS, NULL};
+t_global	g_global = {SUCCESS, SUCCESS, NULL};
 
 static void	handle_signals(void)
 {

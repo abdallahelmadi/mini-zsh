@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 17:51:06 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/18 14:34:47 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:37:05 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	builtin_echo(t_cmd_line *node)
 	{
 		printf("%s", temp->data);
 		if (temp->next)
-			write(1, " ", 1);
+			printf(" ");
 		temp = temp->next;
 	}
 	if (newlinestatus)

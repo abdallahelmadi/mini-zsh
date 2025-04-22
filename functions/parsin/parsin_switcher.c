@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_switcher.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:00:53 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/21 12:28:00 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:07:25 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ void	parsin_switcher(t_cmd_line **cmd_list)
 					&& tempnode->next->next->type != TP_REDIR22
 				)
 			{
-				if ((tempnode->prev == NULL
-					|| (tempnode->prev &&
-						(tempnode->prev->type == TP_PIPE
-						|| tempnode->prev->type == TP_REDIR1
-						|| tempnode->prev->type == TP_REDIR11
-						|| tempnode->prev->type == TP_REDIR2
-						|| tempnode->prev->type == TP_REDIR22
-				))))
-					tempnode->next->next->type = TP_CMD;
 				if (tempnode->prev == NULL)
 				{
 					tty = tempnode->next->next->next;
