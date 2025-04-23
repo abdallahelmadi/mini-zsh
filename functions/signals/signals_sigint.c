@@ -12,6 +12,12 @@
 
 #include <minishell.h>
 
+void	signal_handler_heredoc(int sig)
+{
+	(void)sig;
+	g_global.g_signal = 1;
+	write(1, "\n", 1);
+}
 void	signals_sigint(int sig)
 {
 	(void)sig;

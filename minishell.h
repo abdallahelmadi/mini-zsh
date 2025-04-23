@@ -61,11 +61,13 @@ typedef struct s_global
 	int		g_lastexitstatus;
 	int		g_oldlastexitstatus;
 	char	**g_environments;
+	volatile sig_atomic_t	g_signal;
 }	t_global;
 
 extern t_global	g_global;
 
 void		signals_sigint(int sig);
+void		signal_handler_heredoc(int sig);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);

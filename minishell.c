@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-t_global	g_global = {SUCCESS, SUCCESS, NULL};
+t_global	g_global = {SUCCESS, SUCCESS, NULL, SUCCESS};
 
 static void	handle_signals(void)
 {

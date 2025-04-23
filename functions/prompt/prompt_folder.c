@@ -36,7 +36,7 @@ char	*prompt_folder(void)
 	index = get_length(buffer) - 1;
 	if (buffer[index] == '/' && buffer[index + 1] == '\0')
 		return (free(buffer), utils_strdup("/"));
-	while (index >= 0)
+	while (index > 0)
 	{
 		if (buffer[index] == '/')
 		{

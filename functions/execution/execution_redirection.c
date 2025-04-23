@@ -49,7 +49,13 @@ void	read_to_delimeter(t_cmd_line *node)
 	char		*filename;
 	char		**split;
 	char		*end_str;
-
+	struct sigaction	sa_old;
+	struct sigaction	sa_new;
+	
+	sa_new.sa_handler = signal_handler_heredoc;
+	sa_new.sa_flags = 0;
+	sigemptyset(&sa_new.sa_mask);
+	sigaction(SIGINT, &sa_new, &sa_old);
 	tmp = node;
 	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "");
 	delimeter = tmp->next->data;
@@ -69,8 +75,20 @@ void	read_to_delimeter(t_cmd_line *node)
 	}
 	free(end_str);
 	utils_free(split);
-	fd = open(filename, O_RDONLY);
-	dup2(fd, 0);
+	close(fd);
+	if (g_global.g_signal == 1)
+	{
+		utils_setexit(SIGNAL_SIGINT);
+		unlink(filename);
+	}
+	else
+	{
+		fd = open(filename, O_RDONLY);
+		dup2(fd, 0);
+		close(fd);
+	}
+	sigaction(SIGINT, &sa_old, NULL);
+	g_global.g_signal = 0;
 }
 // outfile << ms
 // cat << l
