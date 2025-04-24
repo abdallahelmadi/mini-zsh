@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/24 10:59:25 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:02:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	while_loop_do(t_cmd_line **node)
 
 		}
 	}
-	printf("(%s)\n", (*node)->data);
 }
 
 void	parsin_global_variables(t_cmd_line **cmd_list)
