@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/24 16:20:40 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:56:42 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	execution_v(t_cmd_line *node)
 	args[++j] = NULL;
 	path = utils_getenv("PATH");
 	dirs = utils_split(path, ':');
+	// Here we will chech cmd
 	while (dirs[i])
 	{
 		full_path = utils_strjoin(dirs[i], "/", node->data);
