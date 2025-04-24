@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 16:09:48 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:27:13 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	execution_v(t_cmd_line *node)
 		tmp = tmp->next;
 	}
 	args = malloc(sizeof(char *) * (count + 2));
+	if (!args)
+		return ;
 	args[0] = node->data;
 	tmp = node->next;
 	int j = 0;
@@ -121,6 +123,11 @@ void	handle_redirections(t_cmd_line *node)
 		else if (temp->type == TP_REDIR22)
 		{
 			read_to_delimeter(temp);
+			if (g_global.g_signal == 1)
+			{
+				g_global.g_signal = 0;
+				return;
+			}
 			temp = temp->next->next;
 		}
 		else
@@ -141,6 +148,11 @@ void	execution_part(t_cmd_line **node)
 		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
 			handle_redirections(temp);
+			if (g_global.g_signal == 1)
+			{
+				g_global.g_signal = 0;
+				return;
+			}
 			execution_with_builtin(temp);
 		}
 		else
@@ -155,6 +167,10 @@ void	execution_part(t_cmd_line **node)
 					close(prev_read);
 				}
 				handle_redirections(temp);
+				if (g_global.g_signal == 1)
+				{
+					exit(SIGNAL_SIGINT);
+				}
 				temp_check = temp;
 				while (temp_check->next)
 				{
@@ -193,16 +209,14 @@ void	execution_part(t_cmd_line **node)
 
 void	execution_global(t_cmd_line **cmd_list)
 {
-	// --------------------
-	// t_cmd_line *x = *cmd_list;
+	// ?-----------------------
+	// t_cmd_line	*x = *cmd_list;
 	// while (x)
 	// {
 	// 	printf("[%s] (%d)\n", x->data, x->type);
 	// 	x = x->next;
 	// }
-	// --------------------
-
-
+	// ?-----------------------
 	execution_part(cmd_list);
-	// utils_free_list(cmd_list);
+	utils_free_list(cmd_list);
 }
