@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:18:51 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 12:19:13 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:40:56 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*prompt_zsh(void)
 	char	*temp;
 
 	laststatus = "\001\033[32m\002";
-	if (utils_getexit() != 0)
+	if (g_global.g_lastexitstatus != 0)
 		laststatus = "\001\033[31m\002";
 	foldername = prompt_folder();
 	gitbranch = prompt_branch();
