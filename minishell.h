@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 16:29:32 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/24 09:13:45 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ typedef struct s_cmd_line
 
 typedef struct s_global
 {
-	int		g_lastexitstatus;
-	int		g_oldlastexitstatus;
-	char	**g_environments;
-	volatile sig_atomic_t	g_signal;
+	int			g_lastexitstatus;
+	int			g_oldlastexitstatus;
+	char		**g_environments;
+	volatile	sig_atomic_t	g_signal;
 }	t_global;
 
 extern t_global	g_global;

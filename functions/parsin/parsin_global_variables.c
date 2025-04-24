@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_global_variables.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 16:19:01 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:02:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ static void	while_loop_do(t_cmd_line **node)
 			p3 = utils_strdup(&(location[zindex]));
 
 			p2 = utils_getenv(vraiblename);
-
-			index = -1;
+			
 			if (p2)
 				(*node)->data = utils_strjoin(p1, p2, p3);
 			else
