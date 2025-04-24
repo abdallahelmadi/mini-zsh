@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 19:27:13 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/24 15:41:33 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	handle_redirections(t_cmd_line *node)
 			if (g_global.g_signal == 1)
 			{
 				g_global.g_signal = 0;
-				return;
+				exit(FAILURE);
 			}
 			temp = temp->next->next;
 		}

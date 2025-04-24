@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_sigint.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/03 10:00:01 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:37:43 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	signal_handler_heredoc(int sig)
 	(void)sig;
 	g_global.g_signal = 1;
 	write(1, "\n", 1);
+	close(0);
 }
 void	signals_sigint(int sig)
 {
