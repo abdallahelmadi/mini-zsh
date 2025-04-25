@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/25 10:39:05 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:28:10 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ static void	execution_v(t_cmd_line *node)
 	if ((node->data)[0] == '.' && (node->data)[1] == '.' && (node->data)[2] == '\0')
 	{
 		printf("minishell: ..: Command not found\n");
+		exit(NOT_FOUND);
+	}
+	if (node->data[0] == '\0')
+	{
+		printf("minishell: %s: Command not found\n", "");
 		exit(NOT_FOUND);
 	}
 	if (just_directory(node->data))
