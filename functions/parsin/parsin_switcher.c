@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:00:53 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 16:07:25 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/25 20:32:58 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,42 @@ void	parsin_switcher(t_cmd_line **cmd_list)
 						tty->prev = tempnode->next;
 				}
 			}
+		}
+		tempnode = tempnode->next;
+	}
+	tempnode = *cmd_list;
+	t_cmd_line	*ttynode;
+	while (tempnode)
+	{
+		if (tempnode->type == TP_REDIR1 || tempnode->type == TP_REDIR11 || tempnode->type == TP_REDIR2 || tempnode->type == TP_REDIR22)
+		{
+			/*::::::::::::::::::::::::::::::::::::::::::: SOVE :::::::::::::::::::::::::::::::::::::::*/
+			// if (tempnode->prev == NULL)
+			// {
+			// 	ttynode = utils_new_node("test");
+			// 	ttynode->type = TP_CMD;
+			// 	*cmd_list = ttynode;
+			// 	ttynode->next = tempnode;
+			// 	tempnode->prev = ttynode;
+			// }
+			// else
+			// {
+			// 	ttynode = utils_new_node("test");
+
+			// 	if (tempnode->prev && tempnode->prev->type != TP_PIPE)
+			// 		ttynode->type = TP_STRING;
+			// 	else
+			// 		ttynode->type = TP_CMD;
+
+			// 	// Link ttynode before tempnode
+			// 	ttynode->next = tempnode;
+			// 	ttynode->prev = tempnode->prev;
+
+			// 	if (tempnode->prev)
+			// 		tempnode->prev->next = ttynode;
+
+			// 	tempnode->prev = ttynode;
+			// }
 		}
 		tempnode = tempnode->next;
 	}

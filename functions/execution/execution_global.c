@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_global.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/25 14:28:10 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:32:28 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,11 +190,6 @@ void	handle_redirections(t_cmd_line *node)
 		else if (temp->type == TP_REDIR22)
 		{
 			read_to_delimeter(temp);
-			if (g_global.g_signal == 1)
-			{
-				g_global.g_signal = 0;
-				exit(FAILURE);
-			}
 			temp = temp->next->next;
 		}
 		else
@@ -215,11 +210,6 @@ void	execution_part(t_cmd_line **node)
 		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
 			handle_redirections(temp);
-			if (g_global.g_signal == 1)
-			{
-				g_global.g_signal = 0;
-				return;
-			}
 			execution_with_builtin(temp);
 		}
 		else
@@ -234,10 +224,6 @@ void	execution_part(t_cmd_line **node)
 					close(prev_read);
 				}
 				handle_redirections(temp);
-				if (g_global.g_signal == 1)
-				{
-					exit(SIGNAL_SIGINT);
-				}
 				temp_check = temp;
 				while (temp_check->next)
 				{
