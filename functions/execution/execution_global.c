@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   execution_global.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/24 19:56:42 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/25 10:39:05 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static int	just_directory(char *string)
+{
+	int	index;
+	int	pn;
+
+	index = 0;
+	pn = 0;
+	while (string[index])
+	{
+		if (string[index] == '.')
+		{
+			pn += 1;
+			if (pn > 2)
+				return (SUCCESS);
+			index += 1;
+		}
+		else if (string[index] == '/')
+		{
+			index += 1;
+			pn = 0;
+		}
+		else
+			return (SUCCESS);
+	}
+	return (FAILURE);
+}
 
 static void	execution_v(t_cmd_line *node)
 {
@@ -42,26 +69,60 @@ static void	execution_v(t_cmd_line *node)
 	}
 	args[++j] = NULL;
 	path = utils_getenv("PATH");
-	dirs = utils_split(path, ':');
-	// Here we will chech cmd
-	while (dirs[i])
+	dirs = NULL;
+	if (path)
+		dirs = utils_split(path, ':');
+	// Here we will check cmd --------------------------
+	if ((node->data)[0] == '.' && (node->data)[1] == '\0')
 	{
-		full_path = utils_strjoin(dirs[i], "/", node->data);
-		if (access(full_path, X_OK) == 0)
+		printf("minishell: .: filename argument required\n");
+		exit(SYNTAX_ERROR);
+	}
+	if ((node->data)[0] == '.' && (node->data)[1] == '.' && (node->data)[2] == '\0')
+	{
+		printf("minishell: ..: Command not found\n");
+		exit(NOT_FOUND);
+	}
+	if (just_directory(node->data))
+	{
+		printf("minishell: %s: Is a directory\n", node->data);
+		exit(PERMISSION_DENIED);
+	}
+	if (access(node->data, F_OK) == 0)
+	{
+		if (access(node->data, X_OK) == 0)
+			execve(node->data, args, g_global.g_environments);
+		else
 		{
-			execve(full_path, args, g_global.g_environments);
+			printf("minishell: %s: Permission denied\n", node->data);
+			exit(PERMISSION_DENIED);
 		}
-		free(full_path);
-		i++;
 	}
-	if (dirs[i] == NULL)
+	else
 	{
-		printf("minishell: %s command not found \n", node->data);
-		utils_setexit(FAILURE);
+		if (utils_strstr(node->data, "/"))
+		{
+			printf("minishell: %s: No such file or directory\n", node->data);
+			exit(NOT_FOUND);
+		}
+		else
+		{
+			while (dirs && dirs[i])
+			{
+				full_path = utils_strjoin(dirs[i], "/", node->data);
+				if (access(full_path, X_OK) == 0)
+					execve(full_path, args, g_global.g_environments);
+				free(full_path);
+				i++;
+			}
+			printf("minishell: %s: Command not found\n", node->data);
+			exit(NOT_FOUND);
+		}
 	}
-	free(path);
-	utils_free(args);
-	utils_free(dirs);
+	// Here we will check cmd --------------------------
+	// free(path);
+	// utils_free(args);
+	// utils_free(dirs);
 }
 
 static void	execution_with_builtin(t_cmd_line *node)
@@ -188,13 +249,14 @@ void	execution_part(t_cmd_line **node)
 				close(fd[0]);
 				close(fd[1]);
 				execution_with_builtin(temp);
-				exit(SUCCESS);
 			}
 			else
 			{
 				waitpid(pid, &status, 0);
 				if (WIFEXITED(status))
 					utils_setexit(WEXITSTATUS(status));
+				else
+					utils_setexit(FAILURE);
 				close(fd[1]);
 				if (prev_read != 0)
 					close(prev_read);
