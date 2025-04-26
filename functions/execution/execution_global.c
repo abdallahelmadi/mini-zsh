@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/25 20:32:28 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/26 16:35:21 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ static void	execution_v(t_cmd_line *node)
 	if (access(node->data, F_OK) == 0)
 	{
 		if (access(node->data, X_OK) == 0)
+		{
 			execve(node->data, args, g_global.g_environments);
+			utils_free(args);
+		}
 		else
 		{
 			printf("minishell: %s: Permission denied\n", node->data);
@@ -120,14 +123,12 @@ static void	execution_v(t_cmd_line *node)
 				free(full_path);
 				i++;
 			}
+			utils_free(dirs);
+			utils_free(args);
 			printf("minishell: %s: Command not found\n", node->data);
 			exit(NOT_FOUND);
 		}
 	}
-	// Here we will check cmd --------------------------
-	// free(path);
-	// utils_free(args);
-	// utils_free(dirs);
 }
 
 static void	execution_with_builtin(t_cmd_line *node)

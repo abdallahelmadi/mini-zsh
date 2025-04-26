@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/24 15:42:19 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:55:38 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void	write_to(t_cmd_line *node)
 	int	fd;
 
 	fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (fd == -1)
+	{
+		fd  = open("/tmp/fii", O_CREAT | O_WRONLY | O_TRUNC, 0664);
+		printf("something went wrong \n");
+		dup2(fd , STDOUT_FILENO);
+		close(fd);
+		return ;
+	}
 	dup2(fd , STDOUT_FILENO);
 	close(fd);
 }
@@ -76,18 +84,16 @@ void	read_to_delimeter(t_cmd_line *node)
 	free(end_str);
 	utils_free(split);
 	close(fd);
+	sigaction(SIGINT, &sa_old, NULL);
 	if (g_global.g_signal == 1)
 	{
 		utils_setexit(SIGNAL_SIGINT);
 		unlink(filename);
-		sigaction(SIGINT, &sa_old, NULL);
 		return;
 	}
-
 	fd = open(filename, O_RDONLY);
 	dup2(fd, 0);
 	close(fd);
-	sigaction(SIGINT, &sa_old, NULL);
 }
 // outfile << ms
 // cat << l
