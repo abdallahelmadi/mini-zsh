@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/26 15:55:38 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/26 18:27:00 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	write_into(t_cmd_line *node)
 	t_cmd_line	*tmp = node;
 	int	fd;
 	fd = open(tmp->next->data, O_CREAT | O_APPEND | O_WRONLY, 0664);
+	if (fd == -1)
+		return ;
 	dup2(fd , STDOUT_FILENO);
 	close(fd);
 }
@@ -44,6 +46,8 @@ void	read_from(t_cmd_line *node)
 	t_cmd_line *tmp = node;
 	int	fd;
 	fd = open(tmp->next->data, O_RDONLY, 0664);
+	if (fd == -1)
+		return ;
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
@@ -64,6 +68,7 @@ void	read_to_delimeter(t_cmd_line *node)
 	sa_new.sa_flags = 0;
 	sigemptyset(&sa_new.sa_mask);
 	sigaction(SIGINT, &sa_new, &sa_old);
+	g_global.g_signal = 0;
 	tmp = node;
 	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "");
 	delimeter = tmp->next->data;
@@ -71,8 +76,15 @@ void	read_to_delimeter(t_cmd_line *node)
 	split = utils_split(delimeter, '/');
 	end_str = utils_strjoin(split[1], "\n", "");
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	if (fd == -1)
+		return ;
 	while ((line = utils_get_next_line(0)))
 	{
+		if (g_global.g_signal == 1)
+		{
+			free(line);
+			break ;
+		}
 		if (utils_strcmp(line, end_str) == 0)
 		{
 			free(line);
@@ -84,11 +96,12 @@ void	read_to_delimeter(t_cmd_line *node)
 	free(end_str);
 	utils_free(split);
 	close(fd);
-	sigaction(SIGINT, &sa_old, NULL);
 	if (g_global.g_signal == 1)
 	{
+		close(fd);
 		utils_setexit(SIGNAL_SIGINT);
 		unlink(filename);
+		sigaction(SIGINT, &sa_old, NULL);
 		return;
 	}
 	fd = open(filename, O_RDONLY);

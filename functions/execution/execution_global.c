@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/26 16:35:21 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/26 18:34:45 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,8 @@ void	execution_part(t_cmd_line **node)
 		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
 			handle_redirections(temp);
+			if (g_global.g_signal == 1)
+				return;
 			execution_with_builtin(temp);
 		}
 		else
@@ -225,6 +227,8 @@ void	execution_part(t_cmd_line **node)
 					close(prev_read);
 				}
 				handle_redirections(temp);
+				if (g_global.g_signal == 1)
+					exit(SIGNAL_SIGINT);
 				temp_check = temp;
 				while (temp_check->next)
 				{
