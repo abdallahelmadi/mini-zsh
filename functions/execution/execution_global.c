@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/26 18:34:45 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/26 20:24:09 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,22 @@ static void	execution_v(t_cmd_line *node)
 	if ((node->data)[0] == '.' && (node->data)[1] == '\0')
 	{
 		printf("minishell: .: filename argument required\n");
-		exit(SYNTAX_ERROR);
+		utils_setexit(SYNTAX_ERROR);
 	}
 	if ((node->data)[0] == '.' && (node->data)[1] == '.' && (node->data)[2] == '\0')
 	{
 		printf("minishell: ..: Command not found\n");
-		exit(NOT_FOUND);
+		utils_setexit(NOT_FOUND);
 	}
 	if (node->data[0] == '\0')
 	{
 		printf("minishell: %s: Command not found\n", "");
-		exit(NOT_FOUND);
+		utils_setexit(NOT_FOUND);
 	}
 	if (just_directory(node->data))
 	{
 		printf("minishell: %s: Is a directory\n", node->data);
-		exit(PERMISSION_DENIED);
+		utils_setexit(PERMISSION_DENIED);
 	}
 	if (access(node->data, F_OK) == 0)
 	{
@@ -103,7 +103,7 @@ static void	execution_v(t_cmd_line *node)
 		else
 		{
 			printf("minishell: %s: Permission denied\n", node->data);
-			exit(PERMISSION_DENIED);
+			utils_setexit(PERMISSION_DENIED);
 		}
 	}
 	else
@@ -111,7 +111,7 @@ static void	execution_v(t_cmd_line *node)
 		if (utils_strstr(node->data, "/"))
 		{
 			printf("minishell: %s: No such file or directory\n", node->data);
-			exit(NOT_FOUND);
+			utils_setexit(NOT_FOUND);
 		}
 		else
 		{
@@ -123,29 +123,31 @@ static void	execution_v(t_cmd_line *node)
 				free(full_path);
 				i++;
 			}
-			utils_free(dirs);
-			utils_free(args);
-			printf("minishell: %s: Command not found\n", node->data);
-			exit(NOT_FOUND);
 		}
+		printf("minishell: %s: Command not found\n", node->data);
+		utils_setexit(NOT_FOUND);
 	}
+	// utils_free(args);
+	// utils_free(dirs);
+	// printf("minishell: %s: Command not found\n", node->data);
+	// exit(NOT_FOUND);
 }
 
 static void	execution_with_builtin(t_cmd_line *node)
 {
-	if (utils_strstr_pro(node->data, "export"))
+	if (utils_strcmp(node->data, "export") == 0)
 		builtin_export(node);
-	else if (utils_strstr_pro(node->data, "unset"))
+	else if (utils_strcmp(node->data, "unset") == 0)
 		builtin_unset(node);
-	else if (utils_strstr_pro(node->data, "env"))
+	else if (utils_strcmp(node->data, "env") == 0)
 		builtin_env(node);
-	else if (utils_strstr_pro(node->data, "pwd"))
+	else if (utils_strcmp(node->data, "pwd") == 0)
 		builtin_pwd(node);
-	else if (utils_strstr_pro(node->data, "exit"))
+	else if (utils_strcmp(node->data, "exit") == 0)
 		builtin_exit(node);
-	else if (utils_strstr_pro(node->data, "echo"))
+	else if (utils_strcmp(node->data, "echo") == 0)
 		builtin_echo(node);
-	else if (utils_strstr_pro(node->data, "cd"))
+	else if (utils_strcmp(node->data, "cd") == 0)
 		builtin_cd(node);
 	else
 		execution_v(node);
