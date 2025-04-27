@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/26 18:27:00 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:58:29 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	write_to(t_cmd_line *node)
 	fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd == -1)
 	{
-		fd  = open("/tmp/fii", O_CREAT | O_WRONLY | O_TRUNC, 0664);
+		int hh = open("/tmp/fii", O_CREAT | O_WRONLY | O_TRUNC, 0664);
 		printf("something went wrong \n");
-		dup2(fd , STDOUT_FILENO);
-		close(fd);
+		dup2(hh , STDOUT_FILENO);
+		close(hh);
 		return ;
 	}
 	dup2(fd , STDOUT_FILENO);
