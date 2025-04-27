@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_switcher.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:00:53 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/26 15:20:22 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/04/27 14:36:00 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	parsin_switcher(t_cmd_line **cmd_list)
 				if (tempnode->prev == NULL)
 				{
 					tty = tempnode->next->next->next;
+					tempnode->next->next->prev = NULL;
 					tempnode->next->next->next = tempnode;
 					*cmd_list = tempnode->next->next;
 					tempnode->prev = tempnode->next->next;
@@ -57,38 +58,33 @@ void	parsin_switcher(t_cmd_line **cmd_list)
 		tempnode = tempnode->next;
 	}
 	tempnode = *cmd_list;
-	// t_cmd_line	*ttynode;
+	t_cmd_line	*ttynode;
 	while (tempnode)
 	{
 		if (tempnode->type == TP_REDIR1 || tempnode->type == TP_REDIR11 || tempnode->type == TP_REDIR2 || tempnode->type == TP_REDIR22)
 		{
 			/*::::::::::::::::::::::::::::::::::::::::::: SOVE :::::::::::::::::::::::::::::::::::::::*/
-			// if (tempnode->prev == NULL)
-			// {
-			// 	ttynode = utils_new_node("test");
-			// 	ttynode->type = TP_CMD;
-			// 	*cmd_list = ttynode;
-			// 	ttynode->next = tempnode;
-			// 	tempnode->prev = ttynode;
-			// }
-			// else
-			// {
-			// 	ttynode = utils_new_node("test");
-
-			// 	if (tempnode->prev && tempnode->prev->type != TP_PIPE)
-			// 		ttynode->type = TP_STRING;
-			// 	else
-			// 		ttynode->type = TP_CMD;
-
-			// 	// Link ttynode before tempnode
-			// 	ttynode->next = tempnode;
-			// 	ttynode->prev = tempnode->prev;
-
-			// 	if (tempnode->prev)
-			// 		tempnode->prev->next = ttynode;
-
-			// 	tempnode->prev = ttynode;
-			// }
+			if (tempnode->prev == NULL)
+			{
+				ttynode = utils_new_node("true");
+				ttynode->type = TP_CMD;
+				*cmd_list = ttynode;
+				ttynode->next = tempnode;
+				tempnode->prev = ttynode;
+			}
+			else if (tempnode->prev == NULL || tempnode->prev->type == TP_PIPE)
+			{
+				ttynode = utils_new_node("true");
+				if (tempnode->prev && tempnode->prev->type != TP_PIPE)
+					ttynode->type = TP_STRING;
+				else
+					ttynode->type = TP_CMD;
+				ttynode->next = tempnode;
+				ttynode->prev = tempnode->prev;
+				if (tempnode->prev)
+					tempnode->prev->next = ttynode;
+				tempnode->prev = ttynode;
+			}
 		}
 		tempnode = tempnode->next;
 	}
