@@ -206,15 +206,19 @@ void	execution_part(t_cmd_line **node)
 	int	prev_read = 0;
 	pid_t	pid;
 	int	status;
+	int	saved_stdin;
+	int saved_stdout;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
 	while (temp)
 	{
+		saved_stdin = dup(STDIN_FILENO);
+		saved_stdout = dup(STDOUT_FILENO);
 		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
 			handle_redirections(temp);
-			if (g_global.g_signal == 1)
-				return;
+			// if (g_global.g_signal == 1)
+			// 	return;
 			execution_with_builtin(temp);
 		}
 		else
@@ -229,8 +233,8 @@ void	execution_part(t_cmd_line **node)
 					close(prev_read);
 				}
 				handle_redirections(temp);
-				if (g_global.g_signal == 1)
-					exit(SIGNAL_SIGINT);
+				// if (g_global.g_signal == 1)
+				// 	exit(SIGNAL_SIGINT);
 				temp_check = temp;
 				while (temp_check->next)
 				{
@@ -253,14 +257,18 @@ void	execution_part(t_cmd_line **node)
 				waitpid(pid, &status, 0);
 				if (WIFEXITED(status))
 					utils_setexit(WEXITSTATUS(status));
-				else
-					utils_setexit(FAILURE);
+				// else
+				// 	utils_setexit(FAILURE);
 				close(fd[1]);
 				if (prev_read != 0)
 					close(prev_read);
 				prev_read = fd[0];
 			}
 		}
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
 		while (temp && temp->type != TP_PIPE)
 			temp = temp->next;
 		if (temp)

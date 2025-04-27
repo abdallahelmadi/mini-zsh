@@ -18,14 +18,14 @@ void	write_to(t_cmd_line *node)
 	int	fd;
 
 	fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (fd == -1)
-	{
-		fd  = open("/tmp/fii", O_CREAT | O_WRONLY | O_TRUNC, 0664);
-		printf("something went wrong \n");
-		dup2(fd , STDOUT_FILENO);
-		close(fd);
-		return ;
-	}
+	// if (fd == -1)
+	// {
+	// 	fd  = open("/tmp/fii", O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	// 	printf("something went wrong \n");
+	// 	dup2(fd , STDOUT_FILENO);
+	// 	close(fd);
+	// 	return ;
+	// }
 	dup2(fd , STDOUT_FILENO);
 	close(fd);
 }
@@ -35,8 +35,8 @@ void	write_into(t_cmd_line *node)
 	t_cmd_line	*tmp = node;
 	int	fd;
 	fd = open(tmp->next->data, O_CREAT | O_APPEND | O_WRONLY, 0664);
-	if (fd == -1)
-		return ;
+	// if (fd == -1)
+	// 	return ;
 	dup2(fd , STDOUT_FILENO);
 	close(fd);
 }
@@ -46,8 +46,8 @@ void	read_from(t_cmd_line *node)
 	t_cmd_line *tmp = node;
 	int	fd;
 	fd = open(tmp->next->data, O_RDONLY, 0664);
-	if (fd == -1)
-		return ;
+	// if (fd == -1)
+	// 	return ;
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
@@ -76,8 +76,8 @@ void	read_to_delimeter(t_cmd_line *node)
 	split = utils_split(delimeter, '/');
 	end_str = utils_strjoin(split[1], "\n", "");
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
-	if (fd == -1)
-		return ;
+	// if (fd == -1)
+	// 	return ;
 	while ((line = utils_get_next_line(0)))
 	{
 		if (g_global.g_signal == 1)

@@ -28,7 +28,7 @@ void	builtin_echo(t_cmd_line *node)
 	while (temp != NULL && temp->type == TP_STRING)
 	{
 		printf("%s", temp->data);
-		if (temp->next)
+		if (temp->next && temp->next->type == TP_STRING)
 			printf(" ");
 		temp = temp->next;
 	}
