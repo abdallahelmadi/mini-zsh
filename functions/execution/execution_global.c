@@ -214,11 +214,11 @@ void	execution_part(t_cmd_line **node)
 	{
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
-		if (is_builtin_for_parent(temp) && !has_pipe(temp))
+		if (is_builtin_for_parent(temp) && !has_pipe(temp) && prev_read == 0)
 		{
 			handle_redirections(temp);
-			// if (g_global.g_signal == 1)
-			// 	return;
+			if (g_global.g_signal == 1)
+				return;
 			execution_with_builtin(temp);
 		}
 		else
@@ -233,36 +233,27 @@ void	execution_part(t_cmd_line **node)
 					close(prev_read);
 				}
 				handle_redirections(temp);
-				// if (g_global.g_signal == 1)
-				// 	exit(SIGNAL_SIGINT);
+				if (g_global.g_signal == 1)
+					exit(SIGNAL_SIGINT);
 				temp_check = temp;
-				while (temp_check->next)
-				{
-					if (temp_check->next->type == TP_STRING)
-						temp_check = temp_check->next;
-					else if (temp_check->next->type == TP_REDIR1 || temp_check->next->type == TP_REDIR11
-							|| temp_check->next->type == TP_REDIR2 || temp_check->next->type == TP_REDIR22)
-							temp_check = temp_check->next->next;
-					else
-						break;
-				}
-				if (temp_check->next && temp_check->next->type == TP_PIPE)
+				if (has_pipe(temp_check))
 					dup2(fd[1], 1);
 				close(fd[0]);
 				close(fd[1]);
 				execution_with_builtin(temp);
+				exit(SUCCESS);
 			}
 			else
 			{
+				close(fd[1]);
+				if (prev_read != 0)
+					close(prev_read);
+				prev_read = fd[0];
 				waitpid(pid, &status, 0);
 				if (WIFEXITED(status))
 					utils_setexit(WEXITSTATUS(status));
 				// else
 				// 	utils_setexit(FAILURE);
-				close(fd[1]);
-				if (prev_read != 0)
-					close(prev_read);
-				prev_read = fd[0];
 			}
 		}
 		dup2(saved_stdin, STDIN_FILENO);
