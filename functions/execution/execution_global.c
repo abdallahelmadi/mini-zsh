@@ -76,22 +76,22 @@ static void	execution_v(t_cmd_line *node)
 	if ((node->data)[0] == '.' && (node->data)[1] == '\0')
 	{
 		printf("minishell: .: filename argument required\n");
-		utils_setexit(SYNTAX_ERROR);
+		exit(SYNTAX_ERROR);
 	}
 	if ((node->data)[0] == '.' && (node->data)[1] == '.' && (node->data)[2] == '\0')
 	{
 		printf("minishell: ..: Command not found\n");
-		utils_setexit(NOT_FOUND);
+		exit(NOT_FOUND);
 	}
 	if (node->data[0] == '\0')
 	{
 		printf("minishell: %s: Command not found\n", "");
-		utils_setexit(NOT_FOUND);
+		exit(NOT_FOUND);
 	}
 	if (just_directory(node->data))
 	{
 		printf("minishell: %s: Is a directory\n", node->data);
-		utils_setexit(PERMISSION_DENIED);
+		exit(PERMISSION_DENIED);
 	}
 	if (access(node->data, F_OK) == 0)
 	{
@@ -103,7 +103,7 @@ static void	execution_v(t_cmd_line *node)
 		else
 		{
 			printf("minishell: %s: Permission denied\n", node->data);
-			utils_setexit(PERMISSION_DENIED);
+			exit(PERMISSION_DENIED);
 		}
 	}
 	else
@@ -111,7 +111,7 @@ static void	execution_v(t_cmd_line *node)
 		if (utils_strstr(node->data, "/"))
 		{
 			printf("minishell: %s: No such file or directory\n", node->data);
-			utils_setexit(NOT_FOUND);
+			exit(NOT_FOUND);
 		}
 		else
 		{
@@ -125,7 +125,7 @@ static void	execution_v(t_cmd_line *node)
 			}
 		}
 		printf("minishell: %s: Command not found\n", node->data);
-		utils_setexit(NOT_FOUND);
+		exit(NOT_FOUND);
 	}
 	// utils_free(args);
 	// utils_free(dirs);
@@ -170,19 +170,21 @@ int	has_pipe(t_cmd_line *node)
 	}
 	return (0);
 }
-void	handle_redirections(t_cmd_line *node)
+int	handle_redirections(t_cmd_line *node)
 {
 	t_cmd_line *temp = node;
 	while (temp)
 	{
 		if (temp->type == TP_REDIR1)
 		{
-			write_to(temp);
+			if (write_to(temp))
+				return (1);
 			temp = temp->next->next;
 		}
 		else if (temp->type == TP_REDIR11)
 		{
-			write_into(temp);
+			if (write_into(temp))
+				return (1);
 			temp = temp->next->next;
 		}
 		else if (temp->type == TP_REDIR2)
@@ -198,6 +200,7 @@ void	handle_redirections(t_cmd_line *node)
 		else
 			temp = temp->next;
 	}
+	return (0);
 }
 
 void	execution_part(t_cmd_line **node)
@@ -205,7 +208,7 @@ void	execution_part(t_cmd_line **node)
 	int	fd[2];
 	int	prev_read = 0;
 	pid_t	pid;
-	int	status;
+	// int	status;
 	int	saved_stdin;
 	int saved_stdout;
 	t_cmd_line *temp = *node;
@@ -232,7 +235,8 @@ void	execution_part(t_cmd_line **node)
 					dup2(prev_read, 0);
 					close(prev_read);
 				}
-				handle_redirections(temp);
+				if (handle_redirections(temp))
+					exit(FAILURE);
 				if (g_global.g_signal == 1)
 					exit(SIGNAL_SIGINT);
 				temp_check = temp;
@@ -249,9 +253,9 @@ void	execution_part(t_cmd_line **node)
 				if (prev_read != 0)
 					close(prev_read);
 				prev_read = fd[0];
-				waitpid(pid, &status, 0);
-				if (WIFEXITED(status))
-					utils_setexit(WEXITSTATUS(status));
+				// waitpid(pid, &status, 0);
+				// if (WIFEXITED(status))
+				// 	utils_setexit(WEXITSTATUS(status));
 				// else
 				// 	utils_setexit(FAILURE);
 			}
@@ -269,6 +273,13 @@ void	execution_part(t_cmd_line **node)
 
 void	execution_global(t_cmd_line **cmd_list)
 {
+	int	status;
 	execution_part(cmd_list);
+	while (wait(&status) > 0)
+		;
+	if (WIFEXITED(status))
+		utils_setexit(WEXITSTATUS(status));
+	else
+		utils_setexit(FAILURE);
 	utils_free_list(cmd_list);
 }

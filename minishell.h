@@ -91,9 +91,9 @@ void		builtin_export(t_cmd_line *node);
 void		builtin_pwd(t_cmd_line *node);
 void		builtin_unset(t_cmd_line *node);
 
-void		write_to(t_cmd_line *node);
-void		write_into(t_cmd_line *node);
-void		read_from(t_cmd_line *node);
+int			write_to(t_cmd_line *node);
+int			write_into(t_cmd_line *node);
+int			read_from(t_cmd_line *node);
 void		read_to_delimeter(t_cmd_line *node);
 
 void		execution_global(t_cmd_line **cmd_list);

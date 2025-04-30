@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void	write_to(t_cmd_line *node)
+int	write_to(t_cmd_line *node)
 {
 	t_cmd_line	*tmp = node;
 	int	fd;
@@ -20,36 +20,42 @@ void	write_to(t_cmd_line *node)
 	fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd == -1)
 	{
-		int hh = open("/tmp/fii", O_CREAT | O_WRONLY | O_TRUNC, 0664);
-		printf("something went wrong \n");
-		dup2(hh , STDOUT_FILENO);
-		close(hh);
-		return ;
+		printf("miniahell: %s: Permission denied\n", tmp->next->data);
+		return (FAILURE);
 	}
 	dup2(fd , STDOUT_FILENO);
 	close(fd);
+	return (SUCCESS);
 }
 
-void	write_into(t_cmd_line *node)
+int	write_into(t_cmd_line *node)
 {
 	t_cmd_line	*tmp = node;
 	int	fd;
 	fd = open(tmp->next->data, O_CREAT | O_APPEND | O_WRONLY, 0664);
-	// if (fd == -1)
-	// 	return ;
+	if (fd == -1)
+	{
+		printf("minishell: %s: Permission denied\n", tmp->next->data);
+		return (FAILURE);
+	}
 	dup2(fd , STDOUT_FILENO);
 	close(fd);
+	return (SUCCESS);
 }
 
-void	read_from(t_cmd_line *node)
+int	read_from(t_cmd_line *node)
 {
 	t_cmd_line *tmp = node;
 	int	fd;
 	fd = open(tmp->next->data, O_RDONLY, 0664);
-	// if (fd == -1)
-	// 	return ;
+	if (fd == -1)
+	{
+		printf("minishell: %s: No such file or directory\n", tmp->next->data);
+		return (FAILURE);
+	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
+	return (SUCCESS);
 }
 // ls < outfile
 void	read_to_delimeter(t_cmd_line *node)
