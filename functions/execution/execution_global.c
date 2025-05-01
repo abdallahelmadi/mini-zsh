@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/26 20:24:09 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:50:54 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,8 @@ int	handle_redirections(t_cmd_line *node)
 		}
 		else if (temp->type == TP_REDIR2)
 		{
-			read_from(temp);
+			if (read_from(temp))
+				return(1);
 			temp = temp->next->next;
 		}
 		else if (temp->type == TP_REDIR22)
@@ -203,14 +204,14 @@ int	handle_redirections(t_cmd_line *node)
 	return (0);
 }
 
-void	execution_part(t_cmd_line **node)
+pid_t	execution_part(t_cmd_line **node)
 {
 	int	fd[2];
 	int	prev_read = 0;
 	pid_t	pid;
-	// int	status;
 	int	saved_stdin;
 	int saved_stdout;
+	pid_t	last_pid;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
 	while (temp)
@@ -221,7 +222,7 @@ void	execution_part(t_cmd_line **node)
 		{
 			handle_redirections(temp);
 			if (g_global.g_signal == 1)
-				return;
+				return (FAILURE);
 			execution_with_builtin(temp);
 		}
 		else
@@ -230,6 +231,7 @@ void	execution_part(t_cmd_line **node)
 			pid = fork();
 			if (pid == 0)
 			{
+				signal(SIGQUIT, SIG_DFL);
 				if (prev_read != 0)
 				{
 					dup2(prev_read, 0);
@@ -253,11 +255,7 @@ void	execution_part(t_cmd_line **node)
 				if (prev_read != 0)
 					close(prev_read);
 				prev_read = fd[0];
-				// waitpid(pid, &status, 0);
-				// if (WIFEXITED(status))
-				// 	utils_setexit(WEXITSTATUS(status));
-				// else
-				// 	utils_setexit(FAILURE);
+				last_pid = pid;
 			}
 		}
 		dup2(saved_stdin, STDIN_FILENO);
@@ -269,17 +267,24 @@ void	execution_part(t_cmd_line **node)
 		if (temp)
 			temp = temp->next;
 	}
+	return (last_pid);
 }
 
 void	execution_global(t_cmd_line **cmd_list)
 {
 	int	status;
-	execution_part(cmd_list);
-	while (wait(&status) > 0)
-		;
-	if (WIFEXITED(status))
-		utils_setexit(WEXITSTATUS(status));
-	else
-		utils_setexit(FAILURE);
+	pid_t	last_pid;
+	pid_t	pid;
+	last_pid = execution_part(cmd_list);
+	while ((pid = wait(&status)) > 0)
+	{
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				utils_setexit(WEXITSTATUS(status));
+			else
+				utils_setexit(FAILURE);
+		}
+	}
 	utils_free_list(cmd_list);
 }
