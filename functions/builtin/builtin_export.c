@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/01 16:16:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:53:22 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ void	builtin_export(t_cmd_line *node)
 	char		**env;
 	char		*strtemp;
 	t_cmd_line	*temp;
+	char	**split;
 
 	strtemp = NULL;
 	if (node->next == NULL || node->next->type != TP_STRING)
@@ -227,9 +228,12 @@ void	builtin_export(t_cmd_line *node)
 		env = g_global.g_environments;
 		while (*env)
 		{
-			strtemp = utils_strjoin("declare -x", " ", *env);
-			printf("%s\n", strtemp);
-			free(strtemp);
+			split = utils_split((*env), '=');
+			if (split[1])
+				printf("declare -x %s=\"%s\"\n", split[0], split[1]);
+			else
+				printf("declare -x %s\n", split[0]);
+			utils_free(split);
 			env++;
 		}
 		return ;
