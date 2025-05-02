@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 11:36:05 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:49:13 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+int	check_env(char *str)
+{
+	char	**split;
 
+	split = utils_split(str, '=');
+	if (split[1])
+		return (0);
+	else
+		return (1);
+	utils_free(split);
+}
 void	builtin_env(t_cmd_line *node)
 {
 	char	**env;
@@ -30,7 +40,8 @@ void	builtin_env(t_cmd_line *node)
 	env = utils_gsetenv(NULL);
 	while (env[index])
 	{
-		printf("%s\n", env[index]);
+		if (!check_env(env[index]))
+			printf("%s\n", env[index]);
 		index++;
 	}
 	utils_setexit(SUCCESS);
