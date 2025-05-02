@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 16:29:51 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:04:35 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_global	g_global = {SUCCESS, SUCCESS, NULL, SUCCESS};
 
-static void	handle_signals(void)
-{
-	signal(SIGINT, signals_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}
+// static void	handle_signals(void)
+// {
+// 	signal(SIGINT, signals_sigint);
+// 	signal(SIGQUIT, SIG_IGN);
+// }
 
 int	main(int arc, char **arv, char **env)
 {
@@ -28,7 +28,7 @@ int	main(int arc, char **arv, char **env)
 	g_global.g_environments = utils_gsetenv((const char **)env);
 	if (arc == 1 && arv)
 	{
-		handle_signals();
+		setup_signals();
 		while (1)
 		{
 			command_prompt = prompt_zsh();

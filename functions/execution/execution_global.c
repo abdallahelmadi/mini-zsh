@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/01 18:50:54 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:00:59 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ pid_t	execution_part(t_cmd_line **node)
 			pid = fork();
 			if (pid == 0)
 			{
-				signal(SIGQUIT, SIG_DFL);
+				disable_sig();
 				if (prev_read != 0)
 				{
 					dup2(prev_read, 0);
@@ -251,6 +251,7 @@ pid_t	execution_part(t_cmd_line **node)
 			}
 			else
 			{
+				restore();
 				close(fd[1]);
 				if (prev_read != 0)
 					close(prev_read);
@@ -276,15 +277,25 @@ void	execution_global(t_cmd_line **cmd_list)
 	pid_t	last_pid;
 	pid_t	pid;
 	last_pid = execution_part(cmd_list);
-	while ((pid = wait(&status)) > 0)
+	// while ((pid = wait(&status)) > 0)
+	// {
+	// 	if (pid == last_pid)
+	// 	{
+	// 		if (WIFEXITED(status))
+	// 			utils_setexit(WEXITSTATUS(status));
+	// 		else
+	// 			utils_setexit(FAILURE);
+	// 	}
+	// }
+	restore();
+	if (waitpid(last_pid, &status, 0) > 0)
 	{
-		if (pid == last_pid)
-		{
-			if (WIFEXITED(status))
-				utils_setexit(WEXITSTATUS(status));
-			else
-				utils_setexit(FAILURE);
-		}
+		if (WIFEXITED(status))
+			utils_setexit(WEXITSTATUS(status));
+		else
+			utils_setexit(FAILURE);
 	}
+	while ((pid = wait(NULL)) > 0)
+		;
 	utils_free_list(cmd_list);
 }

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/26 18:26:27 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:02:36 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ extern t_global	g_global;
 
 void		signals_sigint(int sig);
 void		signal_handler_heredoc(int sig);
+void		setup_signals(void);
+void		disable_sig(void);
+void		restore(void);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);
