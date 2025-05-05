@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/02 17:00:59 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 18:23:36 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,11 +214,13 @@ pid_t	execution_part(t_cmd_line **node)
 	pid_t	last_pid;
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
+
+	g_global.g_foreground_running = 1;
 	while (temp)
 	{
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
-		if (is_builtin_for_parent(temp) && !has_pipe(temp) && prev_read == 0)
+		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 		{
 			handle_redirections(temp);
 			if (g_global.g_signal == 1)
@@ -231,14 +233,14 @@ pid_t	execution_part(t_cmd_line **node)
 			pid = fork();
 			if (pid == 0)
 			{
-				disable_sig();
+				setup_for_child();
+				if (handle_redirections(temp))
+					exit(FAILURE);
 				if (prev_read != 0)
 				{
 					dup2(prev_read, 0);
 					close(prev_read);
 				}
-				if (handle_redirections(temp))
-					exit(FAILURE);
 				if (g_global.g_signal == 1)
 					exit(SIGNAL_SIGINT);
 				temp_check = temp;
@@ -251,7 +253,6 @@ pid_t	execution_part(t_cmd_line **node)
 			}
 			else
 			{
-				restore();
 				close(fd[1]);
 				if (prev_read != 0)
 					close(prev_read);
@@ -277,25 +278,23 @@ void	execution_global(t_cmd_line **cmd_list)
 	pid_t	last_pid;
 	pid_t	pid;
 	last_pid = execution_part(cmd_list);
-	// while ((pid = wait(&status)) > 0)
-	// {
-	// 	if (pid == last_pid)
-	// 	{
-	// 		if (WIFEXITED(status))
-	// 			utils_setexit(WEXITSTATUS(status));
-	// 		else
-	// 			utils_setexit(FAILURE);
-	// 	}
-	// }
-	restore();
 	if (waitpid(last_pid, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			utils_setexit(WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+		{
+			int sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+				write(2, "QUIT \n", 6);
+			utils_setexit(128 + sig);
+		}
 		else
 			utils_setexit(FAILURE);
 	}
 	while ((pid = wait(NULL)) > 0)
 		;
+	g_global.g_foreground_running = 0;
+	restore();
 	utils_free_list(cmd_list);
 }

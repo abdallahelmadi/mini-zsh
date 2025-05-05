@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/04/27 14:58:29 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:58:48 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,9 @@ void	read_to_delimeter(t_cmd_line *node)
 	char		*filename;
 	char		**split;
 	char		*end_str;
-	struct sigaction	sa_old;
-	struct sigaction	sa_new;
 
-	sa_new.sa_handler = signal_handler_heredoc;
-	sa_new.sa_flags = 0;
-	sigemptyset(&sa_new.sa_mask);
-	sigaction(SIGINT, &sa_new, &sa_old);
 	g_global.g_signal = 0;
+	setup_for_heredoc();
 	tmp = node;
 	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "");
 	delimeter = tmp->next->data;
@@ -107,7 +102,7 @@ void	read_to_delimeter(t_cmd_line *node)
 		close(fd);
 		utils_setexit(SIGNAL_SIGINT);
 		unlink(filename);
-		sigaction(SIGINT, &sa_old, NULL);
+		restore();
 		return;
 	}
 	fd = open(filename, O_RDONLY);

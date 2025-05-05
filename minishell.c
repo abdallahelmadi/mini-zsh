@@ -6,13 +6,13 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:47:37 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/02 17:04:35 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 18:14:05 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_global	g_global = {SUCCESS, SUCCESS, NULL, SUCCESS};
+t_global	g_global = {SUCCESS, SUCCESS, NULL, SUCCESS, SUCCESS};
 
 // static void	handle_signals(void)
 // {
@@ -28,7 +28,7 @@ int	main(int arc, char **arv, char **env)
 	g_global.g_environments = utils_gsetenv((const char **)env);
 	if (arc == 1 && arv)
 	{
-		setup_signals();
+		setup_signals_main();
 		while (1)
 		{
 			command_prompt = prompt_zsh();

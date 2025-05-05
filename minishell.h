@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/02 17:02:36 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 18:13:54 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_global
 	int			g_oldlastexitstatus;
 	char		**g_environments;
 	volatile	sig_atomic_t	g_signal;
+	int		g_foreground_running;
 }	t_global;
 
 extern t_global	g_global;
@@ -71,6 +72,9 @@ void		signal_handler_heredoc(int sig);
 void		setup_signals(void);
 void		disable_sig(void);
 void		restore(void);
+void	setup_for_heredoc(void);
+void	setup_signals_main(void);
+void	setup_for_child(void);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);
