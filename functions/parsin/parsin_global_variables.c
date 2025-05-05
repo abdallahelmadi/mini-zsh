@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_global_variables.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/24 11:02:38 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/05 21:46:19 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	while_loop_do(t_cmd_line **node)
 			p1 = utils_strdup((*node)->data);
 			location[0] = '$';
 
-			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '='
+			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == '*' || location[zindex] == '!' || location[zindex] == '\\' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '='
 				|| location[zindex] == '"' || location[zindex] == '$' || location[zindex] == 6 || location[zindex] == '&' || location[zindex] == '^' || location[zindex] == '%' || location[zindex] == '#' || location[zindex] == '@')
 				continue ;
 
@@ -52,7 +52,7 @@ static void	while_loop_do(t_cmd_line **node)
 				continue ;
 			}
 
-			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '=' && location[zindex] != '?'
+			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != '*' && location[zindex] != '!' && location[zindex] != '\\' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '=' && location[zindex] != '?'
 				&& location[zindex] != '$' && location[zindex] != '"' && location[zindex] != 6 && location[zindex] != '&' && location[zindex] != '^' && location[zindex] != '%' && location[zindex] != '#' && location[zindex] != '@')
 				zindex++;
 
@@ -64,7 +64,7 @@ static void	while_loop_do(t_cmd_line **node)
 			p3 = utils_strdup(&(location[zindex]));
 
 			p2 = utils_getenv(vraiblename);
-			
+
 			if (p2)
 				(*node)->data = utils_strjoin(p1, p2, p3);
 			else

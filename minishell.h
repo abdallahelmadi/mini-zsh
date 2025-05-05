@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/05 18:13:54 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:36:30 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ extern t_global	g_global;
 
 void		signals_sigint(int sig);
 void		signal_handler_heredoc(int sig);
-void		setup_signals(void);
-void		disable_sig(void);
 void		restore(void);
 void	setup_for_heredoc(void);
 void	setup_signals_main(void);
@@ -103,6 +101,7 @@ int			write_into(t_cmd_line *node);
 int			read_from(t_cmd_line *node);
 void		read_to_delimeter(t_cmd_line *node);
 
+void		execution_v(t_cmd_line *node);
 void		execution_global(t_cmd_line **cmd_list);
 
 t_cmd_line	*utils_new_node(const char *data);

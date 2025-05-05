@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/05 15:58:48 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:20:35 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	read_to_delimeter(t_cmd_line *node)
 	split = utils_split(delimeter, '/');
 	end_str = utils_strjoin(split[1], "\n", "");
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
-	// if (fd == -1)
-	// 	return ;
+	if (fd == -1)
+		return ;
 	while ((line = utils_get_next_line(0)))
 	{
 		if (g_global.g_signal == 1)

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/05 18:26:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:11:36 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void	signal_handler_heredoc(int sig)
 {
 	if (sig == SIGINT)
-	{
-	g_global.g_signal = 1;
-	write(1, "\n", 1);
-	}
+		g_global.g_signal = 1;
 }
 void	signals_sigint(int sig)
 {
@@ -41,19 +38,8 @@ void	signals_sigint(int sig)
 }
 void	setup_signals_main(void)
 {
-	struct sigaction sa_int;
-
-	sa_int.sa_handler = signals_sigint;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = 0;
-	sigaction(SIGINT, &sa_int, NULL);
-
+	signal(SIGINT, signals_sigint);
 	signal(SIGQUIT, SIG_IGN);
-}
-void	disable_sig(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 }
 void	restore(void)
 {
@@ -71,11 +57,6 @@ void	setup_for_heredoc(void)
 }
 void	setup_for_child(void)
 {
-	struct sigaction sa;
-
-	sa.sa_handler = SIG_DFL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }

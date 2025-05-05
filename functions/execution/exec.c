@@ -6,12 +6,38 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 14:21:25 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/03 14:48:26 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:38:44 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-int	count_args(t_cmd_line *node)
+static int	just_directory(char *string)
+{
+	int	index;
+	int	pn;
+
+	index = 0;
+	pn = 0;
+	while (string[index])
+	{
+		if (string[index] == '.')
+		{
+			pn += 1;
+			if (pn > 2)
+				return (SUCCESS);
+			index += 1;
+		}
+		else if (string[index] == '/')
+		{
+			index += 1;
+			pn = 0;
+		}
+		else
+			return (SUCCESS);
+	}
+	return (FAILURE);
+}
+static int	count_args(t_cmd_line *node)
 {
 	int	count;
 	t_cmd_line	*tmp;
@@ -28,7 +54,7 @@ int	count_args(t_cmd_line *node)
 	}
 	return (count);
 }
-char	**allocated_args(t_cmd_line *node, int length)
+static char	**allocated_args(t_cmd_line *node, int length)
 {
 	char	**args;
 	t_cmd_line	*tmp;
@@ -51,7 +77,7 @@ char	**allocated_args(t_cmd_line *node, int length)
 	args[j] = NULL;
 	return (args);
 }
-void	check_invalid_command(t_cmd_line *node)
+static void	check_invalid_command(t_cmd_line *node)
 {
 	if ((node->data)[0] == '.' && (node->data)[1] == '\0')
 	{
@@ -74,7 +100,7 @@ void	check_invalid_command(t_cmd_line *node)
 		exit(PERMISSION_DENIED);
 	}
 }
-void	check_access_exec(char **args, t_cmd_line *node)
+static void	check_access_exec(char **args, t_cmd_line *node)
 {
 	if (access(node->data, F_OK) == 0)
 	{
@@ -90,7 +116,7 @@ void	check_access_exec(char **args, t_cmd_line *node)
 		}
 	}
 }
-void	search_and_exec(char **dirs, char **args, t_cmd_line *node)
+static void	search_and_exec(char **dirs, char **args, t_cmd_line *node)
 {
 	int		i;
 	char	*full_path;
@@ -115,14 +141,13 @@ void	search_and_exec(char **dirs, char **args, t_cmd_line *node)
 	printf("minishell: %s: Command not found\n", node->data);
 	exit(NOT_FOUND);
 }
-static void	execution_v(t_cmd_line *node)
+void	execution_v(t_cmd_line *node)
 {
 	char	*path;
 	char	**dirs;
 	char	**args;
 	int		count;
 
-	t_cmd_line *tmp = node->next;
 	count = count_args(node);
 	args = allocated_args(node, count);
 	dirs = NULL;
