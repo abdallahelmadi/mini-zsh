@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/12 12:18:37 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:43:20 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ void	builtin_exit(t_cmd_line *node)
 		node = node->next;
 	if (node->next && node->next->type == TP_PIPE)
 		return ;
-	utils_free(utils_gsetenv(NULL));
 	while (node->prev != NULL)
 		node = node->prev;
-	utils_free_list(&node);
+	smalloc(-1);
 	printf("exit\n");
 	rl_clear_history();
 	exit(SUCCESS);

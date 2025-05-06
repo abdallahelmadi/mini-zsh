@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/04 17:04:58 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:17:47 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*utils_strdup(const char *string)
 
 	index = 0;
 	length = utils_strlen(string);
-	clone = malloc(sizeof(char) * (length + 1));
+	clone = smalloc(sizeof(char) * (length + 1));
 	if (clone == NULL)
 		return (NULL);
 	while (string[index] != '\0')

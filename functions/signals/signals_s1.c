@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals_sigint.c                                   :+:      :+:    :+:   */
+/*   signals_s1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/05 19:11:36 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:23:09 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	signal_handler_heredoc(int sig)
 	if (sig == SIGINT)
 		g_global.g_signal = 1;
 }
+
 void	signals_sigint(int sig)
 {
 	if (sig == SIGINT)
@@ -36,27 +37,25 @@ void	signals_sigint(int sig)
 		}
 	}
 }
+
 void	setup_signals_main(void)
 {
 	signal(SIGINT, signals_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }
+
 void	restore(void)
 {
 	setup_signals_main();
 }
+
 void	setup_for_heredoc(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = signal_handler_heredoc;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
-}
-void	setup_for_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 }

@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/06 10:31:20 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:47:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	remove_env_var(int token, char **env)
 	index = 0;
 	while (env[index])
 		index++;
-	new_environ = malloc(sizeof(char *) * index);
+	new_environ = smalloc(sizeof(char *) * index);
 	if (new_environ == NULL)
 		return ;
 	index = 0;
@@ -51,7 +51,6 @@ static void	remove_env_var(int token, char **env)
 		index++;
 	}
 	new_environ[jndex] = NULL;
-	utils_free(g_global.g_environments);
 	g_global.g_environments = new_environ;
 }
 
@@ -72,7 +71,6 @@ void	builtin_unset(t_cmd_line *node)
 		index = find_env_variable(data[0], env);
 		if (index != -1)
 			remove_env_var(index, env);
-		utils_free(data);
 		temp = temp->next;
 	}
 	utils_setexit(SUCCESS);

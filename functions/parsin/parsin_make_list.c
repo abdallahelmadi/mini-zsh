@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 17:50:13 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/01 09:04:24 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:00:51 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static t_cmd_line	*fill_list(char **string, const char *spliter)
 		newnode->prev = lastnode;
 		index++;
 	}
-	utils_free(string);
 	return (list);
 }
 
@@ -58,7 +57,6 @@ static void	split_command_part(t_cmd_line **cmd_list, const char *spliter)
 		{
 			tempchar = utils_strjoin(" ", tempnode->data, " ");
 			tempdoublechar = utils_split_pro(tempchar, (char *)spliter);
-			free(tempchar);
 			tempnewlist = fill_list(tempdoublechar, spliter);
 			tempnextnode = tempnode->next;
 			utils_replace_node(cmd_list, &tempnode, &tempnewlist);
@@ -81,7 +79,6 @@ static void	split_command(const char *command_line, t_cmd_line **cmd_list,
 		{
 			tempchar = utils_strjoin(" ", command_line, " ");
 			tempdoublechar = utils_split_pro(tempchar, (char *)spliter);
-			free(tempchar);
 			*cmd_list = fill_list(tempdoublechar, spliter);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:49:51 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 14:14:35 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:20:12 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,17 @@ char	*utils_itoa(int nbr)
 {
 	char	*result;
 
-	result = malloc(sizeof(char) * 4);
-	if (result == NULL)
-		return (NULL);
+	result = smalloc(sizeof(char) * 4);
 	if (10 > nbr)
 	{
 		result[0] = (nbr + 48);
 		result[1] = '\0';
-		result[2] = '\0';
-		result[3] = '\0';
 	}
 	else if (nbr > 9 && 100 > nbr)
 	{
 		result[0] = (nbr / 10) + 48;
 		result[1] = (nbr % 10) + 48;
 		result[2] = '\0';
-		result[3] = '\0';
 	}
 	else if (nbr > 99)
 	{

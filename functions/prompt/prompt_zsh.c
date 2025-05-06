@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:18:51 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/24 11:40:56 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:25:49 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,12 @@ char	*prompt_zsh(void)
 	temp = utils_strjoin(laststatus, "➜  \001\033[0m\002",
 			"\001\033[1;36m\002");
 	result = utils_strjoin(temp, foldername, "\001\033[0m\002 ");
-	free(temp);
-	free(foldername);
 	if (gitbranch == NULL)
 		return (result);
 	temp = utils_strjoin(result, "\001\033[1;34m\002git:(\001\033[0m\002",
 			"\001\033[1;31m\002");
-	free(result);
 	foldername = utils_strjoin("\001\033[0m\002\001\033[1;34m\002)",
 			"\001\033[0m\002 \001\033[1;33m\002✗\001\033[0m\002 ", "");
 	result = utils_strjoin(temp, gitbranch, foldername);
-	return (free(temp), free(gitbranch), free(foldername), result);
+	return (result);
 }

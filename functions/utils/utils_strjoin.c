@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_strjoin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:24:41 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/13 19:20:15 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:18:01 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*utils_strjoin(const char *s1, const char *s2, const char *s3)
 	char	*result;
 	int		index;
 
-	result = malloc(sizeof(char) * (utils_strlen(s1) + utils_strlen(s2)
+	result = smalloc(sizeof(char) * (utils_strlen(s1) + utils_strlen(s2)
 				+ utils_strlen(s3) + 1));
 	if (result == NULL)
 		return (NULL);

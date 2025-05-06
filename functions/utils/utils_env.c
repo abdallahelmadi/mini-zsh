@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:25:23 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/05 15:47:07 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:09:45 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**utils_gsetenv(const char **env)
 	{
 		while (env[index] != NULL)
 			index++;
-		new_env = (char **)malloc(sizeof(char *) * (index + 1));
+		new_env = (char **)smalloc(sizeof(char *) * (index + 1));
 		if (new_env == NULL)
 			return (NULL);
 		index = 0;

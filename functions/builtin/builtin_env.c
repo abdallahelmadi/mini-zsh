@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/02 18:49:13 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:42:14 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-int	check_env(char *str)
+
+static int	check_env(char *str)
 {
 	char	**split;
 
@@ -20,8 +21,8 @@ int	check_env(char *str)
 		return (0);
 	else
 		return (1);
-	utils_free(split);
 }
+
 void	builtin_env(t_cmd_line *node)
 {
 	char	**env;

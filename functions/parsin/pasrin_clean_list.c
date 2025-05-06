@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 22:46:29 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/01 09:02:16 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:02:25 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static void	clean_node_next_part(t_cmd_line *node, char **newaddress,
 		index--;
 	}
 	newstring = utils_strdup(*newaddress);
-	free(node->data);
 	node->data = newstring;
 }
 

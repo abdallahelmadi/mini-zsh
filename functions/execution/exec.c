@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 14:21:25 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/05 19:38:44 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:55:18 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
 static int	just_directory(char *string)
 {
 	int	index;
@@ -37,6 +38,7 @@ static int	just_directory(char *string)
 	}
 	return (FAILURE);
 }
+
 static int	count_args(t_cmd_line *node)
 {
 	int	count;
@@ -54,13 +56,14 @@ static int	count_args(t_cmd_line *node)
 	}
 	return (count);
 }
+
 static char	**allocated_args(t_cmd_line *node, int length)
 {
 	char	**args;
 	t_cmd_line	*tmp;
 	int		j;
 
-	args = malloc(sizeof(char *) * (length + 2));
+	args = smalloc(sizeof(char *) * (length + 2));
 	if (!args)
 		return (NULL);
 	args[0] = node->data;
@@ -77,6 +80,7 @@ static char	**allocated_args(t_cmd_line *node, int length)
 	args[j] = NULL;
 	return (args);
 }
+
 static void	check_invalid_command(t_cmd_line *node)
 {
 	if ((node->data)[0] == '.' && (node->data)[1] == '\0')
@@ -100,15 +104,13 @@ static void	check_invalid_command(t_cmd_line *node)
 		exit(PERMISSION_DENIED);
 	}
 }
+
 static void	check_access_exec(char **args, t_cmd_line *node)
 {
 	if (access(node->data, F_OK) == 0)
 	{
 		if (access(node->data, X_OK) == 0)
-		{
 			execve(node->data, args, g_global.g_environments);
-			utils_free(args);
-		}
 		else
 		{
 			printf("minishell: %s: Permission denied\n", node->data);
@@ -116,6 +118,7 @@ static void	check_access_exec(char **args, t_cmd_line *node)
 		}
 	}
 }
+
 static void	search_and_exec(char **dirs, char **args, t_cmd_line *node)
 {
 	int		i;
@@ -134,13 +137,13 @@ static void	search_and_exec(char **dirs, char **args, t_cmd_line *node)
 			full_path = utils_strjoin(dirs[i], "/", node->data);
 			if (access(full_path, X_OK) == 0)
 				execve(full_path, args, g_global.g_environments);
-			free(full_path);
 			i++;
 		}
 	}
 	printf("minishell: %s: Command not found\n", node->data);
 	exit(NOT_FOUND);
 }
+
 void	execution_v(t_cmd_line *node)
 {
 	char	*path;

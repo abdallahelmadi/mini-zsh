@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_tokenization.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/22 15:55:33 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 11:24:49 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char	*special_strdup(char *string)
 	int		index;
 	int		indexofnewsreing;
 
-	newstring = (char *)malloc(sizeof(char) * utils_strlen(string) + 1);
+	newstring = (char *)smalloc(sizeof(char) * utils_strlen(string) + 1);
 	if (newstring == NULL)
 		return (NULL);
 	index = 0;
@@ -93,7 +93,6 @@ static char	*special_strdup(char *string)
 		}
 	}
 	newstring[indexofnewsreing] = '\0';
-	free(string);
 	return (newstring);
 }
 

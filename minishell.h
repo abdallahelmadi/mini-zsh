@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/05 19:36:30 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 11:08:46 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -46,7 +45,11 @@
 # define TP_REDIR11 6
 # define TP_REDIR22 7
 
-# define BUFFER_SIZE 1
+typedef struct s_smalloc_addr
+{
+	void					*address;
+	struct s_smalloc_addr	*next;
+}	t_smalloc_addr;
 
 typedef struct s_cmd_line
 {
@@ -58,21 +61,24 @@ typedef struct s_cmd_line
 
 typedef struct s_global
 {
-	int			g_lastexitstatus;
-	int			g_oldlastexitstatus;
-	char		**g_environments;
-	volatile	sig_atomic_t	g_signal;
-	int		g_foreground_running;
+	int						g_lastexitstatus;
+	int						g_oldlastexitstatus;
+	char					**g_environments;
+	volatile sig_atomic_t	g_signal;
+	int						g_foreground_running;
+	t_smalloc_addr			*g_smalloc_addr_v;
 }	t_global;
 
 extern t_global	g_global;
 
+void		*smalloc(int size);
+
 void		signals_sigint(int sig);
 void		signal_handler_heredoc(int sig);
 void		restore(void);
-void	setup_for_heredoc(void);
-void	setup_signals_main(void);
-void	setup_for_child(void);
+void		setup_for_heredoc(void);
+void		setup_signals_main(void);
+void		setup_for_child(void);
 
 char		*prompt_branch(void);
 char		*prompt_folder(void);
@@ -118,9 +124,7 @@ int			utils_charcmp(const char *string, char c);
 int			utils_strcmp(const char *s1, const char *s2);
 int			utils_strncmp(const char *s1, const char *s2, int size);
 size_t		utils_strlen(const char *string);
-void		utils_free(char **string);
 int			utils_docente(const char *origin, int index, char c);
-void		utils_free_list(t_cmd_line **list);
 t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node);
 void		utils_setexit(int status);
 int			utils_getexit(void);

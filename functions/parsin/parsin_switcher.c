@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:00:53 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/04/27 14:36:00 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:01:02 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	parsin_switcher(t_cmd_line **cmd_list)
 	{
 		if (tempnode->type == TP_REDIR1 || tempnode->type == TP_REDIR11 || tempnode->type == TP_REDIR2 || tempnode->type == TP_REDIR22)
 		{
-			/*::::::::::::::::::::::::::::::::::::::::::: SOVE :::::::::::::::::::::::::::::::::::::::*/
 			if (tempnode->prev == NULL)
 			{
 				ttynode = utils_new_node("true");

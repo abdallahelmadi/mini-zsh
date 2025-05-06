@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_global.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/05 19:39:26 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 12:15:22 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	execution_with_builtin(t_cmd_line *node)
 	else
 		execution_v(node);
 }
+
 int	is_builtin_for_parent(t_cmd_line *node)
 {
 	if (utils_strstr_pro(node->data, "cd") || utils_strstr_pro(node->data, "export")
@@ -38,6 +39,7 @@ int	is_builtin_for_parent(t_cmd_line *node)
 		return (1);
 	return (0);
 }
+
 int	has_pipe(t_cmd_line *node)
 {
 	t_cmd_line *temp = node;
@@ -49,6 +51,7 @@ int	has_pipe(t_cmd_line *node)
 	}
 	return (0);
 }
+
 int	handle_redirections(t_cmd_line *node)
 {
 	t_cmd_line *temp = node;
@@ -153,9 +156,13 @@ pid_t	execution_part(t_cmd_line **node)
 
 void	execution_global(t_cmd_line **cmd_list)
 {
-	int	status;
+	int		status;
 	pid_t	last_pid;
 	pid_t	pid;
+
+	pid = 0;
+	last_pid = 0;
+	status = 0;
 	last_pid = execution_part(cmd_list);
 	if (waitpid(last_pid, &status, 0) > 0)
 	{
@@ -175,5 +182,4 @@ void	execution_global(t_cmd_line **cmd_list)
 		;
 	g_global.g_foreground_running = 0;
 	restore();
-	utils_free_list(cmd_list);
 }

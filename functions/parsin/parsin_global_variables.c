@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_global_variables.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/05 21:46:19 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 12:20:00 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	while_loop_do(t_cmd_line **node)
 	char	*p3;
 	char	tempchar;
 
+	if ((*node)->prev && utils_strstr_pro((*node)->prev->data, "<<"))
+		return ;
 	while (((*node)->data)[++index] != '\0')
 	{
 		if (((*node)->data)[index] == '\"' && sig != 1 && sig % 2 == 0)

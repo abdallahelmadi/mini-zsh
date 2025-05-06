@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/02 17:53:22 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 10:51:18 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static char	**add_to_environ(char **environ, char *new_var)
 	index = 0;
 	while (environ[index])
 		index++;
-	new_environ = malloc(sizeof(char *) * (index + 2));
-	if (!new_environ)
-		return (NULL);
+	new_environ = smalloc(sizeof(char *) * (index + 2));
 	jndex = 0;
 	while (jndex < index)
 	{
@@ -49,7 +47,6 @@ static char	**add_to_environ(char **environ, char *new_var)
 	}
 	new_environ[index] = new_var;
 	new_environ[index + 1] = NULL;
-	utils_free(environ);
 	return (new_environ);
 }
 
@@ -65,13 +62,13 @@ static void	update_var(char **env, char *key, char *new_value)
 		if (!utils_strncmp(env[index], key, length)
 			&& env[index][length] == '=')
 		{
-			free(env[index]);
 			env[index] = new_value;
 			return ;
 		}
 		index++;
 	}
 }
+
 static void	append_var(char **env, char *key, char *new_value)
 {
 	int	length;
@@ -84,14 +81,13 @@ static void	append_var(char **env, char *key, char *new_value)
 		if (!utils_strncmp(env[index], key, length) && env[index][length] == '=')
 		{
 			char *temp = utils_strdup(env[index]);
-			free(env[index]);
 			env[index] = utils_strjoin(temp, new_value, "");
-			free(temp);
 			return ;
 		}
 		index++;
 	}
 }
+
 static char	*change(char *str)
 {
 	int i = 0;
@@ -106,6 +102,7 @@ static char	*change(char *str)
 	}
 	return (str);
 }
+
 static char *reset(char *str)
 {
 	int i = 0;
@@ -117,7 +114,7 @@ static char *reset(char *str)
 	}
 	return str;
 }
-// change();
+
 int	name_checker(char *str)
 {
 	int i = 0;
@@ -145,6 +142,7 @@ int	name_checker(char *str)
 	}
 	return 0;
 }
+
 static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	char	*plus_sign;
@@ -164,10 +162,7 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 			if ((*env)[1])
 				*strtemp = reset((*env)[1]);
 			else
-			{
-				utils_free((*env));
 				return ;
-			}
 			if (check_in(g_global.g_environments, (*env)[0]))
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
 			else
@@ -178,14 +173,9 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 					g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 					if (!g_global.g_environments)
-					{
-						free(*strtemp);
-						utils_free(*env);
 						return ;
-					}
 				}
 			}
-			utils_free((*env));
 		}
 		else
 		{
@@ -202,15 +192,10 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 				g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 				if (!g_global.g_environments)
-				{
-					free(*strtemp);
-					utils_free(*env);
 					return ;
-				}
 			}
 			else
 				update_var(g_global.g_environments, (*env)[0], *strtemp);
-			utils_free((*env));
 		}
 	}
 }
@@ -233,7 +218,6 @@ void	builtin_export(t_cmd_line *node)
 				printf("declare -x %s=\"%s\"\n", split[0], split[1]);
 			else
 				printf("declare -x %s\n", split[0]);
-			utils_free(split);
 			env++;
 		}
 		return ;

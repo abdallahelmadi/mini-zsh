@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/05 19:20:35 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/06 12:07:51 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	read_from(t_cmd_line *node)
 	close(fd);
 	return (SUCCESS);
 }
-// ls < outfile
+
 void	read_to_delimeter(t_cmd_line *node)
 {
 	t_cmd_line	*tmp;
@@ -82,20 +82,12 @@ void	read_to_delimeter(t_cmd_line *node)
 	while ((line = utils_get_next_line(0)))
 	{
 		if (g_global.g_signal == 1)
-		{
-			free(line);
 			break ;
-		}
 		if (utils_strcmp(line, end_str) == 0)
-		{
-			free(line);
 			break;
-		}
 		write(fd, line, utils_strlen(line));
 		free(line);
 	}
-	free(end_str);
-	utils_free(split);
 	close(fd);
 	if (g_global.g_signal == 1)
 	{
@@ -109,6 +101,3 @@ void	read_to_delimeter(t_cmd_line *node)
 	dup2(fd, 0);
 	close(fd);
 }
-// outfile << ms
-// cat << l
-
