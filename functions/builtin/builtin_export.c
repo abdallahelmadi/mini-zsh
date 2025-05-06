@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/06 10:51:18 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:53:59 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,15 @@ static char *reset(char *str)
 	}
 	return str;
 }
-
+int	check_str(char *str)
+{
+	if (str[0] == '=')
+	{
+		printf("minishell : %s : not a valid identifier\n", str);
+		return (1);
+	}
+	return (0);
+}
 int	name_checker(char *str)
 {
 	int i = 0;
@@ -143,7 +151,7 @@ int	name_checker(char *str)
 	return 0;
 }
 
-static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
+static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	char	*plus_sign;
 	if (!utils_strstr(temp->data, "="))
@@ -154,6 +162,8 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 	}
 	else
 	{
+		if (check_str(temp->data) == 1)
+			return (1);
 		plus_sign = utils_strstr(temp->data, "+=");
 		if (plus_sign)
 		{
@@ -162,7 +172,7 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 			if ((*env)[1])
 				*strtemp = reset((*env)[1]);
 			else
-				return ;
+				return (1);
 			if (check_in(g_global.g_environments, (*env)[0]))
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
 			else
@@ -173,7 +183,7 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 					g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 					if (!g_global.g_environments)
-						return ;
+						return (1);
 				}
 			}
 		}
@@ -192,12 +202,13 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 				g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 				if (!g_global.g_environments)
-					return ;
+					return (1);
 			}
 			else
 				update_var(g_global.g_environments, (*env)[0], *strtemp);
 		}
 	}
+	return (SUCCESS);
 }
 
 void	builtin_export(t_cmd_line *node)
@@ -205,9 +216,11 @@ void	builtin_export(t_cmd_line *node)
 	char		**env;
 	char		*strtemp;
 	t_cmd_line	*temp;
-	char	**split;
+	char		**split;
+	int			exit_check;
 
 	strtemp = NULL;
+	exit_check = 0;
 	if (node->next == NULL || node->next->type != TP_STRING)
 	{
 		env = g_global.g_environments;
@@ -225,8 +238,9 @@ void	builtin_export(t_cmd_line *node)
 	temp = node->next;
 	while (temp && temp->type == TP_STRING)
 	{
-		checkin_the_loop(temp, &strtemp, &env);
+		if (checkin_the_loop(temp, &strtemp, &env) == 1)
+			exit_check = 1;
 		temp = temp->next;
 	}
-	utils_setexit(SUCCESS);
+	utils_setexit(exit_check);
 }

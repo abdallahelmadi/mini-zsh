@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/06 12:07:51 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:37:09 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void	read_to_delimeter(t_cmd_line *node)
 	g_global.g_signal = 0;
 	setup_for_heredoc();
 	tmp = node;
-	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "");
+	tmp->next->data = utils_strjoin("/tmp/", tmp->next->data, "-heaedoc");
 	delimeter = tmp->next->data;
 	filename = delimeter;
 	split = utils_split(delimeter, '/');
-	end_str = utils_strjoin(split[1], "\n", "");
+	end_str = utils_strjoin(utils_split(split[1], '-')[0], "\n", "");
 	fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (fd == -1)
 		return ;
@@ -101,3 +101,17 @@ void	read_to_delimeter(t_cmd_line *node)
 	dup2(fd, 0);
 	close(fd);
 }
+// int	read_heredoc_file(t_cmd_line *node)
+// {
+// 	int	fd;
+// 	fd = open(node->next->data, O_RDONLY);
+// 	if (fd == -1)
+// 		return (FAILURE);
+// 	if (dup2(fd, STDIN_FILENO) == -1)
+// 	{
+// 		close(fd);
+// 		return (FAILURE);
+// 	}
+// 	close(fd);
+// 	return (SUCCESS);
+// }

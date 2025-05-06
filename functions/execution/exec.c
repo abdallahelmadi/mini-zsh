@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 14:21:25 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/06 10:55:18 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:54:04 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void	check_invalid_command(t_cmd_line *node)
 
 static void	check_access_exec(char **args, t_cmd_line *node)
 {
-	if (access(node->data, F_OK) == 0)
+	if (access(node->data, F_OK) == 0 && utils_strstr(node->data, "./"))
 	{
 		if (access(node->data, X_OK) == 0)
 			execve(node->data, args, g_global.g_environments);

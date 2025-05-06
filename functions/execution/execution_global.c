@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_global.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 12:15:22 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:27:43 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ int	has_pipe(t_cmd_line *node)
 	while (temp)
 	{
 		if (temp->type == TP_PIPE)
+			return (1);
+		temp = temp->next;
+	}
+	return (0);
+}
+int	has_heredoc(t_cmd_line *node)
+{
+	t_cmd_line *temp = node;
+	while (temp)
+	{
+		if (temp->type == TP_REDIR22)
 			return (1);
 		temp = temp->next;
 	}
@@ -102,7 +113,7 @@ pid_t	execution_part(t_cmd_line **node)
 	{
 		saved_stdin = dup(STDIN_FILENO);
 		saved_stdout = dup(STDOUT_FILENO);
-		if (is_builtin_for_parent(temp) && !has_pipe(temp))
+		if (is_builtin_for_parent(temp))
 		{
 			handle_redirections(temp);
 			if (g_global.g_signal == 1)
@@ -116,7 +127,7 @@ pid_t	execution_part(t_cmd_line **node)
 			if (pid == 0)
 			{
 				setup_for_child();
-				if (prev_read != 0)
+				if (prev_read != 0 )
 				{
 					dup2(prev_read, 0);
 					close(prev_read);
@@ -159,9 +170,8 @@ void	execution_global(t_cmd_line **cmd_list)
 	int		status;
 	pid_t	last_pid;
 	pid_t	pid;
+	int		sig;
 
-	pid = 0;
-	last_pid = 0;
 	status = 0;
 	last_pid = execution_part(cmd_list);
 	if (waitpid(last_pid, &status, 0) > 0)
@@ -170,7 +180,7 @@ void	execution_global(t_cmd_line **cmd_list)
 			utils_setexit(WEXITSTATUS(status));
 		else if (WIFSIGNALED(status))
 		{
-			int sig = WTERMSIG(status);
+			sig = WTERMSIG(status);
 			if (sig == SIGQUIT)
 				write(2, "QUIT \n", 6);
 			utils_setexit(128 + sig);
