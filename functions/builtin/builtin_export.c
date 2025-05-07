@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/06 10:51:18 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:18:41 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,14 @@ int	name_checker(char *str)
 	return 0;
 }
 
-static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
+static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	char	*plus_sign;
+	if (temp->data[0] == '=')
+	{
+		printf("minishell: export: `%s`: not a valid identifier\n", temp->data);
+		return (FAILURE);
+	}
 	if (!utils_strstr(temp->data, "="))
 	{
 		if (!check_in(g_global.g_environments, temp->data) && !name_checker(temp->data))
@@ -162,7 +167,7 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 			if ((*env)[1])
 				*strtemp = reset((*env)[1]);
 			else
-				return ;
+				return (FAILURE);
 			if (check_in(g_global.g_environments, (*env)[0]))
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
 			else
@@ -173,7 +178,7 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 					g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 					if (!g_global.g_environments)
-						return ;
+						return (FAILURE);
 				}
 			}
 		}
@@ -192,12 +197,13 @@ static void	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 				g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 				if (!g_global.g_environments)
-					return ;
+					return (FAILURE);
 			}
 			else
 				update_var(g_global.g_environments, (*env)[0], *strtemp);
 		}
 	}
+	return (SUCCESS);
 }
 
 void	builtin_export(t_cmd_line *node)
@@ -206,8 +212,10 @@ void	builtin_export(t_cmd_line *node)
 	char		*strtemp;
 	t_cmd_line	*temp;
 	char	**split;
+	int		mem;
 
 	strtemp = NULL;
+	mem = 0;
 	if (node->next == NULL || node->next->type != TP_STRING)
 	{
 		env = g_global.g_environments;
@@ -225,8 +233,9 @@ void	builtin_export(t_cmd_line *node)
 	temp = node->next;
 	while (temp && temp->type == TP_STRING)
 	{
-		checkin_the_loop(temp, &strtemp, &env);
+		if (checkin_the_loop(temp, &strtemp, &env))
+			mem = 1;
 		temp = temp->next;
 	}
-	utils_setexit(SUCCESS);
+	utils_setexit(mem);
 }
