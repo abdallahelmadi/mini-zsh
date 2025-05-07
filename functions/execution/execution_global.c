@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 12:15:22 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:43:21 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ pid_t	execution_part(t_cmd_line **node)
 	t_cmd_line *temp = *node;
 	t_cmd_line *temp_check;
 
+	last_pid = -1;
 	g_global.g_foreground_running = 1;
 	while (temp)
 	{
@@ -160,8 +161,6 @@ void	execution_global(t_cmd_line **cmd_list)
 	pid_t	last_pid;
 	pid_t	pid;
 
-	pid = 0;
-	last_pid = 0;
 	status = 0;
 	last_pid = execution_part(cmd_list);
 	if (waitpid(last_pid, &status, 0) > 0)
