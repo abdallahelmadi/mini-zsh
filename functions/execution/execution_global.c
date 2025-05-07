@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/07 12:43:21 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:15:11 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,24 @@ int	handle_redirections(t_cmd_line *node)
 			temp = temp->next->next;
 		}
 		else if (temp->type == TP_REDIR22)
-		{
-			read_to_delimeter(temp);
 			temp = temp->next->next;
-		}
 		else
 			temp = temp->next;
 	}
 	return (0);
 }
-
+void	prepare_all_heredoc(t_cmd_line *node)
+{
+	t_cmd_line *tmp = node;
+	while (tmp)
+	{
+		if (tmp->type == TP_REDIR22 && tmp->next)
+		{
+			read_to_delimeter(tmp);
+		}
+		tmp = tmp->next;
+	}
+}
 pid_t	execution_part(t_cmd_line **node)
 {
 	int	fd[2];
@@ -106,7 +114,6 @@ pid_t	execution_part(t_cmd_line **node)
 	int saved_stdout;
 	pid_t	last_pid;
 	t_cmd_line *temp = *node;
-	t_cmd_line *temp_check;
 
 	last_pid = -1;
 	g_global.g_foreground_running = 1;
@@ -128,7 +135,13 @@ pid_t	execution_part(t_cmd_line **node)
 			if (pid == 0)
 			{
 				setup_for_child();
-				if (prev_read != 0 )
+				if (has_heredoc(temp))
+				{
+					int fd_heredoc = open(temp->next->data, O_RDONLY);
+					dup2(fd_heredoc, 0);
+					close (fd_heredoc);
+				}
+				if (prev_read != 0 && !has_heredoc(temp))
 				{
 					dup2(prev_read, 0);
 					close(prev_read);
@@ -137,8 +150,7 @@ pid_t	execution_part(t_cmd_line **node)
 					exit(FAILURE);
 				if (g_global.g_signal == 1)
 					exit(SIGNAL_SIGINT);
-				temp_check = temp;
-				if (has_pipe(temp_check))
+				if (has_pipe(temp))
 					dup2(fd[1], 1);
 				close(fd[0]);
 				close(fd[1]);
@@ -173,6 +185,7 @@ void	execution_global(t_cmd_line **cmd_list)
 	pid_t	pid;
 	int		sig;
 
+	prepare_all_heredoc(*cmd_list);
 	status = 0;
 	last_pid = execution_part(cmd_list);
 	if (waitpid(last_pid, &status, 0) > 0)

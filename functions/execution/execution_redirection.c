@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/07 13:51:16 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:16:29 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	read_to_delimeter(t_cmd_line *node)
 	t_cmd_line	*tmp;
 	int			fd;
 	char		*line ;
-	// char		**split;
 	char		*end_str;
 
 	g_global.g_signal = 0;
@@ -71,7 +70,6 @@ void	read_to_delimeter(t_cmd_line *node)
 	tmp = node;
 	end_str = utils_strjoin(tmp->next->data, "\n", "");
 	tmp->next->data = utils_strdup("/tmp/hello_hr_6767");
-	// split = utils_split(tmp->next->data, '/');
 	fd = open(tmp->next->data, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (fd == -1)
 		return ;
@@ -93,21 +91,4 @@ void	read_to_delimeter(t_cmd_line *node)
 		restore();
 		return;
 	}
-	fd = open(tmp->next->data, O_RDONLY);
-	dup2(fd, 0);
-	close(fd);
 }
-// int	read_heredoc_file(t_cmd_line *node)
-// {
-// 	int	fd;
-// 	fd = open(node->next->data, O_RDONLY);
-// 	if (fd == -1)
-// 		return (FAILURE);
-// 	if (dup2(fd, STDIN_FILENO) == -1)
-// 	{
-// 		close(fd);
-// 		return (FAILURE);
-// 	}
-// 	close(fd);
-// 	return (SUCCESS);
-// }
