@@ -55,6 +55,8 @@ typedef struct s_cmd_line
 {
 	char				*data;
 	int					type;
+	int					heredoc;
+	int					heredoc_fd;
 	struct s_cmd_line	*next;
 	struct s_cmd_line	*prev;
 }	t_cmd_line;

@@ -66,9 +66,6 @@ t_cmd_line	*utils_replace_node(t_cmd_line **header, t_cmd_line **node,
 
 t_cmd_line	*utils_delete_node(t_cmd_line **list, t_cmd_line **node)
 {
-	t_cmd_line	*temp;
-
-	temp = *node;
 	if ((*node)->prev == NULL)
 	{
 		*node = (*node)->next;

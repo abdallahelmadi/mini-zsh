@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/06 18:53:59 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/07 13:18:41 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,11 @@ int	name_checker(char *str)
 static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 {
 	char	*plus_sign;
+	if (temp->data[0] == '=')
+	{
+		printf("minishell: export: `%s`: not a valid identifier\n", temp->data);
+		return (FAILURE);
+	}
 	if (!utils_strstr(temp->data, "="))
 	{
 		if (!check_in(g_global.g_environments, temp->data) && !name_checker(temp->data))
@@ -172,7 +177,7 @@ static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 			if ((*env)[1])
 				*strtemp = reset((*env)[1]);
 			else
-				return (1);
+				return (FAILURE);
 			if (check_in(g_global.g_environments, (*env)[0]))
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
 			else
@@ -183,7 +188,7 @@ static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 					g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 					if (!g_global.g_environments)
-						return (1);
+						return (FAILURE);
 				}
 			}
 		}
@@ -202,7 +207,7 @@ static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 				g_global.g_environments = add_to_environ(g_global.g_environments,
 						*strtemp);
 				if (!g_global.g_environments)
-					return (1);
+					return (FAILURE);
 			}
 			else
 				update_var(g_global.g_environments, (*env)[0], *strtemp);
