@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 12:20:00 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:47:33 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	while_loop_do(t_cmd_line **node)
 			p1 = utils_strdup((*node)->data);
 			location[0] = '$';
 
-			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == '*' || location[zindex] == '!' || location[zindex] == '\\' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '='
+			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == ':' || location[zindex] == '*' || location[zindex] == '!' || location[zindex] == '\\' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '='
 				|| location[zindex] == '"' || location[zindex] == '$' || location[zindex] == 6 || location[zindex] == '&' || location[zindex] == '^' || location[zindex] == '%' || location[zindex] == '#' || location[zindex] == '@')
 				continue ;
 
@@ -54,7 +54,7 @@ static void	while_loop_do(t_cmd_line **node)
 				continue ;
 			}
 
-			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != '*' && location[zindex] != '!' && location[zindex] != '\\' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '=' && location[zindex] != '?'
+			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != ':' && location[zindex] != '*' && location[zindex] != '!' && location[zindex] != '\\' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '=' && location[zindex] != '?'
 				&& location[zindex] != '$' && location[zindex] != '"' && location[zindex] != 6 && location[zindex] != '&' && location[zindex] != '^' && location[zindex] != '%' && location[zindex] != '#' && location[zindex] != '@')
 				zindex++;
 

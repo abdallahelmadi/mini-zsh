@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/07 18:16:29 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/08 09:21:28 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	read_to_delimeter(t_cmd_line *node)
 		if (utils_strcmp(line, end_str) == 0)
 			break;
 		write(fd, line, utils_strlen(line));
-		free(line);
 	}
 	close(fd);
 	if (g_global.g_signal == 1)
@@ -89,6 +88,6 @@ void	read_to_delimeter(t_cmd_line *node)
 		utils_setexit(SIGNAL_SIGINT);
 		unlink(tmp->next->data);
 		restore();
-		return;
+		return ;
 	}
 }
