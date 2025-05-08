@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 10:47:33 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:03:43 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	while_loop_do(t_cmd_line **node)
 
 			if (location[zindex] == '?')
 			{
-				index = -1;
 				(*node)->data = utils_strjoin(p1, utils_itoa(utils_getexit()), &(location[zindex + 1]));
 				continue ;
 			}
