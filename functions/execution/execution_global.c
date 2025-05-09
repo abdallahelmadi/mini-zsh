@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_global.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 09:23:12 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:28:03 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,13 @@ void	execution_global(t_cmd_line **cmd_list)
 	int		sig;
 
 	prepare_all_heredoc(*cmd_list);
+	if (g_global.g_signal == 1)
+	{
+		g_global.g_signal = 0;
+		utils_setexit(SIGNAL_SIGINT);
+		restore();
+		return;
+	}
 	status = 0;
 	last_pid = execution_part(cmd_list);
 	if (waitpid(last_pid, &status, 0) > 0)

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 15:42:20 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:19:26 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void		signals_sigint(int sig);
 void		signal_handler_heredoc(int sig);
 void		restore(void);
 void		setup_for_heredoc(void);
+void		restore_for_heredoc(void);
 void		setup_signals_main(void);
 void		setup_for_child(void);
 

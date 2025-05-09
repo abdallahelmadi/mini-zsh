@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_redirection.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/08 09:21:28 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:29:48 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,17 @@ int	read_from(t_cmd_line *node)
 	close(fd);
 	return (SUCCESS);
 }
-
+// static void	handle_for_signal(t_cmd_line *node, int fd)
+// {
+// 	if (g_global.g_signal == 1)
+// 	{
+// 		close(fd);
+// 		utils_setexit(SIGNAL_SIGINT);
+// 		unlink(node->next->data);
+// 		restore();
+// 		return ;
+// 	}
+// }
 void	read_to_delimeter(t_cmd_line *node)
 {
 	t_cmd_line	*tmp;
@@ -82,12 +92,10 @@ void	read_to_delimeter(t_cmd_line *node)
 		write(fd, line, utils_strlen(line));
 	}
 	close(fd);
+	// handle_for_signal(tmp, fd);
 	if (g_global.g_signal == 1)
 	{
-		close(fd);
 		utils_setexit(SIGNAL_SIGINT);
 		unlink(tmp->next->data);
-		restore();
-		return ;
 	}
 }
