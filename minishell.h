@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/09 16:19:26 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/09 20:50:50 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ int			write_into(t_cmd_line *node);
 int			read_from(t_cmd_line *node);
 void		read_to_delimeter(t_cmd_line *node);
 
+int			is_builtin_for_parent(t_cmd_line *node);
+int			has_pipe(t_cmd_line *node);
+int			has_heredoc(t_cmd_line *node);
+int			handle_redirections(t_cmd_line *node);
+pid_t		execution_part(t_cmd_line **node);
 void		execution_v(t_cmd_line *node);
 void		execution_global(t_cmd_line **cmd_list);
 

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/09 16:29:48 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:46:03 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,4 @@ void	read_to_delimeter(t_cmd_line *node)
 		unlink(tmp->next->data);
 	}
 }
+

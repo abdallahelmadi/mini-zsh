@@ -16,7 +16,7 @@ OBJECTS = minishell.o \
 		  functions/utils/utils_strchar.o functions/utils/utils_get_next_line.o \
 		  functions/utils/utils_strncmp.o functions/execution/execution_global.o functions/utils/utils_itoa.o \
 		  functions/utils/utils_getenv.o functions/parsin/parsin_global_variables.o functions/parsin/parsin_switcher.o \
-		  functions/parsin/parsin_syntax.o functions/execution/exec.o
+		  functions/parsin/parsin_syntax.o functions/execution/exec.o functions/execution/execution_fork.o functions/execution/execution_helper.o\
 
 all : $(NAME)
 
