@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:27:49 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/07 13:18:41 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:02:39 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,11 +174,16 @@ static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 		{
 			temp->data = change(temp->data);
 			*env = utils_split_pro(temp->data, "+=");
+			if (!*env || !(*env)[0] || !(*env)[1])
+			{
+				printf("minishell: export: `%s`: not a valid identifier\n", temp->data);
+				return (FAILURE);
+			}
 			if ((*env)[1])
 				*strtemp = reset((*env)[1]);
 			else
 				return (FAILURE);
-			if (check_in(g_global.g_environments, (*env)[0]))
+			if (check_in(g_global.g_environments, (*env)[0]) && !name_checker((*env)[0]))
 				append_var(g_global.g_environments, (*env)[0], *strtemp);
 			else
 			{
@@ -196,6 +201,11 @@ static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 		{
 			temp->data = change(temp->data);
 			*env = utils_split(temp->data, '=');
+			if (!*env || !(*env)[0] || !(*env)[1])
+			{
+				printf("minishell: export: `%s`: not a valid identifier\n", temp->data);
+				return (FAILURE);
+			}
 			if ((*env)[1])
 				reset((*env)[1]);
 			if ((*env)[1])
@@ -215,13 +225,26 @@ static int	checkin_the_loop(t_cmd_line *temp, char **strtemp, char ***env)
 	}
 	return (SUCCESS);
 }
+void	printed_export(char	**env)
+{
+	char	**split;
 
+	while (*env)
+	{
+		split = utils_split((*env), '=');
+		if (split[1])
+			printf("declare -x %s=\"%s\"\n", split[0], split[1]);
+		else
+			printf("declare -x %s\n", split[0]);
+		env++;
+	}
+	return ;
+}
 void	builtin_export(t_cmd_line *node)
 {
 	char		**env;
 	char		*strtemp;
 	t_cmd_line	*temp;
-	char		**split;
 	int			exit_check;
 
 	strtemp = NULL;
@@ -229,16 +252,7 @@ void	builtin_export(t_cmd_line *node)
 	if (node->next == NULL || node->next->type != TP_STRING)
 	{
 		env = g_global.g_environments;
-		while (*env)
-		{
-			split = utils_split((*env), '=');
-			if (split[1])
-				printf("declare -x %s=\"%s\"\n", split[0], split[1]);
-			else
-				printf("declare -x %s\n", split[0]);
-			env++;
-		}
-		return ;
+		printed_export(env);
 	}
 	temp = node->next;
 	while (temp && temp->type == TP_STRING)
