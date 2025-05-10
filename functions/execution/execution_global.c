@@ -6,16 +6,17 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/09 20:51:35 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/10 16:06:27 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-
 void	prepare_all_heredoc(t_cmd_line *node)
 {
-	t_cmd_line *tmp = node;
+	t_cmd_line	*tmp;
+
+	tmp = node;
 	while (tmp)
 	{
 		if (tmp->type == TP_REDIR22 && tmp->next)
@@ -25,7 +26,6 @@ void	prepare_all_heredoc(t_cmd_line *node)
 		tmp = tmp->next;
 	}
 }
-
 
 void	execution_global(t_cmd_line **cmd_list)
 {
@@ -40,7 +40,7 @@ void	execution_global(t_cmd_line **cmd_list)
 		g_global.g_signal = 0;
 		utils_setexit(SIGNAL_SIGINT);
 		restore();
-		return;
+		return ;
 	}
 	status = 0;
 	last_pid = execution_part(cmd_list);

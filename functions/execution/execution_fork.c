@@ -65,7 +65,7 @@ static void restore_stdin_stdout(int saved_stdin, int saved_stdout)
 static void fork_and_pipe(t_cmd_line *node, int *fd, int *prev_read, int *last_pid)
 {
 	pid_t pid;
-	
+
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)

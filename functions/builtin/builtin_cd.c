@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 11:45:32 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:35:25 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	builtin_cd_run(char *path)
 				path), utils_setexit(FAILURE));
 }
 
-static void	update_var(char **env, char *key, char *new_value)
+static void	update_var_for_cd(char **env, char *key, char *new_value)
 {
 	int	length;
 	int	index;
@@ -80,8 +80,8 @@ void	builtin_cd(t_cmd_line *node)
 	getcwd(buffer[0], 4096);
 	builtin_cd_run(path);
 	getcwd(buffer[1], 4096);
-	update_var(g_global.g_environments, "PWD",
+	update_var_for_cd(g_global.g_environments, "PWD",
 		utils_strjoin("PWD", "=", buffer[1]));
-	update_var(g_global.g_environments, "OLDPWD",
+	update_var_for_cd(g_global.g_environments, "OLDPWD",
 		utils_strjoin("OLDPWD", "=", buffer[0]));
 }

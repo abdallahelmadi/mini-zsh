@@ -12,32 +12,6 @@
 
 #include <minishell.h>
 
-int	just_directory(char *string)
-{
-	int	index;
-	int	pn;
-
-	index = 0;
-	pn = 0;
-	while (string[index])
-	{
-		if (string[index] == '.')
-		{
-			pn += 1;
-			if (pn > 2)
-				return (SUCCESS);
-			index += 1;
-		}
-		else if (string[index] == '/')
-		{
-			index += 1;
-			pn = 0;
-		}
-		else
-			return (SUCCESS);
-	}
-	return (FAILURE);
-}
 int	is_builtin_for_parent(t_cmd_line *node)
 {
 	if (utils_strstr_pro(node->data, "cd") || utils_strstr_pro(node->data, "export")

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/09 19:46:03 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:04:37 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,44 @@
 
 int	write_to(t_cmd_line *node)
 {
-	t_cmd_line	*tmp = node;
-	int	fd;
+	t_cmd_line	*tmp;
+	int			fd;
 
+	tmp = node;
 	fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd == -1)
 	{
 		printf("miniahell: %s: Permission denied\n", tmp->next->data);
 		return (FAILURE);
 	}
-	dup2(fd , STDOUT_FILENO);
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (SUCCESS);
 }
 
 int	write_into(t_cmd_line *node)
 {
-	t_cmd_line	*tmp = node;
-	int	fd;
+	t_cmd_line	*tmp;
+	int			fd;
+
+	tmp = node;
 	fd = open(tmp->next->data, O_CREAT | O_APPEND | O_WRONLY, 0664);
 	if (fd == -1)
 	{
 		printf("minishell: %s: Permission denied\n", tmp->next->data);
 		return (FAILURE);
 	}
-	dup2(fd , STDOUT_FILENO);
+	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (SUCCESS);
 }
 
 int	read_from(t_cmd_line *node)
 {
-	t_cmd_line *tmp = node;
-	int	fd;
+	t_cmd_line	*tmp;
+	int			fd;
+
+	tmp = node;
 	fd = open(tmp->next->data, O_RDONLY, 0664);
 	if (fd == -1)
 	{
@@ -57,17 +62,16 @@ int	read_from(t_cmd_line *node)
 	close(fd);
 	return (SUCCESS);
 }
-// static void	handle_for_signal(t_cmd_line *node, int fd)
-// {
-// 	if (g_global.g_signal == 1)
-// 	{
-// 		close(fd);
-// 		utils_setexit(SIGNAL_SIGINT);
-// 		unlink(node->next->data);
-// 		restore();
-// 		return ;
-// 	}
-// }
+
+static void	handle_for_signal(t_cmd_line *node)
+{
+	if (g_global.g_signal == 1)
+	{
+		utils_setexit(SIGNAL_SIGINT);
+		unlink(node->next->data);
+	}
+}
+
 void	read_to_delimeter(t_cmd_line *node)
 {
 	t_cmd_line	*tmp;
@@ -83,20 +87,16 @@ void	read_to_delimeter(t_cmd_line *node)
 	fd = open(tmp->next->data, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (fd == -1)
 		return ;
-	while ((line = utils_get_next_line(0)))
+	line = utils_get_next_line(0);
+	while (line)
 	{
 		if (g_global.g_signal == 1)
 			break ;
 		if (utils_strcmp(line, end_str) == 0)
-			break;
+			break ;
 		write(fd, line, utils_strlen(line));
+		line = utils_get_next_line(0);
 	}
 	close(fd);
-	// handle_for_signal(tmp, fd);
-	if (g_global.g_signal == 1)
-	{
-		utils_setexit(SIGNAL_SIGINT);
-		unlink(tmp->next->data);
-	}
+	handle_for_signal(tmp);
 }
-
