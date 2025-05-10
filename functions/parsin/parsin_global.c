@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_global.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/07 12:38:58 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/10 19:18:52 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	is_empty_string(const char *command_line)
 	index = 0;
 	while (command_line[index] != '\0')
 	{
-		if (command_line[index] != ' ')
+		if (command_line[index] != ' ' && command_line[index] != '\t')
 			return (SUCCESS);
 		index++;
 	}

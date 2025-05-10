@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 08:39:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/10 17:49:36 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/10 18:41:10 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	prepare_all_heredoc(t_cmd_line *node)
 		tmp = tmp->next;
 	}
 }
-static void handle_exit_status(pid_t last_pid)
+
+static void	handle_exit_status(pid_t last_pid)
 {
 	int		status;
 	int		sig;
@@ -46,6 +47,7 @@ static void handle_exit_status(pid_t last_pid)
 			utils_setexit(FAILURE);
 	}
 }
+
 void	execution_global(t_cmd_line **cmd_list)
 {
 	pid_t	last_pid;
@@ -61,8 +63,11 @@ void	execution_global(t_cmd_line **cmd_list)
 	}
 	last_pid = execution_part(cmd_list);
 	handle_exit_status(last_pid);
-	while ((pid = wait(NULL)) > 0)
-		;
+	pid = wait(NULL);
+	while (pid > 0)
+	{
+		pid = wait(NULL);
+	}
 	g_global.g_foreground_running = 0;
 	restore();
 }
