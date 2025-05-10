@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:33:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 11:14:49 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:41:48 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	free_all(t_smalloc_addr **smalloc_addr_v)
 		if (tempnode)
 			free(tempnode);
 	}
+	g_global.g_smalloc_addr_v = NULL;
 }
 
 static void	link_all(t_smalloc_addr **smalloc_addr_v, void	**dalloc)
@@ -48,27 +49,22 @@ void	*smalloc(int size)
 	if (size == -1)
 	{
 		free_all(&smalloc_addr_v);
-		g_global.g_smalloc_addr_v = NULL;
+		return (NULL);
+	}
+	dalloc = malloc(size);
+	if (dalloc == NULL)
+	{
+		free_all(&smalloc_addr_v);
+		printf("malloc failed, exited !\n");
+		exit(1);
+	}
+	if (smalloc_addr_v == NULL)
+	{
+		g_global.g_smalloc_addr_v = malloc(sizeof(t_smalloc_addr));
+		g_global.g_smalloc_addr_v->address = dalloc;
+		g_global.g_smalloc_addr_v->next = NULL;
 	}
 	else
-	{
-		dalloc = malloc(size);
-		if (dalloc == NULL)
-		{
-			free_all(&smalloc_addr_v);
-			printf("malloc: unexpected error, code 500!\n");
-			exit(1);
-		}
-		if (smalloc_addr_v == NULL)
-		{
-			smalloc_addr_v = malloc(sizeof(t_smalloc_addr));
-			smalloc_addr_v->address = dalloc;
-			smalloc_addr_v->next = NULL;
-			g_global.g_smalloc_addr_v = smalloc_addr_v;
-		}
-		else
-			link_all(&smalloc_addr_v, &dalloc);
-		return (dalloc);
-	}
-	return (NULL);
+		link_all(&smalloc_addr_v, &dalloc);
+	return (dalloc);
 }

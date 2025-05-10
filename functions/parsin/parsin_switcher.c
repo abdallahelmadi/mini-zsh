@@ -6,16 +6,29 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:00:53 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/06 11:01:02 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/10 12:19:30 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+static void	function_sl_norm_n1(t_cmd_line **cmd_list, t_cmd_line **tempnode)
+{
+	t_cmd_line	*tty;
+
+	tty = (*tempnode)->next->next->next;
+	(*tempnode)->next->next->prev = NULL;
+	(*tempnode)->next->next->next = (*tempnode);
+	*cmd_list = (*tempnode)->next->next;
+	(*tempnode)->prev = (*tempnode)->next->next;
+	(*tempnode)->next->next = tty;
+	if (tty)
+		tty->prev = (*tempnode)->next;
+}
+
 void	parsin_switcher(t_cmd_line **cmd_list)
 {
 	t_cmd_line	*tempnode;
-	t_cmd_line	*tty;
 
 	tempnode = *cmd_list;
 	while (tempnode)
@@ -32,16 +45,7 @@ void	parsin_switcher(t_cmd_line **cmd_list)
 				)
 			{
 				if (tempnode->prev == NULL)
-				{
-					tty = tempnode->next->next->next;
-					tempnode->next->next->prev = NULL;
-					tempnode->next->next->next = tempnode;
-					*cmd_list = tempnode->next->next;
-					tempnode->prev = tempnode->next->next;
-					tempnode->next->next = tty;
-					if (tty)
-						tty->prev = tempnode->next;
-				}
+					function_sl_norm_n1(cmd_list, &tempnode);
 				else
 				{
 					tempnode->prev->next = tempnode->next->next;
