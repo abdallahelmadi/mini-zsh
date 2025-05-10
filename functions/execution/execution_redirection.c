@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/10 15:04:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/10 20:33:56 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	write_to(t_cmd_line *node)
 	fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (fd == -1)
 	{
-		printf("miniahell: %s: Permission denied\n", tmp->next->data);
+		write(2, "minishell: ", 11);
+		write(2, tmp->next->data, utils_strlen(tmp->next->data));
+		write(2, "Permission denied\n", 18);
 		return (FAILURE);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -38,7 +40,9 @@ int	write_into(t_cmd_line *node)
 	fd = open(tmp->next->data, O_CREAT | O_APPEND | O_WRONLY, 0664);
 	if (fd == -1)
 	{
-		printf("minishell: %s: Permission denied\n", tmp->next->data);
+		write(2, "minishell: ", 11);
+		write(2, tmp->next->data, utils_strlen(tmp->next->data));
+		write(2, " Permission denied\n", 19);
 		return (FAILURE);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -55,7 +59,9 @@ int	read_from(t_cmd_line *node)
 	fd = open(tmp->next->data, O_RDONLY, 0664);
 	if (fd == -1)
 	{
-		printf("minishell: %s: No such file or directory\n", tmp->next->data);
+		write(2, "minishell: ", 11);
+		write(2, tmp->next->data, utils_strlen(tmp->next->data));
+		write(2, " No such file or directory\n", 27);
 		return (FAILURE);
 	}
 	dup2(fd, STDIN_FILENO);
