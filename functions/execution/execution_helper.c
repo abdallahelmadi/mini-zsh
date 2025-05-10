@@ -65,7 +65,7 @@ int	handle_redirections(t_cmd_line *node)
 				return(1);
 			temp = temp->next->next;
 		}
-		else if (temp->type == TP_REDIR22)
+		else if (temp->type == TP_REDIR22 && temp->next)
 			temp = temp->next->next;
 		else
 			temp = temp->next;

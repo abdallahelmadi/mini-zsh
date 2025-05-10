@@ -33,15 +33,26 @@ static void	execution_with_builtin(t_cmd_line *node)
 }
 static void heredoc_open(t_cmd_line *node)
 {
-	int fd_heredoc;
-	fd_heredoc = open(node->next->next->data, O_RDONLY);
-	if (fd_heredoc == -1)
-	{
-		printf("minishell: %s: No such file or directory\n", node->next->data);
-		exit(FAILURE);
-	}
-	dup2(fd_heredoc, 0);
-	close(fd_heredoc);
+    t_cmd_line  *temp;
+	int         fd_heredoc;
+    
+    temp = node;
+    while (temp && temp->type != TP_PIPE)
+    {
+        if (temp->type == TP_REDIR22 && temp->next)
+	    {
+            fd_heredoc = open(temp->next->data, O_RDONLY);
+	        if (fd_heredoc == -1)
+	        {
+	        	printf("minishell: %s: No such file or directory\n", node->next->data);
+	        	exit(FAILURE);
+	        }
+	        dup2(fd_heredoc, 0);
+	        close(fd_heredoc);
+            break;
+        }
+        temp = temp->next;
+    }
 }
 static void handle_builtin_process(t_cmd_line *node)
 {
@@ -62,6 +73,27 @@ static void restore_stdin_stdout(int saved_stdin, int saved_stdout)
 	close(saved_stdin);
 	close(saved_stdout);
 }
+static void start_child_process(t_cmd_line *node, int *fd, int *prev_read)
+{
+    setup_for_child();
+    if (has_heredoc(node))
+        heredoc_open(node);
+    if (*prev_read != 0 && !has_heredoc(node))
+    {
+        dup2(*prev_read, 0);
+        close(*prev_read);
+    }
+    if (handle_redirections(node))
+        exit(FAILURE);
+    if (g_global.g_signal == 1)
+        exit(SIGNAL_SIGINT);
+    if (has_pipe(node))
+        dup2(fd[1], 1);
+    close(fd[0]);
+    close(fd[1]);
+    execution_with_builtin(node);
+    exit(SUCCESS);
+}
 static void fork_and_pipe(t_cmd_line *node, int *fd, int *prev_read, int *last_pid)
 {
 	pid_t pid;
@@ -69,26 +101,7 @@ static void fork_and_pipe(t_cmd_line *node, int *fd, int *prev_read, int *last_p
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
-	{
-		setup_for_child();
-		if (has_heredoc(node))
-			heredoc_open(node);
-		if (*prev_read != 0 && !has_heredoc(node))
-		{
-			dup2(*prev_read, 0);
-			close(*prev_read);
-		}
-		if (handle_redirections(node))
-			exit(FAILURE);
-		if (g_global.g_signal == 1)
-			exit(SIGNAL_SIGINT);
-		if (has_pipe(node))
-			dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
-		execution_with_builtin(node);
-		exit(SUCCESS);
-	}
+        start_child_process(node, fd, prev_read);
 	else
 	{
 		close(fd[1]);
