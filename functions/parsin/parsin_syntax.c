@@ -6,13 +6,13 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 10:57:05 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/10 11:56:31 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:49:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	near_pipe_err(t_cmd_line **cmd_list)
+static void	cn_1(t_cmd_line **cmd_list)
 {
 	printf("minishell: syntax error near unexpected token `|`\n");
 	utils_setexit(SYNTAX_ERROR);
@@ -20,7 +20,7 @@ static void	near_pipe_err(t_cmd_line **cmd_list)
 	return ;
 }
 
-static void	near_line_err(t_cmd_line **cmd_list)
+static void	cn_2(t_cmd_line **cmd_list)
 {
 	printf("minishell: syntax error near unexpected token `newline`\n");
 	utils_setexit(SYNTAX_ERROR);
@@ -34,13 +34,13 @@ void	parsin_syntax(t_cmd_line **cmd_list)
 
 	t = *cmd_list;
 	if (t->type == TP_PIPE || utils_last_node(t)->type == TP_PIPE)
-		return (near_pipe_err(cmd_list));
+		return (cn_1(cmd_list));
 	while (t)
 	{
 		if ((t->type == TP_REDIR1 || t->type == TP_REDIR11
 				|| t->type == TP_REDIR2 || t->type == TP_REDIR22)
 			&& t->next == NULL)
-			return (near_line_err(cmd_list));
+			return (cn_2(cmd_list));
 		else if ((t->type == TP_REDIR1 || t->type == TP_REDIR11
 				|| t->type == TP_REDIR2 || t->type == TP_REDIR22)
 			&& t->next && (t->next->type == TP_PIPE

@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/09 20:50:50 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/10 18:41:20 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void		signals_sigint(int sig);
 void		signal_handler_heredoc(int sig);
 void		restore(void);
 void		setup_for_heredoc(void);
-void		restore_for_heredoc(void);
 void		setup_signals_main(void);
 void		setup_for_child(void);
 
@@ -142,4 +141,19 @@ char		*utils_strchar(char *str, char c);
 char		*utils_get_next_line(int fd);
 char		*utils_itoa(int nbr);
 
+void		append_var(char **env, char *key, char *new_value);
+void		update_var(char **env, char *key, char *new_value);
+char		**add_to_environ(char **environ, char *new_var);
+int			check_in(char **env, char *str);
+void		printed_export(char	**env);
+int			name_checker(char *str);
+int			check_str(char *str);
+char		*reset(char *str);
+char		*change(char *str);
+
+int			just_directory(char *string);
+void		check_invalid_command(t_cmd_line *node);
+void		heredoc_open(t_cmd_line *node);
+void		execution_with_builtin(t_cmd_line *node);
+void		handle_builtin_process(t_cmd_line *node);
 #endif
