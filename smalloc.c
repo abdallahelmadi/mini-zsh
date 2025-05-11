@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   smalloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:33:31 by abdael-m          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/10 11:41:48 by abdael-m         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/10 20:49:03 by bnafiai          ###   ########.fr       */
->>>>>>> bnafiai
+/*   Updated: 2025/05/11 11:53:02 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <minishell.h>
 
@@ -53,20 +50,13 @@ void	*smalloc(int size)
 	if (size == -1)
 	{
 		free_all(&smalloc_addr_v);
-<<<<<<< HEAD
-=======
 		g_global.g_smalloc_addr_v = NULL;
->>>>>>> bnafiai
 		return (NULL);
 	}
 	dalloc = malloc(size);
 	if (dalloc == NULL)
 	{
 		free_all(&smalloc_addr_v);
-<<<<<<< HEAD
-		printf("malloc failed, exited !\n");
-=======
->>>>>>> bnafiai
 		exit(1);
 	}
 	if (smalloc_addr_v == NULL)
