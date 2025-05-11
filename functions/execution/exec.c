@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 14:21:25 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/10 15:54:33 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/11 19:17:29 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	**allocated_args(t_cmd_line *node, int length)
 
 static void	check_access_exec(char **args, t_cmd_line *node)
 {
-	if (access(node->data, F_OK) == 0 && utils_strstr(node->data, "./"))
+	if (access(node->data, F_OK) == 0 && utils_strstr(node->data, "/"))
 	{
 		if (access(node->data, X_OK) == 0)
 			execve(node->data, args, g_global.g_environments);
