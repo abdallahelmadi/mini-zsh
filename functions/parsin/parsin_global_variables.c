@@ -6,26 +6,34 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/08 11:03:43 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:43:16 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+static int	is_alphanum(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
 static void	while_loop_do(t_cmd_line **node)
 {
-	int (dbl), (sig), (index), (zindex);
+	int		dbl;
+	int		sig;
+	int		index;
+	int		zindex;
+	char	*location;
+	char	*vraiblename;
+	char	*part[3];
+	char	tempchar;
+	
 	dbl = 0;
 	sig = 0;
 	index = -1;
-
-	char	*location;
-	char	*vraiblename;
-	char	*p1;
-	char	*p2;
-	char	*p3;
-	char	tempchar;
-
 	if ((*node)->prev && utils_strstr_pro((*node)->prev->data, "<<"))
 		return ;
 	while (((*node)->data)[++index] != '\0')
@@ -40,38 +48,28 @@ static void	while_loop_do(t_cmd_line **node)
 		{
 			zindex = 1;
 			location[0] = '\0';
-			p1 = utils_strdup((*node)->data);
+			part[0] = utils_strdup((*node)->data);
 			location[0] = '$';
-
-			if (location[zindex] == '\0' || location[zindex] == '-' || location[zindex] == ':' || location[zindex] == '*' || location[zindex] == '!' || location[zindex] == '\\' || location[zindex] == '+' || location[zindex] == ')' || location[zindex] == '(' || location[zindex] == '='
-				|| location[zindex] == '"' || location[zindex] == '$' || location[zindex] == 6 || location[zindex] == '&' || location[zindex] == '^' || location[zindex] == '%' || location[zindex] == '#' || location[zindex] == '@')
+			if (!is_alphanum(location[zindex]) && location[zindex] != '_')
 				continue ;
-
 			if (location[zindex] == '?')
 			{
-				(*node)->data = utils_strjoin(p1, utils_itoa(utils_getexit()), &(location[zindex + 1]));
+				(*node)->data = utils_strjoin(part[0],
+					utils_itoa(utils_getexit()), &(location[zindex + 1]));
 				continue ;
 			}
-
-			while (location[zindex] != '\0' && location[zindex] != '-' && location[zindex] != ':' && location[zindex] != '*' && location[zindex] != '!' && location[zindex] != '\\' && location[zindex] != '+' && location[zindex] != ')' && location[zindex] != '(' && location[zindex] != '=' && location[zindex] != '?'
-				&& location[zindex] != '$' && location[zindex] != '"' && location[zindex] != 6 && location[zindex] != '&' && location[zindex] != '^' && location[zindex] != '%' && location[zindex] != '#' && location[zindex] != '@')
+			while (is_alphanum(location[zindex]) || location[zindex] == '_')
 				zindex++;
-
 			tempchar = location[zindex];
 			location[zindex] = '\0';
 			vraiblename = utils_strdup(&(location[1]));
 			location[zindex] = tempchar;
-
-			p3 = utils_strdup(&(location[zindex]));
-
-			p2 = utils_getenv(vraiblename);
-
-			if (p2)
-				(*node)->data = utils_strjoin(p1, p2, p3);
+			part[2] = utils_strdup(&(location[zindex]));
+			part[1] = utils_getenv(vraiblename);
+			if (part[1])
+				(*node)->data = utils_strjoin(part[0], part[1], part[2]);
 			else
-				(*node)->data = utils_strjoin(p1, "", p3);
-
-
+				(*node)->data = utils_strjoin(part[0], "", part[2]);
 		}
 	}
 }
