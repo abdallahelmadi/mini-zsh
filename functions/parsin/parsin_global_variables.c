@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/11 11:51:53 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:04:04 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,68 +20,72 @@ static int	is_alphanum(char c)
 	return (0);
 }
 
-static void	while_loop_do(t_cmd_line **node)
+static void	function_of_loop(char *lct, char **part, int *i,
+	t_cmd_line **node)
+{
+	char	tempchar;
+	char	*vraiblename;
+
+	lct[0] = '\0';
+	part[0] = utils_strdup((*node)->data);
+	lct[0] = '$';
+	if (!is_alphanum(lct[(*i)]) && lct[(*i)] != '_' && lct[(*i)] != '?')
+		return ;
+	if (lct[(*i)] == '?')
+	{
+		(*node)->data = utils_strjoin(part[0],
+				utils_itoa(utils_getexit()), &(lct[(*i) + 1]));
+		return ;
+	}
+	while (is_alphanum(lct[(*i)]) || lct[(*i)] == '_')
+		(*i)++;
+	tempchar = lct[(*i)];
+	lct[(*i)] = '\0';
+	vraiblename = utils_strdup(&(lct[1]));
+	lct[(*i)] = tempchar;
+	part[2] = utils_strdup(&(lct[(*i)]));
+	part[1] = utils_getenv(vraiblename);
+	(*node)->data = utils_strjoin(part[0], "", part[2]);
+	if (part[1])
+		(*node)->data = utils_strjoin(part[0], part[1], part[2]);
+}
+
+static void	while_loop_do(t_cmd_line **node, int *zindex, int *index)
 {
 	int		dbl;
 	int		sig;
-	int		index;
-	int		zindex;
 	char	*location;
-	char	*vraiblename;
 	char	*part[3];
-	char	tempchar;
-	
+
 	dbl = 0;
 	sig = 0;
-	index = -1;
 	if ((*node)->prev && utils_strstr_pro((*node)->prev->data, "<<"))
 		return ;
-	while (((*node)->data)[++index] != '\0')
+	while (((*node)->data)[++(*index)] != '\0')
 	{
-		if (((*node)->data)[index] == '\"' && sig != 1 && sig % 2 == 0)
+		if (((*node)->data)[(*index)] == '\"' && sig != 1 && sig % 2 == 0)
 			dbl++;
-		else if (((*node)->data)[index] == '\'' && dbl != 1
+		else if (((*node)->data)[(*index)] == '\'' && dbl != 1
 			&& dbl % 2 == 0)
 			sig++;
-		location = utils_strstr_pro(&(((*node)->data)[index]), "$");
+		location = utils_strstr_pro(&(((*node)->data)[(*index)]), "$");
 		if (location && (sig != 1 && sig % 2 == 0))
-		{
-			zindex = 1;
-			location[0] = '\0';
-			part[0] = utils_strdup((*node)->data);
-			location[0] = '$';
-			if (!is_alphanum(location[zindex]) && location[zindex] != '_')
-				continue ;
-			if (location[zindex] == '?')
-			{
-				(*node)->data = utils_strjoin(part[0],
-					utils_itoa(utils_getexit()), &(location[zindex + 1]));
-				continue ;
-			}
-			while (is_alphanum(location[zindex]) || location[zindex] == '_')
-				zindex++;
-			tempchar = location[zindex];
-			location[zindex] = '\0';
-			vraiblename = utils_strdup(&(location[1]));
-			location[zindex] = tempchar;
-			part[2] = utils_strdup(&(location[zindex]));
-			part[1] = utils_getenv(vraiblename);
-			if (part[1])
-				(*node)->data = utils_strjoin(part[0], part[1], part[2]);
-			else
-				(*node)->data = utils_strjoin(part[0], "", part[2]);
-		}
+			function_of_loop(location, part, zindex, node);
 	}
 }
 
 void	parsin_global_variables(t_cmd_line **cmd_list)
 {
 	t_cmd_line	*tempnode;
+	int			index;
+	int			zindex;
 
 	tempnode = *cmd_list;
 	while (tempnode)
 	{
-		while_loop_do(&tempnode);
+		index = -1;
+		zindex = 1;
+		while_loop_do(&tempnode, &zindex, &index);
 		tempnode = tempnode->next;
 	}
 }
