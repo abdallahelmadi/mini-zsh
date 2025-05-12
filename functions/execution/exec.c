@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 14:21:25 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/12 19:24:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/12 19:32:25 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	count_args(t_cmd_line *node)
 		if (tmp->type == TP_STRING)
 			count++;
 		else if ((tmp->type == TP_REDIR1 || tmp->type == TP_REDIR11
-			|| tmp->type == TP_REDIR2 || tmp->type == TP_REDIR22)
+				|| tmp->type == TP_REDIR2 || tmp->type == TP_REDIR22)
 			&& tmp->next)
 			tmp = tmp->next;
 		tmp = tmp->next;
@@ -49,7 +49,7 @@ static char	**allocated_args(t_cmd_line *node, int length)
 		if (tmp->type == TP_STRING)
 			args[j++] = tmp->data;
 		else if ((tmp->type == TP_REDIR1 || tmp->type == TP_REDIR11
-			|| tmp->type == TP_REDIR2 || tmp->type == TP_REDIR22)
+				|| tmp->type == TP_REDIR2 || tmp->type == TP_REDIR22)
 			&& tmp->next)
 			tmp = tmp->next;
 		tmp = tmp->next;
