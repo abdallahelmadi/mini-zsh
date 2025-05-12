@@ -31,7 +31,7 @@ static void	start_child_process(t_cmd_line *node, int *fd, int *prev_read)
 	setup_for_child();
 	if (has_heredoc(node))
 		heredoc_open(node);
-	if (*prev_read != 0 && !has_heredoc(node))
+	else if (*prev_read != 0 )
 	{
 		dup2(*prev_read, 0);
 		close(*prev_read);

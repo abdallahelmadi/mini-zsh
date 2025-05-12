@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 17:57:28 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/10 18:07:08 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/12 19:26:45 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	heredoc_open(t_cmd_line *node)
 	int			fd_heredoc;
 
 	temp = node;
-	while (temp && temp->type != TP_PIPE)
+	fd_heredoc = -1;
+	while (temp && (temp->next || temp->type != TP_PIPE))
 	{
 		if (temp->type == TP_REDIR22 && temp->next)
 		{
@@ -57,10 +58,12 @@ void	heredoc_open(t_cmd_line *node)
 					node->next->data);
 				exit(FAILURE);
 			}
-			dup2(fd_heredoc, 0);
-			close(fd_heredoc);
-			break ;
 		}
 		temp = temp->next;
+	}
+	if (fd_heredoc != -1)
+	{
+		dup2(fd_heredoc, 0);
+		close(fd_heredoc);
 	}
 }

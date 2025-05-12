@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:23:15 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/10 20:33:56 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/12 18:28:45 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,30 @@ static void	handle_for_signal(t_cmd_line *node)
 		unlink(node->next->data);
 	}
 }
+static char	*generate_filename(void)
+{
+	char	*filename;
+	char	*num;
+	static int	heredoc_count = 0;
 
+	num = utils_itoa(heredoc_count++);
+	if (!num)
+		return (NULL);
+	filename = utils_strjoin("/tmp/heredoc_", num, "");
+	return (filename);
+}
 void	read_to_delimeter(t_cmd_line *node)
 {
 	t_cmd_line	*tmp;
 	int			fd;
-	char		*line ;
-	char		*end_str;
+	char		(*line), (*end_str) , (*tempfile);
 
 	g_global.g_signal = 0;
 	setup_for_heredoc();
 	tmp = node;
 	end_str = utils_strjoin(tmp->next->data, "\n", "");
-	tmp->next->data = utils_strdup("/tmp/hello_hr_6767");
+	tempfile = generate_filename();
+	tmp->next->data = tempfile;
 	fd = open(tmp->next->data, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	if (fd == -1)
 		return ;
