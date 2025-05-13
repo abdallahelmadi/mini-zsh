@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsin_global.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:32:31 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 14:44:02 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:58:02 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ void	parsin_global(const char *command_line)
 		return ;
 	parsin_switcher(&cmd_list);
 	local_parsin_addnodes(&cmd_list);
-	execution_global(&cmd_list);
+	if (!parsin_heardoc_counter(&cmd_list))
+		execution_global(&cmd_list);
 }

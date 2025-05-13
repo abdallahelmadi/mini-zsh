@@ -18,7 +18,7 @@ OBJECTS = minishell.o \
 		  functions/utils/utils_getenv.o functions/parsin/parsin_global_variables.o functions/parsin/parsin_switcher.o \
 		  functions/parsin/parsin_syntax.o functions/execution/exec.o functions/execution/execution_fork.o functions/execution/execution_helper.o\
 		  functions/builtin/export_extra.o functions/builtin/export_helper.o functions/execution/exec_helper.o functions/execution/fork_helper.o\
-		  functions/execution/heredoc.o \
+		  functions/execution/heredoc.o functions/parsin/parsin_heardoc_counter.o \
 
 all : $(NAME)
 
