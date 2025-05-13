@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/10 18:41:20 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/12 19:25:56 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ typedef struct s_cmd_line
 {
 	char				*data;
 	int					type;
-	int					heredoc;
-	int					heredoc_fd;
 	struct s_cmd_line	*next;
 	struct s_cmd_line	*prev;
 }	t_cmd_line;
