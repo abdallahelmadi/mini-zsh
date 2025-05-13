@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 10:23:28 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:46:19 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	print_err(char *err)
 {
 	printf("exit\nminishell: exit: %s: numeric argument required\n",
 		err);
+	smalloc(-1);
 	exit(2);
 }
 
@@ -77,15 +78,18 @@ static int	args_counter(t_cmd_line *node)
 
 void	builtin_exit(t_cmd_line *node)
 {
+	int	value;
+
 	if (args_counter(node) == 0)
-	{
-		printf("exit\n");
-		exit(utils_getexit());
-	}
+		return (printf("exit\n"), smalloc(-1), exit(utils_getexit()));
 	else if (args_counter(node) == 1)
 	{
 		if (is_numeric(node->next->data))
-			exit(str2nbr(node->next->data) % 256);
+		{
+			value = str2nbr(node->next->data) % 256;
+			smalloc(-1);
+			exit(value);
+		}
 		else
 			print_err(node->next->data);
 	}
@@ -94,7 +98,7 @@ void	builtin_exit(t_cmd_line *node)
 		if (is_numeric(node->next->data))
 		{
 			printf("exit\nbash: exit: too many arguments\n");
-			exit(2);
+			return (smalloc(-1), exit(1));
 		}
 		else
 			print_err(node->next->data);
