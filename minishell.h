@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 15:54:05 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:24:37 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,7 @@ void		check_invalid_command(t_cmd_line *node);
 void		heredoc_open(t_cmd_line *node);
 void		execution_with_builtin(t_cmd_line *node);
 void		handle_builtin_process(t_cmd_line *node);
+
+int			add_and_update(t_cmd_line *temp, char ***env);
+int			add_and_append(t_cmd_line *temp, char ***env);
 #endif
