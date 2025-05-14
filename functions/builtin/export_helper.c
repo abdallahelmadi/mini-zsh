@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 15:05:59 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/10 15:15:42 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:36:59 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	name_checker(char *str)
 				|| (str[i] == '_')
 				|| (str[i] >= '0' && str[i] <= '9')))
 		{
-			printf("minishell : %s : not a valid identifier\n", str);
-			return (1);
+			return (printf("minishell : %s : not a valid identifier\n", str),
+				1);
 		}
 		i++;
 	}
