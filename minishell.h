@@ -6,7 +6,7 @@
 /*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/10 18:41:20 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:24:37 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ typedef struct s_cmd_line
 {
 	char				*data;
 	int					type;
-	int					heredoc;
-	int					heredoc_fd;
 	struct s_cmd_line	*next;
 	struct s_cmd_line	*prev;
 }	t_cmd_line;
@@ -88,6 +86,7 @@ char		*prompt_zsh(void);
 
 int			parsin_analyse_quotes(const char *command_line);
 int			parsin_forbidden_keywords(const char *command_line);
+int			parsin_heardoc_counter(t_cmd_line **list);
 void		parsin_global(const char *command_line);
 void		parsin_make_list(const char *command_line, t_cmd_line **cmd_list);
 void		pasrin_clean_list(t_cmd_line **list);
@@ -156,4 +155,7 @@ void		check_invalid_command(t_cmd_line *node);
 void		heredoc_open(t_cmd_line *node);
 void		execution_with_builtin(t_cmd_line *node);
 void		handle_builtin_process(t_cmd_line *node);
+
+int			add_and_update(t_cmd_line *temp, char ***env);
+int			add_and_append(t_cmd_line *temp, char ***env);
 #endif

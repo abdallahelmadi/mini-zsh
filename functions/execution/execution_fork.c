@@ -31,7 +31,7 @@ static void	start_child_process(t_cmd_line *node, int *fd, int *prev_read)
 	setup_for_child();
 	if (has_heredoc(node))
 		heredoc_open(node);
-	if (*prev_read != 0 && !has_heredoc(node))
+	else if (*prev_read != 0)
 	{
 		dup2(*prev_read, 0);
 		close(*prev_read);
@@ -82,7 +82,7 @@ pid_t	execution_part(t_cmd_line **node)
 	while (temp)
 	{
 		save_stdin_stdout(&saved_std[0], &saved_std[1]);
-		if (is_builtin_for_parent(temp))
+		if (is_builtin_for_parent(temp) && !has_pipe(temp))
 			handle_builtin_process(temp);
 		else
 			fork_and_pipe(temp, fd, &prev_read, &last_pid);

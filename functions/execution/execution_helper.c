@@ -17,7 +17,7 @@ int	is_builtin_for_parent(t_cmd_line *node)
 	if (utils_strstr_pro(node->data, "cd")
 		|| utils_strstr_pro(node->data, "export")
 		|| utils_strstr_pro(node->data, "unset")
-		|| utils_strstr_pro(node->data, "exit"))
+		|| (utils_strstr_pro(node->data, "exit") && node->next == NULL))
 		return (1);
 	return (0);
 }
