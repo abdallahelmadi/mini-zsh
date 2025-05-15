@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/15 16:12:24 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:32:29 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	is_alphanum(char c)
 	return (0);
 }
 
-static void	function_of_loop(char *lct, char **part, int *i,
+static int	function_of_loop(char *lct, char **part, int *i,
 	t_cmd_line **node)
 {
 	char	tempchar;
@@ -30,12 +30,12 @@ static void	function_of_loop(char *lct, char **part, int *i,
 	part[0] = utils_strdup((*node)->data);
 	lct[0] = '$';
 	if (!is_alphanum(lct[(*i)]) && lct[(*i)] != '_' && lct[(*i)] != '?')
-		return ;
+		return (0);
 	if (lct[(*i)] == '?')
 	{
 		(*node)->data = utils_strjoin(part[0],
 				utils_itoa(utils_getexit()), &(lct[(*i) + 1]));
-		return ;
+		return (0);
 	}
 	while (is_alphanum(lct[(*i)]) || lct[(*i)] == '_')
 		(*i)++;
@@ -45,9 +45,14 @@ static void	function_of_loop(char *lct, char **part, int *i,
 	lct[(*i)] = tempchar;
 	part[2] = utils_strdup(&(lct[(*i)]));
 	part[1] = utils_getenv(vraiblename);
-	(*node)->data = utils_strjoin(part[0], "", part[2]);
 	if (part[1])
 		(*node)->data = utils_strjoin(part[0], part[1], part[2]);
+	else
+	{
+		(*node)->data = utils_strjoin(part[0], "", part[2]);
+		return (1);
+	}
+	return (0);
 }
 
 static void	while_loop_do(t_cmd_line **node, int *index)
@@ -73,7 +78,8 @@ static void	while_loop_do(t_cmd_line **node, int *index)
 		if (location && (sig != 1 && sig % 2 == 0))
 		{
 			zindex = 1;
-			function_of_loop(location, part, &zindex, node);
+			if (function_of_loop(location, part, &zindex, node))
+				*index = -1;
 		}
 	}
 }
