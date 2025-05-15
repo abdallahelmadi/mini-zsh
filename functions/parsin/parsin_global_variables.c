@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/12 14:04:04 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:12:24 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,13 @@ static void	function_of_loop(char *lct, char **part, int *i,
 		(*node)->data = utils_strjoin(part[0], part[1], part[2]);
 }
 
-static void	while_loop_do(t_cmd_line **node, int *zindex, int *index)
+static void	while_loop_do(t_cmd_line **node, int *index)
 {
 	int		dbl;
 	int		sig;
 	char	*location;
 	char	*part[3];
+	int		zindex;
 
 	dbl = 0;
 	sig = 0;
@@ -70,7 +71,10 @@ static void	while_loop_do(t_cmd_line **node, int *zindex, int *index)
 			sig++;
 		location = utils_strstr_pro(&(((*node)->data)[(*index)]), "$");
 		if (location && (sig != 1 && sig % 2 == 0))
-			function_of_loop(location, part, zindex, node);
+		{
+			zindex = 1;
+			function_of_loop(location, part, &zindex, node);
+		}
 	}
 }
 
@@ -78,14 +82,12 @@ void	parsin_global_variables(t_cmd_line **cmd_list)
 {
 	t_cmd_line	*tempnode;
 	int			index;
-	int			zindex;
 
 	tempnode = *cmd_list;
 	while (tempnode)
 	{
 		index = -1;
-		zindex = 1;
-		while_loop_do(&tempnode, &zindex, &index);
+		while_loop_do(&tempnode, &index);
 		tempnode = tempnode->next;
 	}
 }
