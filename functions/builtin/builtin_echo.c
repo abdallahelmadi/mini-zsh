@@ -6,11 +6,27 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 17:51:06 by bnafiai           #+#    #+#             */
-/*   Updated: 2025/05/06 10:39:56 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:55:42 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static int	is_param(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-')
+		i++;
+	else
+		return (0);
+	while (str[i] && str[i] == 'n')
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
 
 void	builtin_echo(t_cmd_line *node)
 {
@@ -20,11 +36,14 @@ void	builtin_echo(t_cmd_line *node)
 	temp = node->next;
 	newlinestatus = 1;
 	if (temp != NULL && temp->type == TP_STRING
-		&& utils_strcmp(temp->data, "-n") == 0)
+		&& is_param(temp->data))
 	{
 		newlinestatus = 0;
 		temp = temp->next;
 	}
+	while (temp && temp->type == TP_STRING
+		&& utils_strstr_pro(temp->data, "-n"))
+		temp = temp->next;
 	while (temp != NULL && temp->type == TP_STRING)
 	{
 		printf("%s", temp->data);
