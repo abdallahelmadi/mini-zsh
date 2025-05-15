@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 09:56:10 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/15 16:32:29 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:47:40 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static int	is_alphanum(char c)
 		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
+}
+
+static void	small_function_norm(char *lct, char **part, int *i,
+	t_cmd_line **node)
+{
+	(*node)->data = utils_strjoin(part[0],
+			utils_itoa(utils_getexit()), &(lct[(*i) + 1]));
 }
 
 static int	function_of_loop(char *lct, char **part, int *i,
@@ -32,11 +39,7 @@ static int	function_of_loop(char *lct, char **part, int *i,
 	if (!is_alphanum(lct[(*i)]) && lct[(*i)] != '_' && lct[(*i)] != '?')
 		return (0);
 	if (lct[(*i)] == '?')
-	{
-		(*node)->data = utils_strjoin(part[0],
-				utils_itoa(utils_getexit()), &(lct[(*i) + 1]));
-		return (0);
-	}
+		return (small_function_norm(lct, part, i, node), 0);
 	while (is_alphanum(lct[(*i)]) || lct[(*i)] == '_')
 		(*i)++;
 	tempchar = lct[(*i)];
@@ -48,11 +51,8 @@ static int	function_of_loop(char *lct, char **part, int *i,
 	if (part[1])
 		(*node)->data = utils_strjoin(part[0], part[1], part[2]);
 	else
-	{
 		(*node)->data = utils_strjoin(part[0], "", part[2]);
-		return (1);
-	}
-	return (0);
+	return (part[1] == NULL);
 }
 
 static void	while_loop_do(t_cmd_line **node, int *index)
