@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:48:04 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 17:24:37 by bnafiai          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:12:10 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void		parsin_tokenization(t_cmd_line **cmd_list);
 void		parsin_global_variables(t_cmd_line **cmd_list);
 void		parsin_switcher(t_cmd_line **cmd_list);
 void		parsin_syntax(t_cmd_line **cmd_list);
+void		parsing_split_global_variables(t_cmd_line **list);
 
 void		builtin_cd(t_cmd_line *node);
 void		builtin_echo(t_cmd_line *node);
