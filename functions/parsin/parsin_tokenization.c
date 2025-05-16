@@ -6,7 +6,7 @@
 /*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 09:19:45 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/15 19:05:47 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/16 09:30:38 by abdael-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,14 @@ void	parsin_tokenization(t_cmd_line **cmd_list)
 {
 	t_cmd_line	*tempnode;
 	int			index;
+	static int	active;
 
 	tempnode = *cmd_list;
+	if (active)
+	{
+		active = 0;
+		return ;
+	}
 	while (tempnode != NULL)
 	{
 		index = -1;
@@ -132,4 +138,5 @@ void	parsin_tokenization(t_cmd_line **cmd_list)
 		remove_qoutes(&tempnode, &index);
 		tempnode = tempnode->next;
 	}
+	active = 1;
 }
