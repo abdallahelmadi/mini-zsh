@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdael-m <abdael-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bnafiai <bnafiai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:19:00 by abdael-m          #+#    #+#             */
-/*   Updated: 2025/05/13 14:46:19 by abdael-m         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:08:16 by bnafiai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ void	builtin_exit(t_cmd_line *node)
 		if (is_numeric(node->next->data))
 		{
 			value = str2nbr(node->next->data) % 256;
-			smalloc(-1);
-			exit(value);
+			return (smalloc(-1), printf("exit\n"), exit(value));
 		}
 		else
 			print_err(node->next->data);

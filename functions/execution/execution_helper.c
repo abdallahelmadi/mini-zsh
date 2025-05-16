@@ -14,10 +14,15 @@
 
 int	is_builtin_for_parent(t_cmd_line *node)
 {
+	t_cmd_line	*temp;
+
+	temp = node->next;
+	while (temp && temp->type == TP_STRING)
+		temp = temp->next;
 	if (utils_strstr_pro(node->data, "cd")
 		|| utils_strstr_pro(node->data, "export")
 		|| utils_strstr_pro(node->data, "unset")
-		|| (utils_strstr_pro(node->data, "exit") && node->next == NULL))
+		|| (utils_strstr_pro(node->data, "exit") && temp == NULL ))
 		return (1);
 	return (0);
 }
